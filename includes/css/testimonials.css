@@ -1,0 +1,21 @@
+.widget.arconix-testimonials { 
+    background: #fff; 
+    border: 1px solid #BFD4D9;
+    border-radius: 3px; 
+        -moz-border-radius: 3px; 
+        -webkit-border-radius: 3px; 
+    padding: 10px; 
+}
+.widget_woo_feedback blockquote p {
+    font-family: Georgia, serif; 
+    font-style: italic; 
+    font-size: 13px; 
+}
+.widget_woo_feedback cite { 
+    font-family: sans-serif; 
+    font-style: bold; 
+    font-style: normal; 
+    font-weight: bold; 
+    font-size: 12px;
+}
+.widget_woo_feedback .quote { width: 278px; }
