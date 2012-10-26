@@ -24,27 +24,15 @@ function register_meta_box( array $meta_boxes ) {
                 'type' => 'text'
             ),
             array(
-                'name' => 'Title',
-                'desc' => 'Title of the indidivual (optional).',
-                'id' => $prefix . 'title',
+                'name' => 'E-mail Address',
+                'desc' => 'To display individual\'s <a href="http://gravatar.com">gravatar</a> (optional).',
+                'id' => $prefix . 'email',
                 'type' => 'text'
             ),
             array(
-                'name' => 'Company Name',
-                'desc' => 'Enter the company\'s name (optional).',
-                'id' => $prefix . 'company_name',
-                'type' => 'text',
-            ),
-            array(
-                'name' => 'City',
-                'desc' => '(optional).',
-                'id' => $prefix . 'city',
-                'type' => 'text'
-            ),
-            array(
-                'name' => 'State',
-                'desc' => '(optional).',
-                'id' => $prefix . 'state',
+                'name' => 'Byline',
+                'desc' => 'Enter a byline for the person giving this testimonial (optional).',
+                'id' => $prefix . 'byline',
                 'type' => 'text'
             ),
             array(
@@ -74,3 +62,74 @@ function load_scripts() {
     }
 }
 
+
+function get_testimonial_data( $params = '', $query_args = '' ) {
+    $query_defaults = array(
+        'post_type' => 'testimonials',
+        'posts_per_page' => 1,
+        'orderby' => 'rand',
+        'order' => 'DESC'
+    );
+    
+    $param_defaults = array(
+        'gravatar_size' => '45'
+    );
+    
+    /* Combine the passed params with the function defaults */
+    $params = wp_parse_args( $params, $param_defaults );
+    
+    /* Do the same with the query args */
+    $args = wp_parse_args( $args, $query_defaults );
+    
+    /* Allow filtering of those arrays */
+    $params = apply_filters( 'arconix_get_testimonial_params', $params );
+    $args = apply_filters( 'arconix_get_testimonials_args', $args );
+    
+    /* Data integrity checks */
+    if ( ! in_array( $args['orderby'], array( 'none', 'ID', 'author', 'title', 'date', 'modified', 'parent', 'rand', 'comment_count', 'menu_order', 'meta_value', 'meta_value_num' ) ) )
+            $args['orderby'] = 'date';
+
+    if ( ! in_array( $args['order'], array( 'ASC', 'DESC' ) ) )
+            $args['order'] = 'DESC';
+
+    if ( ! in_array( $args['post_type'], get_post_types() ) )
+            $args['post_type'] = 'testimonials';
+    
+    $query = new WP_Query( $args );
+    
+    $return = ''; // our string container
+    
+    if( $query->have_posts() ) {
+        $return .= '<ul class="testimonials-list">';
+        
+        while( $query->have_posts() ) : $query->the_post();
+        
+        /* Grab all of our custom post information */
+        $custom = get_post_custom();
+        $_meta_details = '';
+        $_meta_name = isset( $custom["_act_name"][0] ) ? $custom["_act_name"][0] : null;
+        $_meta_email = isset( $custom["_act_email"][0] ) ? $custom["_act_email"][0] : null;
+        $_meta_byline = isset( $custom["_act_byline"][0] ) ? $custom["_act_byline"][0] : null;
+        $_meta_url = isset( $custom["_act_url"][0] ) ? $custom["_act_url"][0] : null;
+
+        /* If the url has a value, then apply it to the name before we go any farther */
+        if( isset( $_meta_url ) ) {
+            if( isset( $_meta_name) ) 
+                $_meta_name = '<a href="'. esc_url( $_meta_url ) .'">'. $_meta_name .'</a>';
+        }
+        
+        if( isset( $_meta_name ) ) $_meta_details .= $meta_name;
+        if( isset( $_meta_byline ) ) $_meta_details .= '- ' . $_meta_byline;
+        
+        /**
+         * @todo continue here
+         */
+        
+        
+        endwhile;
+        $return .= '</ul>';
+    }
+    
+    return $return;
+    
+}
