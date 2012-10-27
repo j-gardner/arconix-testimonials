@@ -62,7 +62,14 @@ function load_scripts() {
     }
 }
 
-
+/**
+ * Returns the testimonial loop results
+ * 
+ * @param type $params Function paramaters not related to the query itself (like gravatar size)
+ * @param type $query_args Arguments for the query
+ * @return string
+ * @since 0.5
+ */
 function get_testimonial_data( $params = '', $query_args = '' ) {
     $query_defaults = array(
         'post_type' => 'testimonials',
@@ -100,35 +107,38 @@ function get_testimonial_data( $params = '', $query_args = '' ) {
     $return = ''; // our string container
 
     if( $query->have_posts() ) {
-        $return .= '<div class="arconix-testimonials-list">';
+        $return .= '<div class="arconix-testimonials-wrap">';
 
         while( $query->have_posts() ) : $query->the_post();
 
-        /* Grab all of our custom post information */
+        /* Grab all of our custom post information */        
         $custom = get_post_custom();
-        $_meta_details = '';
-        $_meta_name = isset( $custom["_act_name"][0] ) ? $custom["_act_name"][0] : null;
-        $_meta_email = isset( $custom["_act_email"][0] ) ? $custom["_act_email"][0] : null;
-        $_meta_byline = isset( $custom["_act_byline"][0] ) ? $custom["_act_byline"][0] : null;
-        $_meta_url = isset( $custom["_act_url"][0] ) ? $custom["_act_url"][0] : null;
-
-        /* If the url has a value, then apply it to the name before we go any farther */
-        if( isset( $_meta_url ) ) {
-            if( isset( $_meta_name) )
-                $_meta_name = '<a href="'. esc_url( $_meta_url ) .'">'. $_meta_name .'</a>';
+        $meta_name = isset( $custom["_act_name"][0] ) ? $custom["_act_name"][0] : null;
+        $meta_email = isset( $custom["_act_email"][0] ) ? $custom["_act_email"][0] : null;
+        $meta_byline = isset( $custom["_act_byline"][0] ) ? $custom["_act_byline"][0] : null;
+        $meta_url = isset( $custom["_act_url"][0] ) ? $custom["_act_url"][0] : null;
+        $meta_details = '';
+        $meta_gravatar = '';
+        
+        /* If there's an e-mail address, return a gravatar */
+        if( isset( $meta_email) ) $meta_gravatar = get_avatar( $meta_email, $params->gravatar_size );
+        
+        /* If the url has a value, then wrap it around the name and/or gravatar */
+        if( isset( $meta_url ) ) {
+            if( isset( $meta_name) )
+                $meta_name = '<a href="' . esc_url( $meta_url ) . '">' . $meta_name . '</a>';
+            if( isset( $meta_email ) )
+                $meta_gravatar = '<a href="' . esc_url( $meta_url ) . '">' . $meta_gravatar . '</a>';
         }
+        if( isset( $meta_name ) ) $meta_details .= $meta_name;        
+        if( isset( $meta_byline ) ) $meta_details .= '- ' . $meta_byline;
 
-        if( isset( $_meta_email) ) $_meta_email .= get_avatar( $_meta_email, $params->gravatar_size );
-        if( isset( $_meta_name ) ) $_meta_details .= $meta_name;
-        if( isset( $_meta_byline ) ) $_meta_details .= '- ' . $_meta_byline;
-
-        $return .= '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial">';
-            $return .= $_meta_email;
-            $return .= '<blockquote>';
-                get_the_content();
-            $return .= '</blockquote>';
-            $return .= '<cite>' . $_meta_details . '</cite>';
-        $return .= '</div>';
+        $return .= '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial-wrap">';
+        $return .= $meta_gravatar;
+        $return .= '<div class="arconix-testimonial-content">';
+        $return .= '<blockquote>' . get_the_content() . '</blockquote>';
+        $return .= '<cite>' . $meta_details . '</cite>';
+        $return .= '</div></div>';
 
         endwhile;
 
@@ -137,4 +147,17 @@ function get_testimonial_data( $params = '', $query_args = '' ) {
 
     return $return;
 
+}
+
+/**
+ * Display testimonial loop results
+ * 
+ * @param type $params
+ * @param type $query_args
+ * @since 0.5
+ */
+function testimonial_data( $params = '', $query_args = '' ) {
+    $return = get_testimonial_data( $params, $query_args );
+    
+    echo $return;
 }
