@@ -190,6 +190,3 @@ function dashboard_widget_output() {
             #ac-testimonials .act-widget-bottom img { padding-right: 3px; vertical-align: top; }
         </style>';
 }
-
-
-?>
