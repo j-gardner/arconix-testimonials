@@ -1,7 +1,7 @@
 <?php
 /**
  * Register the Post Type Meta Box
- * 
+ *
  * @param array $meta_boxes
  * @return array $meta_boxes
  * @since 0.5
@@ -43,13 +43,13 @@ function register_meta_box( array $meta_boxes ) {
             )
         )
     );
-    
+
     return $meta_boxes;
 }
 
 /**
  * Load the CSS if it exists
- * 
+ *
  * @since 0.5
  */
 function load_scripts() {
@@ -70,21 +70,21 @@ function get_testimonial_data( $params = '', $query_args = '' ) {
         'orderby' => 'rand',
         'order' => 'DESC'
     );
-    
+
     $param_defaults = array(
-        'gravatar_size' => '45'
+        'gravatar_size' => '32'
     );
-    
+
     /* Combine the passed params with the function defaults */
     $params = wp_parse_args( $params, $param_defaults );
-    
+
     /* Do the same with the query args */
     $args = wp_parse_args( $args, $query_defaults );
-    
+
     /* Allow filtering of those arrays */
     $params = apply_filters( 'arconix_get_testimonial_params', $params );
     $args = apply_filters( 'arconix_get_testimonials_args', $args );
-    
+
     /* Data integrity checks */
     if ( ! in_array( $args['orderby'], array( 'none', 'ID', 'author', 'title', 'date', 'modified', 'parent', 'rand', 'comment_count', 'menu_order', 'meta_value', 'meta_value_num' ) ) )
             $args['orderby'] = 'date';
@@ -94,16 +94,16 @@ function get_testimonial_data( $params = '', $query_args = '' ) {
 
     if ( ! in_array( $args['post_type'], get_post_types() ) )
             $args['post_type'] = 'testimonials';
-    
+
     $query = new WP_Query( $args );
-    
+
     $return = ''; // our string container
-    
+
     if( $query->have_posts() ) {
-        $return .= '<ul class="testimonials-list">';
-        
+        $return .= '<div class="arconix-testimonials-list">';
+
         while( $query->have_posts() ) : $query->the_post();
-        
+
         /* Grab all of our custom post information */
         $custom = get_post_custom();
         $_meta_details = '';
@@ -114,22 +114,27 @@ function get_testimonial_data( $params = '', $query_args = '' ) {
 
         /* If the url has a value, then apply it to the name before we go any farther */
         if( isset( $_meta_url ) ) {
-            if( isset( $_meta_name) ) 
+            if( isset( $_meta_name) )
                 $_meta_name = '<a href="'. esc_url( $_meta_url ) .'">'. $_meta_name .'</a>';
         }
-        
+
+        if( isset( $_meta_email) ) $_meta_email .= get_avatar( $_meta_email, $params->gravatar_size );
         if( isset( $_meta_name ) ) $_meta_details .= $meta_name;
         if( isset( $_meta_byline ) ) $_meta_details .= '- ' . $_meta_byline;
-        
-        /**
-         * @todo continue here
-         */
-        
-        
+
+        $return .= '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial">';
+            $return .= $_meta_email;
+            $return .= '<blockquote>';
+                get_the_content();
+            $return .= '</blockquote>';
+            $return .= '<cite>' . $_meta_details . '</cite>';
+        $return .= '</div>';
+
         endwhile;
-        $return .= '</ul>';
+
+        $return .= '</div>';
     }
-    
+
     return $return;
-    
+
 }
