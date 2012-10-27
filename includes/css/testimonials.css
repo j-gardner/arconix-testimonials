@@ -1,21 +1,32 @@
-.widget.arconix-testimonials { 
-    background: #fff; 
-    border: 1px solid #BFD4D9;
-    border-radius: 3px; 
-        -moz-border-radius: 3px; 
-        -webkit-border-radius: 3px; 
-    padding: 10px; 
+/*
+    Arconix Testimonials CSS file. These offer base styles which can be modified
+    by creating your own arconix-testimonials.css and placing it in the root of
+    your theme's directory. The plugin will load that file in place of this one.
+*/
+
+/* Wraps around all the testimonials */
+.arconix-testimonials-wrap {
+    
 }
-.widget_woo_feedback blockquote p {
-    font-family: Georgia, serif; 
-    font-style: italic; 
-    font-size: 13px; 
+
+/* Wraps around a single testimonial */
+.arconix-testimonial-wrap { 
+ 
 }
-.widget_woo_feedback cite { 
-    font-family: sans-serif; 
-    font-style: bold; 
-    font-style: normal; 
-    font-weight: bold; 
-    font-size: 12px;
+/* Around the testimonial blockquote and cite */
+.arconix-testimonial-content {
+    padding: 10px;
 }
-.widget_woo_feedback .quote { width: 278px; }
+.arconix-testimonial-content blockquote {
+    
+}
+.arconix-testimonial-content cite { 
+    font-style: italic;
+}
+
+/* When the testimonials content is in a sidebar */
+#sidebar,
+#primary .widget-area,
+#secondary .widget-area {
+    
+}
