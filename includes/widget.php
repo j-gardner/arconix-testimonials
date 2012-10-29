@@ -4,7 +4,7 @@
  * 
  * @since 0.5
  */
-function register_widget() {
+function register_act_widget() {
     register_widget( 'Arconix_Testimonials_Widget' );
 }
 

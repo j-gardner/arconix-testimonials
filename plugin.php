@@ -45,7 +45,7 @@ class Arconix_Testimonials {
         add_action( 'wp_dashboard_setup', 'register_dashboard_widget' );
         add_action( 'right_now_content_table_end', 'right_now' );
         add_action( 'wp_enqueue_scripts', 'load_scripts' );
-        add_action( 'widgets_init', 'register_widget' );
+        add_action( 'widgets_init', 'register_act_widget' );
 
         add_filter( 'widget_text', 'do_shortcode' );
         add_filter( 'the_content', 'content_filter' );
