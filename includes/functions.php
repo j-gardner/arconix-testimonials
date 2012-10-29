@@ -64,7 +64,7 @@ function load_scripts() {
 
 /**
  * Returns the testimonial loop results
- * 
+ *
  * @param type $params Function paramaters not related to the query itself (like gravatar size)
  * @param type $query_args Arguments for the query
  * @return string
@@ -111,7 +111,7 @@ function get_testimonial_data( $params = '', $query_args = '' ) {
 
         while( $query->have_posts() ) : $query->the_post();
 
-        /* Grab all of our custom post information */        
+        /* Grab all of our custom post information */
         $custom = get_post_custom();
         $meta_name = isset( $custom["_act_name"][0] ) ? $custom["_act_name"][0] : null;
         $meta_email = isset( $custom["_act_email"][0] ) ? $custom["_act_email"][0] : null;
@@ -119,10 +119,10 @@ function get_testimonial_data( $params = '', $query_args = '' ) {
         $meta_url = isset( $custom["_act_url"][0] ) ? $custom["_act_url"][0] : null;
         $meta_details = '';
         $meta_gravatar = '';
-        
+
         /* If there's an e-mail address, return a gravatar */
         if( isset( $meta_email) ) $meta_gravatar = get_avatar( $meta_email, $params->gravatar_size );
-        
+
         /* If the url has a value, then wrap it around the name and/or gravatar */
         if( isset( $meta_url ) ) {
             if( isset( $meta_name) )
@@ -130,7 +130,7 @@ function get_testimonial_data( $params = '', $query_args = '' ) {
             if( isset( $meta_email ) )
                 $meta_gravatar = '<a href="' . esc_url( $meta_url ) . '">' . $meta_gravatar . '</a>';
         }
-        if( isset( $meta_name ) ) $meta_details .= $meta_name;        
+        if( isset( $meta_name ) ) $meta_details .= $meta_name;
         if( isset( $meta_byline ) ) $meta_details .= '- ' . $meta_byline;
 
         $return .= '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial-wrap">';
@@ -151,13 +151,14 @@ function get_testimonial_data( $params = '', $query_args = '' ) {
 
 /**
  * Display testimonial loop results
- * 
+ *
  * @param type $params
  * @param type $query_args
  * @since 0.5
  */
 function testimonial_data( $params = '', $query_args = '' ) {
     $return = get_testimonial_data( $params, $query_args );
-    
+
     echo $return;
 }
+?>
