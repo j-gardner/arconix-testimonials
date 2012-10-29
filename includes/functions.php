@@ -53,11 +53,11 @@ function register_meta_box( array $meta_boxes ) {
  * @since 0.5
  */
 function load_scripts() {
-    /* Load CSS file (if it exists) */
+    /* Checks the child directory and then the parent directory */
     if( file_exists( get_stylesheet_directory() . "/arconix-testimonials.css" ) ) {
 	wp_enqueue_style( 'arconix-testimonials', get_stylesheet_directory_uri() . '/arconix-testimonials.css', array(), ACT_VERSION );
     }
-    elseif( file_exists( get_template_directory() . "/arconix-flexslider.css" ) ) {
+    elseif( file_exists( get_template_directory() . "/arconix-testimonials.css" ) ) {
 	wp_enqueue_style( 'arconix-testimonials', get_template_directory_uri() . '/arconix-testimonials.css', array(), ACT_VERSION );
     }
 }
