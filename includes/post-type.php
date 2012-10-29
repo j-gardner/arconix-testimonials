@@ -33,3 +33,4 @@ function create_post_type() {
 
     register_post_type( 'testimonials', $args );
 }
+?>
