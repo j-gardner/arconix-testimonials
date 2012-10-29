@@ -94,7 +94,7 @@ function get_testimonial_data( $params = '', $query_args = '' ) {
 
     /* Data integrity checks */
     if ( ! in_array( $args['orderby'], array( 'none', 'ID', 'author', 'title', 'date', 'modified', 'parent', 'rand', 'comment_count', 'menu_order', 'meta_value', 'meta_value_num' ) ) )
-            $args['orderby'] = 'date';
+            $args['orderby'] = 'rand';
 
     if ( ! in_array( $args['order'], array( 'ASC', 'DESC' ) ) )
             $args['order'] = 'DESC';
@@ -102,14 +102,14 @@ function get_testimonial_data( $params = '', $query_args = '' ) {
     if ( ! in_array( $args['post_type'], get_post_types() ) )
             $args['post_type'] = 'testimonials';
 
-    $query = new WP_Query( $args );
+    $tquery = new WP_Query( $args );
 
     $return = ''; // our string container
 
-    if( $query->have_posts() ) {
+    if( $tquery->have_posts() ) {
         $return .= '<div class="arconix-testimonials-wrap">';
 
-        while( $query->have_posts() ) : $query->the_post();
+        while( $tquery->have_posts() ) : $tquery->the_post();
 
         /* Grab all of our custom post information */
         $custom = get_post_custom();
