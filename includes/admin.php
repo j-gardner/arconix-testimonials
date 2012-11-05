@@ -91,6 +91,22 @@ function column_data( $column ) {
 }
 
 /**
+ * Customize the "Enter title here" text
+ * 
+ * @param string $title
+ * @return $title
+ * @since 0.5
+ */
+function custom_title_text( $title ) {
+    $screen = get_current_screen();
+    
+    if( 'testimonials' == $screen->post_type ) {
+        $title = __( 'Enter the person\'s name here', 'act' );
+    }
+    return $title;
+}
+
+/**
  * Add the Post type to the "Right Now" Dashboard Widget
  *
  * @link http://bajada.net/2010/06/08/how-to-add-custom-post-types-and-taxonomies-to-the-wordpress-right-now-dashboard-widget
