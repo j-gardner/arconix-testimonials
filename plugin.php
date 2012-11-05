@@ -21,10 +21,9 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function __construct() {
-        define( 'ACT_VERSION', '0.5');
-        define( 'ACT_URL', plugin_dir_url( __FILE__ ) );
-        define( 'ACT_INCLUDES_URL', ACT_URL . 'includes' );
-        define( 'ACT_IMAGES_URL', ACT_URL . 'images' );
+        define( 'ACT_VERSION', '0.5');        
+        define( 'ACT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
+        define( 'ACT_INCLUDES_URL', trailingslashit( ACT_URL . 'includes' ) );
         define( 'ACT_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
         define( 'ACT_INCLUDES_DIR', trailingslashit( ACT_DIR . 'includes' ) );
 
@@ -44,16 +43,16 @@ class Arconix_Testimonials {
         add_action( 'manage_posts_custom_column', 'column_data' );
         add_action( 'wp_dashboard_setup', 'register_dashboard_widget' );
         add_action( 'right_now_content_table_end', 'right_now' );
-        add_action( 'wp_enqueue_scripts', 'load_scripts' );
+        add_action( 'wp_enqueue_scripts', 'load_css' );
         add_action( 'widgets_init', 'register_act_widget' );
+        add_action( 'init', 'register_shortcodes' );
 
         add_filter( 'widget_text', 'do_shortcode' );
         add_filter( 'the_content', 'content_filter' );
         add_filter( 'cmb_meta_boxes', 'create_meta_box' );
         add_filter( 'post_updated_messages', 'updated_messages' );
         add_filter( 'manage_edit-testimonials_columns', 'columns_filter' );
-
-        add_shortcode( 'testimonials', 'testimonials_shortcode' );
+        add_filter( 'enter_title_here', 'custom_title_text' );
 
         require_once( ACT_INCLUDES_DIR . 'functions.php' );
         require_once( ACT_INCLUDES_DIR . 'post-type.php' );
