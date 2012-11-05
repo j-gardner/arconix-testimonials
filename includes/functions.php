@@ -1,5 +1,36 @@
 <?php
 /**
+ * Register plugin shortcode(s)
+ * 
+ * @since 0.5
+ */
+function register_shortcodes() {
+    add_shortcode( 'ac-testimonials', 'testimonials_shortcode' );
+}
+
+function testimonials_shortcode( $atts, $content = null ) {
+    $defaults = array(
+        'posts_per_page' => '1',
+        'orderby' => 'rand',
+        'order' => 'DESC',
+        'gravatar_size' => '32'
+    );
+    
+    extract( shortcode_atts( $defaults, $atts ) );
+    
+    if( $atts->gravatar_size ) {
+        $params = array( 'gravatar_size' => $gravatar_size );
+    }
+    else {
+        $params = null;
+    }
+    
+    /** @todo: finish working through the shortcode - need to unset gravatar size and continue */
+    
+    
+}
+
+/**
  * Register the Post Type Meta Box
  *
  * @param array $meta_boxes
@@ -17,12 +48,6 @@ function register_meta_box( array $meta_boxes ) {
         'priority' => 'high',
         'show_names' => true, // Show field names left of input
         'fields' => array(
-            array(
-                'name' => 'Name',
-                'desc' => 'Enter the individual\'s name.',
-                'id' => $prefix . 'name',
-                'type' => 'text'
-            ),
             array(
                 'name' => 'E-mail Address',
                 'desc' => 'To display individual\'s <a href="http://gravatar.com">gravatar</a> (optional).',
@@ -52,12 +77,12 @@ function register_meta_box( array $meta_boxes ) {
  *
  * @since 0.5
  */
-function load_scripts() {
+function load_css() {
     /* Checks the child directory and then the parent directory */
-    if( file_exists( get_stylesheet_directory() . "/arconix-testimonials.css" ) ) {
+    if( file_exists( get_stylesheet_directory() . '/arconix-testimonials.css' ) ) {
 	wp_enqueue_style( 'arconix-testimonials', get_stylesheet_directory_uri() . '/arconix-testimonials.css', array(), ACT_VERSION );
     }
-    elseif( file_exists( get_template_directory() . "/arconix-testimonials.css" ) ) {
+    elseif( file_exists( get_template_directory() . '/arconix-testimonials.css' ) ) {
 	wp_enqueue_style( 'arconix-testimonials', get_template_directory_uri() . '/arconix-testimonials.css', array(), ACT_VERSION );
     }
 }
@@ -94,13 +119,13 @@ function get_testimonial_data( $params = '', $query_args = '' ) {
 
     /* Data integrity checks */
     if ( ! in_array( $args['orderby'], array( 'none', 'ID', 'author', 'title', 'date', 'modified', 'parent', 'rand', 'comment_count', 'menu_order', 'meta_value', 'meta_value_num' ) ) )
-            $args['orderby'] = 'rand';
+        $args['orderby'] = 'rand';
 
     if ( ! in_array( $args['order'], array( 'ASC', 'DESC' ) ) )
-            $args['order'] = 'DESC';
+        $args['order'] = 'DESC';
 
     if ( ! in_array( $args['post_type'], get_post_types() ) )
-            $args['post_type'] = 'testimonials';
+        $args['post_type'] = 'testimonials';
 
     $tquery = new WP_Query( $args );
 
@@ -113,10 +138,10 @@ function get_testimonial_data( $params = '', $query_args = '' ) {
 
         /* Grab all of our custom post information */
         $custom = get_post_custom();
-        $meta_name = isset( $custom["_act_name"][0] ) ? $custom["_act_name"][0] : null;
         $meta_email = isset( $custom["_act_email"][0] ) ? $custom["_act_email"][0] : null;
         $meta_byline = isset( $custom["_act_byline"][0] ) ? $custom["_act_byline"][0] : null;
         $meta_url = isset( $custom["_act_url"][0] ) ? $custom["_act_url"][0] : null;
+        $met_name = get_the_title();
         $meta_details = '';
         $meta_gravatar = '';
 
@@ -125,12 +150,12 @@ function get_testimonial_data( $params = '', $query_args = '' ) {
 
         /* If the url has a value, then wrap it around the name and/or gravatar */
         if( isset( $meta_url ) ) {
-            if( isset( $meta_name) )
-                $meta_name = '<a href="' . esc_url( $meta_url ) . '">' . $meta_name . '</a>';
+            $meta_name = '<a href="' . esc_url( $meta_url ) . '">' . $meta_name . '</a>';
             if( isset( $meta_email ) )
                 $meta_gravatar = '<a href="' . esc_url( $meta_url ) . '">' . $meta_gravatar . '</a>';
         }
-        if( isset( $meta_name ) ) $meta_details .= $meta_name;
+        
+        $meta_details .= $meta_name;
         if( isset( $meta_byline ) ) $meta_details .= '- ' . $meta_byline;
 
         $return .= '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial-wrap">';
@@ -146,7 +171,6 @@ function get_testimonial_data( $params = '', $query_args = '' ) {
     }
 
     return $return;
-
 }
 
 /**
