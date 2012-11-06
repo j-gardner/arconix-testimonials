@@ -163,13 +163,13 @@ function register_meta_box( array $meta_boxes ) {
             ),
             array(
                 'name' => 'Byline',
-                'desc' => 'Enter a byline for the individual giving this testimonial (optional).',
+                'desc' => __( 'Enter a byline for the individual giving this testimonial (optional).', 'act' ),
                 'id' => $prefix . 'byline',
                 'type' => 'text'
             ),
             array(
                 'name' => 'Website',
-                'desc' => 'Enter a URL for the individual or organization (optional).',
+                'desc' => __( 'Enter a URL for the individual or organization (optional).', 'act' ),
                 'id' => $prefix . 'url',
                 'type' => 'text'
             )
