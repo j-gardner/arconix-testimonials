@@ -107,6 +107,7 @@ function get_testimonial_data( $args = '' ) {
 
         $return .= '</div>';
     }
+    wp_reset_postdata();
 
     return $return;
 }
