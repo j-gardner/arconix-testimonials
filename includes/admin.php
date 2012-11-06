@@ -43,9 +43,8 @@ function columns_filter( $columns ) {
 
     $columns = array(
         "cb" => "<input type=\"checkbox\" />",
-        "title" => "Testimonial Title",
-        "testimonial_author" => "Author",
-        "testimonial_content" => "Details",
+        "title" => "Testimonial Author",
+        "testimonial_content" => "Testimonial",
         "date" => "Date"
     );
 
@@ -64,25 +63,14 @@ function column_data( $column ) {
     global $post;
 
     switch( $column ) {
+        case "title":
+            $custom = get_post_custom();
+            $meta_byline = isset( $custom["_act_byline"][0] ) ? $custom["_act_byline"][0] : null;            
+            echo '<br />' . $meta_byline;
+            break;
+            
         case "testimonial_content":
             the_excerpt();
-            break;
-
-        case "testimonial_author":
-            $output = '';
-
-            $custom = get_post_custom();
-
-            $meta_name = isset( $custom["_act_name"][0] ) ? $custom["_act_name"][0] : null;
-            $meta_co = isset( $custom["_act_company_name"][0] ) ? $custom["_act_company_name"][0] : null;
-
-
-            if( $meta_name )
-                $output = $meta_name;
-            if( $meta_co )
-                $output .= ' - ' . $meta_co;
-
-            echo $output;
             break;
 
         default:
