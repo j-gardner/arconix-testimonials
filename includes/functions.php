@@ -157,7 +157,7 @@ function register_meta_box( array $meta_boxes ) {
         'fields' => array(
             array(
                 'name' => 'E-mail Address',
-                'desc' => 'To display individual\'s <a href="http://gravatar.com">gravatar</a> (optional).',
+                'desc' => sprintf( __( 'To display the individual\'s %sGravatar%s (optional).', 'act' ), '<a href="' . esc_url( 'http://gravatar.com/' ) . '" target="_blank">', '</a>' ),
                 'id' => $prefix . 'email',
                 'type' => 'text'
             ),
@@ -169,7 +169,7 @@ function register_meta_box( array $meta_boxes ) {
             ),
             array(
                 'name' => 'Website',
-                'desc' => 'Enter a URL for the individual or company (optional).',
+                'desc' => 'Enter a URL for the individual or organization (optional).',
                 'id' => $prefix . 'url',
                 'type' => 'text'
             )
