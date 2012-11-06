@@ -163,7 +163,7 @@ function register_meta_box( array $meta_boxes ) {
             ),
             array(
                 'name' => 'Byline',
-                'desc' => 'Enter a byline for the person giving this testimonial (optional).',
+                'desc' => 'Enter a byline for the individual giving this testimonial (optional).',
                 'id' => $prefix . 'byline',
                 'type' => 'text'
             ),
