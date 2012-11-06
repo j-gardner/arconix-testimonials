@@ -25,9 +25,9 @@ Upgrade normally via your Wordpress admin -> Plugins panel.
 
 = How can I show my testimonials?  =
 
-* If you'd like to display the testimonials in a widget area, place the Arconix - Testimonials widget in the desired widget area
-* If you'd like to display the testimonials in another content area like a post or page, use the shortcode `[ac-testimonials]`
-* If you'd like to display the testimonials in a template place `<?php echo do_shortcode( "[ac-testimonials]" ); ?>` in your desired page template
+* Place the Arconix - Testimonials widget in the desired widget area
+* Use the shortcode `[ac-testimonials]` on a post, page or other area
+* Place `<?php echo do_shortcode( "[ac-testimonials]" ); ?>` in the desired page template
 
 = Is there any other documentation? =
 * Visit the plugin's [Wiki Page](http://arcnx.co/atwiki) for all the plugin's documentation
@@ -35,7 +35,7 @@ Upgrade normally via your Wordpress admin -> Plugins panel.
 
 = I have a problem or a bug =
 
-* Check out the WordPress [support forum](http://arcnx.co/ashelp)
+* Check out the WordPress [support forum](http://arcnx.co/athelp) or the [Issues section on Github](https://github.com/j-gardner/arconix-testimonials/issues)
 
 = I have a great idea for your plugin! =
 
