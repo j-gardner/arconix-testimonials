@@ -17,26 +17,36 @@ function register_act_widget() {
 class Arconix_Testimonials_Widget extends WP_Widget {
     
     /**
-     * @todo refactor Widget (defaults, external function call)
+     * Holds widget settings defaults, populated in constructor.
+     *
+     * @var array defaults
+     * @since 0.5
      */
+    protected $defaults;
 
     /**
      * Constructor. Set the default widget options and create widget.
      *
      * @since 0.9
      */
-    function __construct() {
+    function __construct() {        
+        $this->defaults = array(
+            'posts_per_page' => '1',
+            'orderby' => 'rand',
+            'order' => 'DESC',
+            'gravatar_size' => '32'
+        );
 
-        /** Widget Settings */
+        /* Widget Settings */
         $widget_ops = array(
             'classname' => 'testimonials_widget',
             'description' => __( 'Display client testimonials', 'act' ),
         );
 
-        /** Widget Control Settings */
+        /* Widget Control Settings */
         $control_ops = array( 'id_base' => 'arconix-testimonials-widget' );
 
-        /** Create the widget */
+        /* Create the widget */
         $this->WP_Widget( 'arconix-testimonials-widget', 'Arconix - Testimonials', $widget_ops, $control_ops );
 
     }
@@ -50,7 +60,10 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      */
     function widget( $args, $instance ) {
 
-        extract( $args );
+        extract( $args, EXTR_SKIP );
+        
+        /* Merge with defaults */
+	$instance = wp_parse_args( ( array )$instance, $this->defaults );
 
         /* Before widget (defined by themes). */
         echo $before_widget;
@@ -60,98 +73,20 @@ class Arconix_Testimonials_Widget extends WP_Widget {
             echo $before_title . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $after_title;
         }
 
-        /* Widget output */
-        $w_args = apply_filters( 'arconix-testimonials-query-args' , array(
-            'post_type' => 'testimonials',
-            'posts_per_page' => 1,
-            'orderby' => 'rand'
-	) );
-
-
-        /* create a new query bsaed on our own arguments */
-	$testimonials_query = new WP_Query( $w_args );
-
-        if( $testimonials_query->have_posts() ) {
-
-            global $post;
-
-            echo '<div class="arconix-testimonials">';
-            echo '<div class="arconix-quotes">';
-
-            while( $testimonials_query->have_posts() ) : $testimonials_query->the_post();
-
-                /* Grab all of our custom post information */
-                $custom = get_post_custom();
-                if( isset( $custom["_act_name"][0] ) ) $meta_name = $custom["_act_name"][0];
-                if( isset( $custom["_act_title"][0] ) ) $meta_title = $custom["_act_title"][0];
-                if( isset( $custom["_act_company_name"][0] ) )  $meta_company = $custom["_act_company_name"][0];
-                if( isset( $custom["_act_city"][0] ) ) $meta_city = $custom["_act_city"][0];
-                if( isset( $custom["_act_state"][0] ) )  $meta_state = $custom["_act_state"][0];
-                if( isset( $custom["_act_url"][0] ) )  $meta_url = $custom["_act_url"][0];
-
-
-                /* Build output based on which variables have been assigned values */
-                $output = '';
-
-                /**
-                 * If the URL is set, then apply it to the either the company name or individual name
-                 * before we do anything else
-                 */
-                if( isset( $meta_url ) ) {
-                    if( isset( $meta_company ) ) {
-			$meta_company = '<a href="'. $meta_url .'">'. $meta_company .'</a>';
-                    }
-                    else {
-                        if( isset( $meta_name ) )
-                            $meta_name = '<a href="'. $meta_url .'">'. $meta_name .'</a>';
-                    }
-                }
-
-                /* Now we start */
-                if( isset( $meta_name ) ) $output = $meta_name;
-
-                if( isset( $meta_name ) && isset( $meta_title ) ) $output = $meta_name . ', ' . $meta_title;
-
-                if( isset( $meta_company ) ) $output .= ' - ' . $meta_company;
-
-                if( isset( $meta_city ) && isset( $meta_state ) ) {
-                    $output .= ' ' . $meta_city .', '. $meta_state;
-                } elseif ( isset( $meta_state ) ) {
-                    $output .= ', '. $meta_state;
-                }
-
-                /* Run through the rest of the loop info */
-
-                echo '<div id="post-' . get_the_ID() . '" class="arconix-quote ' . implode( ' ', get_post_class() ) .'">';
-                    echo '<blockquote>';
-                    the_content();
-                    echo '</blockquote>';
-                    echo "<cite>$output</cite>";
-                echo '</div>';
-
-            endwhile;
-
-	    echo '</div>'; /* .arconix-quotes */
-
-            if( !empty( $instance['more'] ) )
-                echo '<a class="arconix-testimonials-more" href="/testimonials">' . $instance['more'] . '</a>';
-
-	    echo '</div>'; /* .arconix-testimonials */
-        }
+        testimonial_data( $instance );
 
         /* After widget (defined by themes). */
         echo $after_widget;
 
     }
 
-
     /**
-     * Update the widget settings
+     * Update a particular instance.
      *
-     * @param type $new_instance
-     * @param type $old_instance
-     * @return type array
-     * @since 0.9
+     * @param array $new_instance New settings for this instance as input by the user via form()
+     * @param array $old_instance Old settings for this instance
+     * @return array Settings to save or bool false to cancel saving
+     * @since 0.5
      */
     function update( $new_instance, $old_instance ) {
 
@@ -159,25 +94,20 @@ class Arconix_Testimonials_Widget extends WP_Widget {
 
         /* Strip tags for title and name to remove HTML (important for text inputs). */
         $instance['title'] = strip_tags( $new_instance['title'] );
-        $instance['more'] = strip_tags( $new_instance['more'] );
+        $instance['posts_per_page'] = absint( $new_instance['posts_per_page'] );
 
         return $instance;
    }
 
-
    /**
     * Widget form
     *
-    * @param type $instance
-    * @since 0.9
+    * @param array $instance Current Settings
+    * @since 0.5
     */
    function form( $instance ) {
-
-        /* Let's set up some widget defaults. */
-        $defaults = array(
-            'title' => 'Testimonials',
-            'more' => 'Read More Testimonials'
-        );
+        
+        /* Merge with defaults */
         $instance = wp_parse_args( (array) $instance, $defaults ); ?>
 
         <p>Use the Testimonials custom post type to add content to this widget.</p>
@@ -186,20 +116,51 @@ class Arconix_Testimonials_Widget extends WP_Widget {
         <p>
             <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'act' ); ?></label>
             <br />
-            <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" />
+            <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo esc_attr( $instance['title'] ); ?>" />
         </p>
-
-        <!-- Read More: Text Input -->
+        <!-- Posts Number: Input Box -->
+	<p>
+	    <label for="<?php echo $this->get_field_id( 'posts_per_page' ); ?>"><?php _e( 'Number of items to show:', 'act' ); ?></label>
+	    <input id="<?php echo $this->get_field_id( 'posts_per_page' ); ?>" name="<?php echo $this->get_field_name( 'posts_per_page' ); ?>" type="text" value="<?php echo $instance['posts_per_page']; ?>" size="3" /></p>
+	</p>
+        <!-- Orderby: Select Box -->
+	<p>
+	    <label for="<?php echo $this->get_field_id( 'orderby' ); ?>"><?php _e( 'Select Orderby', 'act' ); ?></label>
+	    <select id="<?php echo $this->get_field_id( 'orderby' ); ?>" name="<?php echo $this->get_field_name( 'orderby' ); ?>">
+		<?php
+		$orderby_items = array( 'ID', 'author', 'title', 'name', 'date', 'modified', 'rand', 'comment_count', 'menu_order' );
+		foreach( $orderby_items as $orderby_item )
+		    echo '<option value="' . $orderby_item . '" ' . selected( $orderby_item, $instance['orderby'], FALSE ) . '>' . $orderby_item . '</option>';
+		?>
+	    </select>
+	</p>
+        <!-- Order: Select Box -->
+	<p>
+	    <label for="<?php echo $this->get_field_id( 'order' ); ?>"><?php _e( 'Select Order', 'act' ); ?></label>
+	    <select id="<?php echo $this->get_field_id( 'order' ); ?>" name="<?php echo $this->get_field_name( 'order' ); ?>">
+		<?php
+		$order_items = array( 'ASC', 'DESC' );
+		foreach( $order_items as $order_item )
+		    echo '<option value="' . $order_item . '" ' . selected( $order_item, $instance['order'], FALSE ) . '>' . $order_item . '</option>';
+		?>
+	    </select>
+	</p>
+        <!-- Gravatar Size: Select Box -->
         <p>
-            <label for="<?php echo $this->get_field_id( 'more' ); ?>"><?php _e( 'Read More text:', 'act' ); ?></label>
-            <br />
-            <input class="widefat" id="<?php echo $this->get_field_id( 'more' ); ?>" name="<?php echo $this->get_field_name( 'more' ); ?>" value="<?php echo $instance['more']; ?>" />
+            <label for="<?php echo $this->get_field_id( 'gravatar_size' ); ?>"><?php _e( 'Gravatar Size', 'genesis' ); ?>:</label>
+            <select id="<?php echo $this->get_field_id( 'gravatar_size' ); ?>" name="<?php echo $this->get_field_name( 'size' ); ?>">
+                <?php
+                $sizes = array( __( 'Small', 'act' ) => 32, __( 'Medium', 'act' ) => 48, __( 'Large', 'act' ) => 64, __( 'X-Large', 'act' ) => 80 );
+                /* Allow the gravatar sizes to be filtered */
+                $sizes = apply_filters( 'arconix_testimonials_gravatar_sizes', $sizes );
+                
+                foreach( (array) $sizes as $label => $size ) {
+                    echo '<option value="' . absint( $size ) . '" ' . selected( $size, $instance['gravatar_size'], FALSE ) . '>'. printf( '%s (%spx)', $label, $size ) . '</option>';
+                } ?>
+            </select>
         </p>
-
-        <?php   $title = esc_attr( $instance['title'] );
-                $more = esc_attr( $instance['more'] );
-   }
-
+        <?php
+    }
 }
 
 ?>
