@@ -21,16 +21,26 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function __construct() {
-        define( 'ACT_VERSION', '0.5');        
-        define( 'ACT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
-        define( 'ACT_INCLUDES_URL', trailingslashit( ACT_URL . 'includes' ) );
-        define( 'ACT_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
-        define( 'ACT_INCLUDES_DIR', trailingslashit( ACT_DIR . 'includes' ) );
-
+        
+        $this->constants();
         $this->hooks();
 
         register_activation_hook( __FILE__, array( $this, 'activation' ) );
         register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
+    }
+    
+    /**
+     * Define plugin constants
+     * 
+     * @since 0.5
+     */
+    function constants() {
+        define( 'ACT_VERSION', '0.5');        
+        define( 'ACT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
+        define( 'ACT_INCLUDES_URL', trailingslashit( ACT_URL . 'includes' ) );
+        define( 'ACT_IMAGES_URL', trailingslashit( ACT_URL . 'images' ) );
+        define( 'ACT_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
+        define( 'ACT_INCLUDES_DIR', trailingslashit( ACT_DIR . 'includes' ) );        
     }
 
     /**
@@ -72,7 +82,7 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function activation() {
-        // flush_rewrite_rules();
+        flush_rewrite_rules();
     }
 
     /**
@@ -87,5 +97,4 @@ class Arconix_Testimonials {
 }
 
 new Arconix_Testimonials;
-
 ?>
