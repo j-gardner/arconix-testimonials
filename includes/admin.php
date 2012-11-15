@@ -3,10 +3,10 @@
 /**
  * Modifies the post save notifications to properly reflect the post-type
  *
- * @global type $post
- * @global type $post_ID
- * @param type $messages
- * @return type array
+ * @global array $post
+ * @global int $post_ID
+ * @param array $messages
+ * @return array $messages
  * @since 0.5
  */
 function updated_messages( $messages ) {
@@ -54,8 +54,8 @@ function columns_filter( $columns ) {
 /**
  * Filter the data that shows up in the columns we defined above
  *
- * @global type $post
- * @param type $column
+ * @global array $post
+ * @param array $column
  * @since 0.5
  */
 function column_data( $column ) {
@@ -147,7 +147,6 @@ function right_now() {
         echo '</tr>';
     }
 }
-
 
 /**
  * Adds a widget to the dashboard.
