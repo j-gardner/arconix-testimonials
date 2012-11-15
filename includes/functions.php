@@ -12,15 +12,15 @@ function register_shortcodes() {
  * Testimonials shortcode
  *
  * @param array $atts Passed attributes
- * @param string $content N/A as this is a self-closing shortcode
+ * @param string $content N/A - self-closing shortcode
  * @return string result of query
  */
 function testimonials_shortcode( $atts, $content = null ) {
     $defaults = array(
-        'posts_per_page' => '1',
+        'posts_per_page' => 1,
         'orderby' => 'rand',
         'order' => 'DESC',
-        'gravatar_size' => '32'
+        'gravatar_size' => 32
     );
 
     $args = shortcode_atts( $defaults, $atts );
@@ -41,7 +41,7 @@ function get_testimonial_data( $args = '' ) {
         'posts_per_page' => 1,
         'orderby' => 'rand',
         'order' => 'DESC',
-        'gravatar_size' => '32'
+        'gravatar_size' => 32
     );
 
     /* Combine the passed args with the function defaults */
@@ -57,13 +57,12 @@ function get_testimonial_data( $args = '' ) {
         $args['order'] = 'DESC';
     if( ! in_array( $args['post_type'], get_post_types() ) )
         $args['post_type'] = 'testimonials';
-    if( !absint( $args['gravatar_size'] ) )
+    if( ! absint( $args['gravatar_size'] ) )
         $args['gravatar_size'] = 32;
 
     /* Extract the avatar size and remove the key from the array */
     $gravatar_size = $args['gravatar_size'];
     unset( $args['gravatar_size'] );
-
 
     $tquery = new WP_Query( $args );
 
@@ -107,6 +106,9 @@ function get_testimonial_data( $args = '' ) {
 
         $return .= '</div>';
     }
+    else {
+        $return = '<div class="arconix-testimonials-none">' . __( 'No testimonials to display', 'act' ) . '</div>';
+    }
     wp_reset_postdata();
 
     return $return;
@@ -118,9 +120,8 @@ function get_testimonial_data( $args = '' ) {
  * @param array $args Function arguments
  * @since 0.5
  */
-function testimonial_data( $args = '' ) {
-    $return = get_testimonial_data( $args );
-    echo $return;
+function testimonial_data( $args = '' ) {    
+    echo get_testimonial_data( $args );
 }
 
 /**
