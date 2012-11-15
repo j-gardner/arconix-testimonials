@@ -177,7 +177,7 @@ function dashboard_widget_output() {
 
     echo '<div class="act-widget-bottom"><ul>';
     ?>
-        <li><a href="http://arcnx.co/atwiki"><img src="<?php echo ACT_IMAGES_URL . 'page-16x16.png' ?>">Wiki Page</a></li>
+        <li><a href="http://arcnx.co/atwiki"><img src="<?php echo ACT_IMAGES_URL . 'page-16x16.png' ?>">Documentation</a></li>
         <li><a href="http://arcnx.co/athelp"><img src="<?php echo ACT_IMAGES_URL . 'help-16x16.png' ?>">Support Forum</a></li>
         <li><a href="http://arcnx.co/attrello"><img src="<?php echo ACT_IMAGES_URL . 'trello-16x16.png' ?>">Dev Board</a></li>
         <li><a href="http://arcnx.co/atsource"><img src="<?php echo ACT_IMAGES_URL . 'github-16x16.png'; ?>">Source Code</a></li>
