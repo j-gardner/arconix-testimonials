@@ -20,7 +20,7 @@ Activate Arconix Testimonials in the "Plugins" admin panel using the "Activate" 
 
 == Upgrade Notice ==
 
-Upgrade normally via your Wordpress admin -> Plugins panel.
+Upgrade normally via your WordPress admin -> Plugins panel.
 
 == Frequently Asked Questions ==
 
@@ -36,7 +36,7 @@ Upgrade normally via your Wordpress admin -> Plugins panel.
 
 = I have a problem or a bug =
 
-* Check out the WordPress [support forum](http://arcnx.co/athelp) or the [Issues section on Github](https://github.com/j-gardner/arconix-testimonials/issues)
+* Check out the WordPress [support forum](http://arcnx.co/athelp) or the [Issues section on Github](http://arcnx.co/atissues)
 
 = I have a great idea for your plugin! =
 
