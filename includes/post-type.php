@@ -5,7 +5,7 @@
  *
  * @since 0.5
  */
-function act_post_type() {
+function act_create_post_type() {
 
     $args = apply_filters( 'arconix_testimonials_post_type_args', array(
         'labels' => array(

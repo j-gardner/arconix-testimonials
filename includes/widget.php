@@ -4,10 +4,9 @@
  * 
  * @since 0.5
  */
-function register_act_widget() {
+function act_register_widget() {
     register_widget( 'Arconix_Testimonials_Widget' );
 }
-
 
 /**
  * Testimonials Widget
@@ -147,7 +146,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
 	</p>
         <!-- Gravatar Size: Select Box -->
         <p>
-            <label for="<?php echo $this->get_field_id( 'gravatar_size' ); ?>"><?php _e( 'Gravatar Size', 'genesis' ); ?>:</label>
+            <label for="<?php echo $this->get_field_id( 'gravatar_size' ); ?>"><?php _e( 'Gravatar Size', 'act' ); ?>:</label>
             <select id="<?php echo $this->get_field_id( 'gravatar_size' ); ?>" name="<?php echo $this->get_field_name( 'size' ); ?>">
                 <?php
                 $sizes = array( __( 'Small', 'act' ) => 32, __( 'Medium', 'act' ) => 48, __( 'Large', 'act' ) => 64, __( 'X-Large', 'act' ) => 80 );

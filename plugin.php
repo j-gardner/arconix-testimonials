@@ -49,13 +49,13 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function hooks() {
-        add_action( 'init', 'act_post_type' );
+        add_action( 'init', 'act_create_post_type' );
         add_action( 'manage_posts_custom_column', 'act_column_data' );
-        add_action( 'wp_dashboard_setup', 'register_act_dashboard_widget' );
+        add_action( 'wp_dashboard_setup', 'act_register_dashboard_widget' );
         add_action( 'right_now_content_table_end', 'act_right_now' );
         add_action( 'wp_enqueue_scripts', 'act_load_css' );
-        add_action( 'widgets_init', 'register_act_widget' );
-        add_action( 'init', 'add_act_shortcodes' );
+        add_action( 'widgets_init', 'act_register_widget' );
+        add_action( 'init', 'act_add_shortcodes' );
 
         add_filter( 'widget_text', 'do_shortcode' );
         add_filter( 'the_content', 'act_content_filter' );
