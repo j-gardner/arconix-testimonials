@@ -1,4 +1,45 @@
 <?php
+/**
+ * Register the Post Type Meta Box
+ *
+ * @param array $meta_boxes
+ * @return array $meta_boxes
+ * @since 0.5
+ */
+function act_create_meta_box( array $meta_boxes ) {
+    $prefix = '_act_';
+
+    $meta_boxes[] = array(
+        'id' => 'testimonial',
+        'title' => 'Testimonial Information',
+        'pages' => array( 'testimonials' ), // post type
+        'context' => 'normal',
+        'priority' => 'high',
+        'show_names' => true, // Show field names left of input
+        'fields' => array(
+            array(
+                'name' => 'E-mail Address',
+                'desc' => sprintf( __( 'To display the individual\'s %sGravatar%s (optional).', 'act' ), '<a href="' . esc_url( 'http://gravatar.com/' ) . '" target="_blank">', '</a>' ),
+                'id' => $prefix . 'email',
+                'type' => 'text'
+            ),
+            array(
+                'name' => 'Byline',
+                'desc' => __( 'Enter a byline for the individual giving this testimonial (optional).', 'act' ),
+                'id' => $prefix . 'byline',
+                'type' => 'text'
+            ),
+            array(
+                'name' => 'Website',
+                'desc' => __( 'Enter a URL for the individual or organization (optional).', 'act' ),
+                'id' => $prefix . 'url',
+                'type' => 'text'
+            )
+        )
+    );
+
+    return $meta_boxes;
+}
 
 /**
  * Modifies the post save notifications to properly reflect the post-type
@@ -153,7 +194,7 @@ function act_right_now() {
  *
  * @since 0.5
  */
-function register_act_dashboard_widget() {
+function act_register_dashboard_widget() {
     wp_add_dashboard_widget( 'ac-testimonials', 'Arconix Testimonials', 'act_dashboard_widget_output' );
 }
 

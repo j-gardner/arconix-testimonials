@@ -4,7 +4,7 @@
  *
  * @since 0.5
  */
-function add_act_shortcodes() {
+function act_add_shortcodes() {
     add_shortcode( 'ac-testimonials', 'testimonials_shortcode' );
 }
 
@@ -139,45 +139,4 @@ function act_load_css() {
     }
 }
 
-/**
- * Register the Post Type Meta Box
- *
- * @param array $meta_boxes
- * @return array $meta_boxes
- * @since 0.5
- */
-function act_create_meta_box( array $meta_boxes ) {
-    $prefix = '_act_';
-
-    $meta_boxes[] = array(
-        'id' => 'testimonial',
-        'title' => 'Testimonial Information',
-        'pages' => array( 'testimonials' ), // post type
-        'context' => 'normal',
-        'priority' => 'high',
-        'show_names' => true, // Show field names left of input
-        'fields' => array(
-            array(
-                'name' => 'E-mail Address',
-                'desc' => sprintf( __( 'To display the individual\'s %sGravatar%s (optional).', 'act' ), '<a href="' . esc_url( 'http://gravatar.com/' ) . '" target="_blank">', '</a>' ),
-                'id' => $prefix . 'email',
-                'type' => 'text'
-            ),
-            array(
-                'name' => 'Byline',
-                'desc' => __( 'Enter a byline for the individual giving this testimonial (optional).', 'act' ),
-                'id' => $prefix . 'byline',
-                'type' => 'text'
-            ),
-            array(
-                'name' => 'Website',
-                'desc' => __( 'Enter a URL for the individual or organization (optional).', 'act' ),
-                'id' => $prefix . 'url',
-                'type' => 'text'
-            )
-        )
-    );
-
-    return $meta_boxes;
-}
 ?>
