@@ -21,26 +21,26 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function __construct() {
-        
+
         $this->constants();
         $this->hooks();
 
         register_activation_hook( __FILE__, array( $this, 'activation' ) );
         register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
     }
-    
+
     /**
      * Define plugin constants
-     * 
+     *
      * @since 0.5
      */
     function constants() {
-        define( 'ACT_VERSION', '0.5');        
+        define( 'ACT_VERSION', '0.5');
         define( 'ACT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
         define( 'ACT_INCLUDES_URL', trailingslashit( ACT_URL . 'includes' ) );
         define( 'ACT_IMAGES_URL', trailingslashit( ACT_URL . 'images' ) );
         define( 'ACT_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
-        define( 'ACT_INCLUDES_DIR', trailingslashit( ACT_DIR . 'includes' ) );        
+        define( 'ACT_INCLUDES_DIR', trailingslashit( ACT_DIR . 'includes' ) );
     }
 
     /**
@@ -49,20 +49,20 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function hooks() {
-        add_action( 'init', 'create_post_type' );
-        add_action( 'manage_posts_custom_column', 'column_data' );
-        add_action( 'wp_dashboard_setup', 'register_dashboard_widget' );
-        add_action( 'right_now_content_table_end', 'right_now' );
-        add_action( 'wp_enqueue_scripts', 'load_css' );
+        add_action( 'init', 'act_post_type' );
+        add_action( 'manage_posts_custom_column', 'act_column_data' );
+        add_action( 'wp_dashboard_setup', 'register_act_dashboard_widget' );
+        add_action( 'right_now_content_table_end', 'act_right_now' );
+        add_action( 'wp_enqueue_scripts', 'act_load_css' );
         add_action( 'widgets_init', 'register_act_widget' );
-        add_action( 'init', 'register_shortcodes' );
+        add_action( 'init', 'add_act_shortcodes' );
 
         add_filter( 'widget_text', 'do_shortcode' );
-        add_filter( 'the_content', 'content_filter' );
-        add_filter( 'cmb_meta_boxes', 'create_meta_box' );
-        add_filter( 'post_updated_messages', 'updated_messages' );
-        add_filter( 'manage_edit-testimonials_columns', 'columns_filter' );
-        add_filter( 'enter_title_here', 'custom_title_text' );
+        add_filter( 'the_content', 'act_content_filter' );
+        add_filter( 'cmb_meta_boxes', 'act_create_meta_box' );
+        add_filter( 'post_updated_messages', 'act_updated_messages' );
+        add_filter( 'manage_edit-testimonials_columns', 'act_columns_filter' );
+        add_filter( 'enter_title_here', 'act_custom_title_text' );
 
         require_once( ACT_INCLUDES_DIR . 'functions.php' );
         require_once( ACT_INCLUDES_DIR . 'post-type.php' );

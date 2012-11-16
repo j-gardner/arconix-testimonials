@@ -9,7 +9,7 @@
  * @return array $messages
  * @since 0.5
  */
-function updated_messages( $messages ) {
+function act_updated_messages( $messages ) {
     global $post, $post_ID;
 
     $messages['testimonials'] = array(
@@ -39,7 +39,7 @@ function updated_messages( $messages ) {
  * @return array $columns
  * @since 0.5
  */
-function columns_filter( $columns ) {
+function act_columns_filter( $columns ) {
 
     $columns = array(
         "cb" => "<input type=\"checkbox\" />",
@@ -58,17 +58,17 @@ function columns_filter( $columns ) {
  * @param array $column
  * @since 0.5
  */
-function column_data( $column ) {
+function act_column_data( $column ) {
 
     global $post;
 
     switch( $column ) {
         case "title":
             $custom = get_post_custom();
-            $meta_byline = isset( $custom["_act_byline"][0] ) ? $custom["_act_byline"][0] : null;            
+            $meta_byline = isset( $custom["_act_byline"][0] ) ? $custom["_act_byline"][0] : null;
             echo '<br />' . $meta_byline;
             break;
-            
+
         case "testimonial_content":
             the_excerpt();
             break;
@@ -80,14 +80,14 @@ function column_data( $column ) {
 
 /**
  * Customize the "Enter title here" text
- * 
+ *
  * @param string $title
  * @return $title
  * @since 0.5
  */
-function custom_title_text( $title ) {
+function act_custom_title_text( $title ) {
     $screen = get_current_screen();
-    
+
     if( 'testimonials' == $screen->post_type ) {
         $title = __( 'Enter the person\'s name here', 'act' );
     }
@@ -100,7 +100,7 @@ function custom_title_text( $title ) {
  * @link http://bajada.net/2010/06/08/how-to-add-custom-post-types-and-taxonomies-to-the-wordpress-right-now-dashboard-widget
  * @version 0.5
  */
-function right_now() {
+function act_right_now() {
     // Define the post type text here, allowing us to quickly re-use this code in other projects
     $ac_pt = 'testimonials';
     $ac_pt_p = 'Testimonials';
@@ -153,8 +153,8 @@ function right_now() {
  *
  * @since 0.5
  */
-function register_dashboard_widget() {
-    wp_add_dashboard_widget( 'ac-testimonials', 'Arconix Testimonials', 'dashboard_widget_output' );
+function register_act_dashboard_widget() {
+    wp_add_dashboard_widget( 'ac-testimonials', 'Arconix Testimonials', 'act_dashboard_widget_output' );
 }
 
 /**
@@ -162,7 +162,7 @@ function register_dashboard_widget() {
  *
  * @since 0.5
  */
-function dashboard_widget_output() {
+function act_dashboard_widget_output() {
 
     echo '<div class="rss-widget">';
 

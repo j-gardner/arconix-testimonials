@@ -4,7 +4,7 @@
  *
  * @since 0.5
  */
-function register_shortcodes() {
+function add_act_shortcodes() {
     add_shortcode( 'ac-testimonials', 'testimonials_shortcode' );
 }
 
@@ -120,7 +120,7 @@ function get_testimonial_data( $args = '' ) {
  * @param array $args Function arguments
  * @since 0.5
  */
-function testimonial_data( $args = '' ) {    
+function testimonial_data( $args = '' ) {
     echo get_testimonial_data( $args );
 }
 
@@ -129,7 +129,7 @@ function testimonial_data( $args = '' ) {
  *
  * @since 0.5
  */
-function load_css() {
+function act_load_css() {
     /* Checks the child directory and then the parent directory */
     if( file_exists( get_stylesheet_directory() . '/arconix-testimonials.css' ) ) {
 	wp_enqueue_style( 'arconix-testimonials', get_stylesheet_directory_uri() . '/arconix-testimonials.css', array(), ACT_VERSION );
@@ -146,7 +146,7 @@ function load_css() {
  * @return array $meta_boxes
  * @since 0.5
  */
-function register_meta_box( array $meta_boxes ) {
+function act_create_meta_box( array $meta_boxes ) {
     $prefix = '_act_';
 
     $meta_boxes[] = array(
