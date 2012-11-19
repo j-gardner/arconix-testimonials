@@ -87,7 +87,6 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      * @since 0.5
      */
     function update( $new_instance, $old_instance ) {
-
        $instance = $old_instance;
 
         /* Strip tags for title and name to remove HTML (important for text inputs). */
