@@ -30,7 +30,12 @@ Upgrade normally via your WordPress admin -> Plugins panel.
 * Use the shortcode `[ac-testimonials]` on a post, page or other area
 * Place `<?php echo do_shortcode( "[ac-testimonials]" ); ?>` in the desired page template
 
+= Why is the plugin unstyled? =
+
+With no 2 themes exactly alike, it's impossible to style a plugin that seamlessly integrates without issue. That's why I made the plugin flexible -- copy `includes/testimonials.css` to the root of your theme's folder and rename it to `arconix-testimonials.css`. My plugin will try automatically load that file. Or you can add the styles to your theme's `style.css`
+
 = Is there any other documentation? =
+
 * Visit the plugin's [Wiki Page](http://arcnx.co/atwiki) for all the plugin's documentation
 * Tutorials on advanced plugin usage can be found at [Arconix Computers](http://arconixpc.com/tag/arconix-testimonials)
 
@@ -40,7 +45,7 @@ Upgrade normally via your WordPress admin -> Plugins panel.
 
 = I have a great idea for your plugin! =
 
-That's fantastic! Feel free to submit a pull request over at [Github](http://arcnx.co/atsource), or you can contact me through [Twitter](http://arcnx.co/twitter), [Facebook](http://arcnx.co/facebook) or my [Website](http://arcnx.co/1).
+That's fantastic! Feel free to submit a pull request over at [Github](http://arcnx.co/atsource), add an idea to the [Trello Board](http://arcnx.co/attrello), or you can contact me through [Twitter](http://arcnx.co/twitter), [Facebook](http://arcnx.co/facebook) or my [Website](http://arcnx.co/1)
 
 == Screenshots ==
 
@@ -48,4 +53,4 @@ That's fantastic! Feel free to submit a pull request over at [Github](http://arc
 == Changelog ==
 
 = 0.5.0 =
-* Initial Release
+Initial release
