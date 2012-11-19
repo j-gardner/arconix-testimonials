@@ -25,8 +25,8 @@ class Arconix_Testimonials {
         $this->constants();
         $this->hooks();
 
-        register_activation_hook( __FILE__, array( $this, 'activation' ) );
-        register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
+        register_activation_hook( __FILE__, array( &$this, 'activation' ) );
+        register_deactivation_hook( __FILE__, array( &$this, 'deactivation' ) );
     }
 
     /**
