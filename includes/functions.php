@@ -48,7 +48,7 @@ function get_testimonial_data( $args = '' ) {
     $args = wp_parse_args( $args, $defaults );
 
     /* Allow filtering of the array */
-    $args = apply_filters( 'arconix_get_testimonials_args', $args );
+    $args = apply_filters( 'arconix_get_testimonial_data_args', $args );
 
     /* Data integrity checks */
     if( ! in_array( $args['orderby'], array( 'none', 'ID', 'author', 'title', 'date', 'modified', 'parent', 'rand', 'comment_count', 'menu_order', 'meta_value', 'meta_value_num' ) ) )
@@ -78,7 +78,7 @@ function get_testimonial_data( $args = '' ) {
         $meta_email = isset( $custom["_act_email"][0] ) ? $custom["_act_email"][0] : null;
         $meta_byline = isset( $custom["_act_byline"][0] ) ? $custom["_act_byline"][0] : null;
         $meta_url = isset( $custom["_act_url"][0] ) ? $custom["_act_url"][0] : null;
-        $met_name = get_the_title();
+        $meta_name = get_the_title();
         $meta_details = '';
         $meta_gravatar = '';
 
