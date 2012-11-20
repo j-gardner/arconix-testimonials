@@ -91,18 +91,18 @@ class Arconix_Testimonials_Widget extends WP_Widget {
 
         /* Strip tags for title and name to remove HTML (important for text inputs). */
         $instance['title'] = strip_tags( $new_instance['title'] );
-        $instance['posts_per_page'] = absint( $new_instance['posts_per_page'] );
+        $instance['posts_per_page'] = (int)$new_instance['posts_per_page'];
 
         return $instance;
    }
 
-   /**
-    * Widget form
-    *
-    * @param array $instance Current Settings
-    * @since 0.5
-    */
-   function form( $instance ) {
+    /**
+     * Widget form
+     *
+     * @param array $instance Current Settings
+     * @since 0.5
+     */
+    function form( $instance ) {
 
         /* Merge with defaults */
         $instance = wp_parse_args( (array) $instance, $defaults ); ?>
@@ -143,8 +143,8 @@ class Arconix_Testimonials_Widget extends WP_Widget {
 	</p>
         <!-- Gravatar Size: Select Box -->
         <p>
-            <label for="<?php echo $this->get_field_id( 'gravatar_size' ); ?>"><?php _e( 'Gravatar Size', 'act' ); ?>:</label>
-            <select id="<?php echo $this->get_field_id( 'gravatar_size' ); ?>" name="<?php echo $this->get_field_name( 'size' ); ?>">
+            <label for="<?php echo $this->get_field_id( 'gravatar_size' ); ?>"><?php _e( 'Gravatar Size', 'act' ); ?></label>
+            <select id="<?php echo $this->get_field_id( 'gravatar_size' ); ?>" name="<?php echo $this->get_field_name( 'gravatar_size' ); ?>">
                 <?php
                 $sizes = array( __( 'Small', 'act' ) => 32, __( 'Medium', 'act' ) => 48, __( 'Large', 'act' ) => 64, __( 'X-Large', 'act' ) => 80 );
                 /* Allow the gravatar sizes to be filtered */
