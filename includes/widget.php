@@ -1,7 +1,7 @@
 <?php
 /**
  * Register the plugin widget
- * 
+ *
  * @since 0.5
  */
 function act_register_widget() {
@@ -14,7 +14,7 @@ function act_register_widget() {
  * @since 0.5
  */
 class Arconix_Testimonials_Widget extends WP_Widget {
-    
+
     /**
      * Holds widget settings defaults, populated in constructor.
      *
@@ -28,12 +28,12 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      *
      * @since 0.9
      */
-    function __construct() {        
+    function __construct() {
         $this->defaults = array(
-            'posts_per_page' => '1',
+            'posts_per_page' => 1,
             'orderby' => 'rand',
             'order' => 'DESC',
-            'gravatar_size' => '32'
+            'gravatar_size' => 32
         );
 
         /* Widget Settings */
@@ -60,7 +60,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     function widget( $args, $instance ) {
 
         extract( $args, EXTR_SKIP );
-        
+
         /* Merge with defaults */
 	$instance = wp_parse_args( (array) $instance, $this->defaults );
 
@@ -103,18 +103,17 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     * @since 0.5
     */
    function form( $instance ) {
-        
+
         /* Merge with defaults */
         $instance = wp_parse_args( (array) $instance, $defaults ); ?>
 
         <p>Use the Testimonials custom post type to add content to this widget.</p>
 
         <!-- Title: Text Input -->
-        <p>
-            <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'act' ); ?></label>
-            <br />
-            <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo esc_attr( $instance['title'] ); ?>" />
-        </p>
+	<p>
+	    <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'act' ); ?>:</label>
+	    <input class="widefat" type="text" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" />
+	</p>
         <!-- Posts Number: Input Box -->
 	<p>
 	    <label for="<?php echo $this->get_field_id( 'posts_per_page' ); ?>"><?php _e( 'Number of items to show:', 'act' ); ?></label>
@@ -150,7 +149,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
                 $sizes = array( __( 'Small', 'act' ) => 32, __( 'Medium', 'act' ) => 48, __( 'Large', 'act' ) => 64, __( 'X-Large', 'act' ) => 80 );
                 /* Allow the gravatar sizes to be filtered */
                 $sizes = apply_filters( 'arconix_testimonials_gravatar_sizes', $sizes );
-                
+
                 foreach( (array) $sizes as $label => $size ) {
                     echo '<option value="' . absint( $size ) . '" ' . selected( $size, $instance['gravatar_size'], FALSE ) . '>'. printf( '%s (%spx)', $label, $size ) . '</option>';
                 } ?>
