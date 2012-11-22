@@ -30,16 +30,16 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      */
     function __construct() {
         $this->defaults = array(
-            'posts_per_page' => 1,
-            'orderby' => 'rand',
-            'order' => 'DESC',
-            'gravatar_size' => 32
+            'posts_per_page'        => 1,
+            'orderby'               => 'rand',
+            'order'                 => 'DESC',
+            'gravatar_size'         => 48
         );
 
         /* Widget Settings */
         $widget_ops = array(
-            'classname' => 'testimonials_widget',
-            'description' => __( 'Display client testimonials', 'act' ),
+            'classname'             => 'testimonials_widget',
+            'description'           => __( 'Display client testimonials', 'act' ),
         );
 
         /* Widget Control Settings */
@@ -53,16 +53,16 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     /**
      * Widget Display
      *
-     * @param type $args
-     * @param type $instance
-     * @since 0.9
+     * @param array $args
+     * @param array $instance
+     * @since 0.5
      */
     function widget( $args, $instance ) {
 
         extract( $args, EXTR_SKIP );
 
         /* Merge with defaults */
-	$instance = wp_parse_args( (array) $instance, $this->defaults );
+	$instance = wp_parse_args( (array)$instance, $this->defaults );
 
         /* Before widget (defined by themes). */
         echo $before_widget;
@@ -87,13 +87,10 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      * @since 0.5
      */
     function update( $new_instance, $old_instance ) {
-       $instance = $old_instance;
+        $new_instance = $old_instance;
+        $new_instance['title'] = strip_tags( $new_instance['title'] );
 
-        /* Strip tags for title and name to remove HTML (important for text inputs). */
-        $instance['title'] = strip_tags( $new_instance['title'] );
-        $instance['posts_per_page'] = (int)$new_instance['posts_per_page'];
-
-        return $instance;
+        return $new_instance;
    }
 
     /**
@@ -105,54 +102,53 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     function form( $instance ) {
 
         /* Merge with defaults */
-        $instance = wp_parse_args( (array) $instance, $defaults ); ?>
+        $instance = wp_parse_args( (array) $instance, $this->defaults ); ?>
 
         <p>Use the Testimonials custom post type to add content to this widget.</p>
 
         <!-- Title: Text Input -->
 	<p>
 	    <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'act' ); ?>:</label>
-	    <input class="widefat" type="text" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" />
+	    <input class="widefat" type="text" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo esc_attr( $instance['title'] ) ;?>" />
 	</p>
         <!-- Posts Number: Input Box -->
 	<p>
-	    <label for="<?php echo $this->get_field_id( 'posts_per_page' ); ?>"><?php _e( 'Number of items to show:', 'act' ); ?></label>
-	    <input id="<?php echo $this->get_field_id( 'posts_per_page' ); ?>" name="<?php echo $this->get_field_name( 'posts_per_page' ); ?>" type="text" value="<?php echo $instance['posts_per_page']; ?>" size="3" /></p>
+	    <label for="<?php echo $this->get_field_id( 'posts_per_page' ); ?>"><?php _e( 'Number of items to show:', 'acfs' ); ?></label>
+	    <input id="<?php echo $this->get_field_id( 'posts_per_page' ); ?>" name="<?php echo $this->get_field_name( 'posts_per_page' ); ?>" type="text" value="<?php echo esc_attr( $instance['posts_per_page'] ); ?>" size="2" />
+        </p>
 	</p>
         <!-- Orderby: Select Box -->
 	<p>
-	    <label for="<?php echo $this->get_field_id( 'orderby' ); ?>"><?php _e( 'Select Orderby', 'act' ); ?></label>
+	    <label for="<?php echo $this->get_field_id( 'orderby' ); ?>"><?php _e( 'Select Orderby', 'act' ); ?>:</label>
 	    <select id="<?php echo $this->get_field_id( 'orderby' ); ?>" name="<?php echo $this->get_field_name( 'orderby' ); ?>">
 		<?php
 		$orderby_items = array( 'ID', 'author', 'title', 'name', 'date', 'modified', 'rand', 'comment_count', 'menu_order' );
 		foreach( $orderby_items as $orderby_item )
-		    echo '<option value="' . $orderby_item . '" ' . selected( $orderby_item, $instance['orderby'], FALSE ) . '>' . $orderby_item . '</option>';
+		    echo '<option value="' . $orderby_item . '" ' . selected( $orderby_item, $instance['orderby'] ) . '>' . $orderby_item . '</option>';
 		?>
 	    </select>
 	</p>
         <!-- Order: Select Box -->
 	<p>
-	    <label for="<?php echo $this->get_field_id( 'order' ); ?>"><?php _e( 'Select Order', 'act' ); ?></label>
+	    <label for="<?php echo $this->get_field_id( 'order' ); ?>"><?php _e( 'Select Order', 'act' ); ?>:</label>
 	    <select id="<?php echo $this->get_field_id( 'order' ); ?>" name="<?php echo $this->get_field_name( 'order' ); ?>">
 		<?php
 		$order_items = array( 'ASC', 'DESC' );
 		foreach( $order_items as $order_item )
-		    echo '<option value="' . $order_item . '" ' . selected( $order_item, $instance['order'], FALSE ) . '>' . $order_item . '</option>';
+		    echo '<option value="' . $order_item . '" ' . selected( $order_item, $instance['order'] ) . '>' . $order_item . '</option>';
 		?>
 	    </select>
 	</p>
         <!-- Gravatar Size: Select Box -->
         <p>
-            <label for="<?php echo $this->get_field_id( 'gravatar_size' ); ?>"><?php _e( 'Gravatar Size', 'act' ); ?></label>
+            <label for="<?php echo $this->get_field_id( 'gravatar_size' ); ?>"><?php _e( 'Gravatar Size', 'act' ); ?>:</label>
             <select id="<?php echo $this->get_field_id( 'gravatar_size' ); ?>" name="<?php echo $this->get_field_name( 'gravatar_size' ); ?>">
-                <?php
-                $sizes = array( __( 'Small', 'act' ) => 32, __( 'Medium', 'act' ) => 48, __( 'Large', 'act' ) => 64, __( 'X-Large', 'act' ) => 80 );
-                /* Allow the gravatar sizes to be filtered */
-                $sizes = apply_filters( 'arconix_testimonials_gravatar_sizes', $sizes );
-
-                foreach( (array) $sizes as $label => $size ) {
-                    echo '<option value="' . absint( $size ) . '" ' . selected( $size, $instance['gravatar_size'], FALSE ) . '>'. printf( '%s (%spx)', $label, $size ) . '</option>';
-                } ?>
+                    <?php
+                    $sizes = array( __( 'Small', 'act' ) => 32, __( 'Medium', 'act' ) => 48, __( 'Large', 'act' ) => 64, __( 'X-Large', 'act' ) => 80 );
+                    $sizes = apply_filters( 'arconix_testimonials_gravatar_sizes', $sizes );
+                    foreach ( (array) $sizes as $label => $size ) { ?>
+                        <option value="<?php echo absint( $size ); ?>" <?php selected( $size, $instance['gravatar_size'] ); ?>><?php printf( '%s (%spx)', $label, $size ); ?></option>
+                    <?php } ?>
             </select>
         </p>
         <?php
