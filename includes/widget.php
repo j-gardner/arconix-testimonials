@@ -33,7 +33,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
             'posts_per_page'        => 1,
             'orderby'               => 'rand',
             'order'                 => 'DESC',
-            'gravatar_size'         => 48
+            'gravatar_size'         => 32
         );
 
         /* Widget Settings */
