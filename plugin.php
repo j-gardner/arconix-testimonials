@@ -26,19 +26,19 @@ class Arconix_Testimonials {
         register_activation_hook( __FILE__, array( $this, 'activation' ) );
         register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
 
-        add_action( 'manage_posts_custom_column', array( $this, 'column_action' ) );
-        add_action( 'wp_dashboard_setup', array( $this, 'reg_dash_widget' ) );
-        add_action( 'right_now_content_table_end', array( $this, 'right_now' ) );
-        add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ) );
-        add_action( 'widgets_init', array( $this, 'reg_widget' ) );
-        add_action( 'init', array( $this, 'define_shortcodes' ) );
+        add_action( 'manage_posts_custom_column', array( $this, 'column_action' ) ); // done
+        add_action( 'wp_dashboard_setup', array( $this, 'dash_widget' ) );
+        add_action( 'right_now_content_table_end', array( $this, 'right_now' ) ); // done
+        add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
+        add_action( 'widgets_init', array( $this, 'widget' ) ); // done
+        add_action( 'init', array( $this, 'shortcodes' ) );
 
         add_filter( 'widget_text', 'do_shortcode' );
         add_filter( 'the_content', array( $this, 'content_filter' ) );
         add_filter( 'cmb_meta_boxes', array( $this, 'metaboxes' ) );
-        add_filter( 'post_updated_messages', array( $this, 'updated_messages' ) );
-        add_filter( 'manage_edit-testimonials_columns', array( $this, 'columns_filter' ) );
-        add_filter( 'enter_title_here', array( $this, 'custom_title_text' ) );
+        add_filter( 'post_updated_messages', array( $this, 'messages' ) );
+        add_filter( 'manage_edit-testimonials_columns', array( $this, 'columns_filter' ) ); // done
+        add_filter( 'enter_title_here', array( $this, 'title_text' ) ); // done
     }
 
     /**
@@ -53,6 +53,7 @@ class Arconix_Testimonials {
         define( 'ACT_IMAGES_URL', trailingslashit( ACT_URL . 'images' ) );
         define( 'ACT_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
         define( 'ACT_INCLUDES_DIR', trailingslashit( ACT_DIR . 'includes' ) );
+        define( 'ACT_VIEWS_DIR', trailingslashit( ACT_INCLUDES_DIR . 'views' ) );
     }
 
 
@@ -62,7 +63,7 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function activation() {
-        $this->register_content_types();
+        $this->content_types();
         flush_rewrite_rules();
     }
 
@@ -86,9 +87,14 @@ class Arconix_Testimonials {
         return apply_filters( 'arconix_testimonials_defaults', $defaults );
     }
 
-
-    function register_content_types() {
-
+    /**
+     * Register the post_type
+     *
+     * @since 0.5
+     */
+    function content_types() {
+        $defaults = $this->defaults();
+        register_post_type( $defaults['post_type']['slug'], $defaults['post_type']['args'] );
     }
 
     /**
@@ -96,14 +102,86 @@ class Arconix_Testimonials {
      * 
      * @since 0.5
      */
-    function reg_widget() {
+    function widget() {
         register_widget( 'Arconix_Testimonials_Widget' );
     }
 
 
-    
+    /**
+     * Register plugin shortcode(s)
+     *
+     * @since 0.5
+     */
+    function shortcodes() {
+        add_shortcode( 'ac-testimonials', 'testimonials_shortcode' );
+    }
 
+    /**
+     * Testimonials shortcode
+     *
+     * @param array $atts Passed attributes
+     * @param string $content N/A - self-closing shortcode
+     * @return string result of query
+     * @since  0.5
+     */
+    function testimonials_shortcode( $atts, $content = null ) {
+        $defaults = array(
+            'posts_per_page' => 1,
+            'orderby' => 'rand',
+            'order' => 'DESC',
+            'gravatar_size' => 32
+        );
 
+        $args = shortcode_atts( $defaults, $atts );
+
+        return get_testimonial_data( $args );
+    }
+
+    /**
+     * Returns the testimonial loop results
+     *
+     * @param array $args Arguments for the query
+     * @return string $return Returns the query results
+     * @since 0.5
+     */
+    function get_testimonial_data( $args, $echo = false ) {
+        $defaults = array(
+            'post_type' => 'testimonials',
+            'posts_per_page' => 1,
+            'orderby' => 'rand',
+            'order' => 'DESC',
+            'gravatar_size' => 32
+        );
+
+        /* Combine the passed args with the function defaults */
+        $args = wp_parse_args( $args, $defaults );
+
+        /* Allow filtering of the array */
+        $args = apply_filters( 'arconix_get_testimonial_data_args', $args );
+
+        include_once( ACT_INCLUDES_DIR . 'get-testimonial-data.php' );
+
+        if( $echo )
+            echo $return;
+        else
+            return $return;
+    }
+
+    /**
+     * Load the CSS if it exists
+     *
+     * @since 0.5
+     */
+    function scripts() {
+        /* Checks the child directory and then the parent directory */
+        if( file_exists( get_stylesheet_directory() . '/arconix-testimonials.css' ) )
+            wp_enqueue_style( 'arconix-testimonials', get_stylesheet_directory_uri() . '/arconix-testimonials.css', false, ACT_VERSION );
+        elseif( file_exists( get_template_directory() . '/arconix-testimonials.css' ) )
+            wp_enqueue_style( 'arconix-testimonials', get_template_directory_uri() . '/arconix-testimonials.css', false, ACT_VERSION );
+        else
+            if( apply_filters( 'pre_register_arconix_testimonials_css', true ) )
+                wp_enqueue_style( 'arconix-shortcodes', ACS_CSS_URL . 'shortcodes.css', false, ACS_VERSION );
+    }
 
     /**
      * Modifies the post save notifications to properly reflect the post-type
@@ -114,7 +192,7 @@ class Arconix_Testimonials {
      * @return array $messages
      * @since 0.5
      */
-    function act_updated_messages( $messages ) {
+    function messages( $messages ) {
         global $post, $post_ID;
 
         $messages['testimonials'] = array(
@@ -171,7 +249,7 @@ class Arconix_Testimonials {
             case "title":
                 $custom = get_post_custom();
                 $meta_byline = isset( $custom["_act_byline"][0] ) ? $custom["_act_byline"][0] : null;
-                echo '<br />' . $meta_byline;
+                if( $meta_byline ) echo $meta_byline;
                 break;
 
             case "testimonial_content":
@@ -190,12 +268,12 @@ class Arconix_Testimonials {
      * @return $title
      * @since 0.5
      */
-    function custom_title_text( $title ) {
+    function title_text( $title ) {
         $screen = get_current_screen();
 
-        if( 'testimonials' == $screen->post_type ) {
+        if( 'testimonials' == $screen->post_type )
             $title = __( 'Enter the person\'s name here', 'act' );
-        }
+
         return $title;
     }
 
@@ -214,7 +292,7 @@ class Arconix_Testimonials {
      *
      * @since 0.5
      */
-    function act_register_dashboard_widget() {
+    function dash_widget() {
         wp_add_dashboard_widget( 'ac-testimonials', 'Arconix Testimonials', 'act_dashboard_widget_output' );
     }
 
@@ -229,7 +307,7 @@ class Arconix_Testimonials {
 
 }
 
-include_once( plugin_dir_path( __FILE__ ) . '/includes/class-widget.php' );
+include_once( plugin_dir_path( __FILE__ ) . '/includes/class-widgets.php' );
 
 if( ! class_exists( 'cmb_Meta_Box' ) )
     require_once( plugin_dir_path( __FILE__ ) . '/includes/metabox/init.php' );
