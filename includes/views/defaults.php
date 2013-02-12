@@ -20,7 +20,7 @@ $defaults = array(
             'public'            => true,
             'query_var'         => true,
             'menu_position'     => 20,
-            'menu_icon'         => ACP_IMAGES_URL . 'testimonials-icon-16x16.png',
+            'menu_icon'         => ACT_IMAGES_URL . 'testimonials-icon-16x16.png',
             'has_archive'       => false,
             'supports'          => array( 'title', 'editor', 'thumbnail', 'revisions' ),
             'rewrite'           => array( 'slug' => 'testimonials', 'with_front' => false )

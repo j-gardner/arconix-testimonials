@@ -27,16 +27,16 @@ class Arconix_Testimonials {
         register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
 
         add_action( 'manage_posts_custom_column', array( $this, 'column_action' ) ); // done
-        add_action( 'wp_dashboard_setup', array( $this, 'dash_widget' ) );
+        add_action( 'wp_dashboard_setup', array( $this, 'dash_widget' ) ); // done
         add_action( 'right_now_content_table_end', array( $this, 'right_now' ) ); // done
-        add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
+        add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) ); // done
         add_action( 'widgets_init', array( $this, 'widget' ) ); // done
-        add_action( 'init', array( $this, 'shortcodes' ) );
+        add_action( 'init', array( $this, 'shortcodes' ) ); // done
 
         add_filter( 'widget_text', 'do_shortcode' );
         add_filter( 'the_content', array( $this, 'content_filter' ) );
         add_filter( 'cmb_meta_boxes', array( $this, 'metaboxes' ) );
-        add_filter( 'post_updated_messages', array( $this, 'messages' ) );
+        add_filter( 'post_updated_messages', array( $this, 'messages' ) ); // done
         add_filter( 'manage_edit-testimonials_columns', array( $this, 'columns_filter' ) ); // done
         add_filter( 'enter_title_here', array( $this, 'title_text' ) ); // done
     }
@@ -83,7 +83,7 @@ class Arconix_Testimonials {
      * @return array $defaults
      */
     function defaults() {
-        include_once( ACT_INCLUDES_DIR . 'defaults.php' );
+        include_once( ACT_VIEWS_DIR . 'defaults.php' );
         return apply_filters( 'arconix_testimonials_defaults', $defaults );
     }
 
@@ -159,7 +159,7 @@ class Arconix_Testimonials {
         /* Allow filtering of the array */
         $args = apply_filters( 'arconix_get_testimonial_data_args', $args );
 
-        include_once( ACT_INCLUDES_DIR . 'get-testimonial-data.php' );
+        include_once( ACT_VIEWS_DIR . 'get-testimonial-data.php' );
 
         if( $echo )
             echo $return;
@@ -173,14 +173,15 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function scripts() {
-        /* Checks the child directory and then the parent directory */
+        // Checks the child directory and then the parent directory.
         if( file_exists( get_stylesheet_directory() . '/arconix-testimonials.css' ) )
             wp_enqueue_style( 'arconix-testimonials', get_stylesheet_directory_uri() . '/arconix-testimonials.css', false, ACT_VERSION );
         elseif( file_exists( get_template_directory() . '/arconix-testimonials.css' ) )
             wp_enqueue_style( 'arconix-testimonials', get_template_directory_uri() . '/arconix-testimonials.css', false, ACT_VERSION );
         else
+            // If the CSS is not being overridden in the theme file, allow the user to filter it out entirely (if building into stylesheet or the like)
             if( apply_filters( 'pre_register_arconix_testimonials_css', true ) )
-                wp_enqueue_style( 'arconix-shortcodes', ACS_CSS_URL . 'shortcodes.css', false, ACS_VERSION );
+                wp_enqueue_style( 'arconix-shortcodes', ACT_CSS_URL . 'arconix-testimonials.css', false, ACT_VERSION );
     }
 
     /**
@@ -284,7 +285,7 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function right_now() {
-        include_once( ACT_INCLUDES_DIR . 'right-now.php' );
+        include_once( ACT_VIEWS_DIR . 'right-now.php' );
     }
 
     /**
@@ -302,9 +303,22 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function act_dashboard_widget_output() {
-        include_once( ACT_INCLUDES_DIR . 'dash-widget.php' );
+        include_once( ACT_VIEWS_DIR . 'dash-widget.php' );
     }
 
+    /**
+     * Create the post type metabox
+     *
+     * @param array $meta_boxes
+     * @return array $meta_boxes
+     * @since 0.5
+     */
+    function metaboxes( $meta_boxes ) {
+        $defaults = $this->defaults();
+        $meta_boxes[] = $defaults['meta_box'];
+
+        return $meta_boxes;
+    }
 }
 
 include_once( plugin_dir_path( __FILE__ ) . '/includes/class-widgets.php' );
