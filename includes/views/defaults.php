@@ -4,7 +4,7 @@ $defaults = array(
         'slug' => 'testimonials',
         'args' => array(
             'labels' => array(
-                'name'                  => __( 'Testimonial',                               'act' ),
+                'name'                  => __( 'Testimonials',                              'act' ),
                 'singular_name'         => __( 'Testimonial',                               'act' ),
                 'add_new'               => __( 'Add New',                                   'act' ),
                 'add_new_item'          => __( 'Add New Testimonial Item',                  'act' ),
@@ -27,16 +27,16 @@ $defaults = array(
         )
     ),
     'metabox' => array(
-        'id'            => 'testimonial',
+        'id'            => 'testimonials_box',
         'title'         => 'Testimonial Information',
-        'pages'         => array( 'testimonials' ), // post type
+        'pages'         => array( 'testimonials'), // post type
         'context'       => 'normal',
         'priority'      => 'high',
         'show_names'    => true, // Show field names left of input
         'fields' => array(
             array(
                 'name'  => 'E-mail Address',
-                'desc'  => sprintf( __( 'To display the individual\'s %sGravatar%s (optional).', 'act' ), '<a href="' . esc_url( 'http://gravatar.com/' ) . '" target="_blank">', '</a>' ),
+                'desc'  => '',//sprintf( __( 'To display the individual\'s %sGravatar%s (optional).', 'act' ), '<a href="' . esc_url( 'http://gravatar.com/' ) . '" target="_blank">', '</a>' ),
                 'id'    => $prefix . 'email',
                 'type'  => 'text'
             ),

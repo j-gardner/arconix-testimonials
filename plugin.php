@@ -4,7 +4,7 @@
  * Plugin URI: http://arconixpc.com/plugins/arconix-testimonials
  * Description: Arconix Testimonials is a plugin which makes it easy for you to display customer feedback on your site
  *
- * Version: 0.5
+ * Version: 1.0.0
  *
  * Author: John Gardner
  * Author URI: http://arconixpc.com/
@@ -26,6 +26,7 @@ class Arconix_Testimonials {
         register_activation_hook( __FILE__, array( $this, 'activation' ) );
         register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
 
+        add_action( 'init', array( $this, 'content_types' ) );
         add_action( 'manage_posts_custom_column', array( $this, 'column_action' ) ); // done
         add_action( 'wp_dashboard_setup', array( $this, 'dash_widget' ) ); // done
         add_action( 'right_now_content_table_end', array( $this, 'right_now' ) ); // done
@@ -47,7 +48,7 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function constants() {
-        define( 'ACT_VERSION', '0.5');
+        define( 'ACT_VERSION', '1.0.0');
         define( 'ACT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
         define( 'ACT_INCLUDES_URL', trailingslashit( ACT_URL . 'includes' ) );
         define( 'ACT_IMAGES_URL', trailingslashit( ACT_URL . 'images' ) );
@@ -83,7 +84,7 @@ class Arconix_Testimonials {
      * @return array $defaults
      */
     function defaults() {
-        include_once( ACT_VIEWS_DIR . 'defaults.php' );
+        require_once( ACT_VIEWS_DIR . 'defaults.php' );
         return apply_filters( 'arconix_testimonials_defaults', $defaults );
     }
 
@@ -159,7 +160,7 @@ class Arconix_Testimonials {
         /* Allow filtering of the array */
         $args = apply_filters( 'arconix_get_testimonial_data_args', $args );
 
-        include_once( ACT_VIEWS_DIR . 'get-testimonial-data.php' );
+        require_once( ACT_VIEWS_DIR . 'get-testimonial-data.php' );
 
         if( $echo )
             echo $return;
@@ -285,7 +286,7 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function right_now() {
-        include_once( ACT_VIEWS_DIR . 'right-now.php' );
+        require_once( ACT_VIEWS_DIR . 'right-now.php' );
     }
 
     /**
@@ -294,7 +295,7 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function dash_widget() {
-        wp_add_dashboard_widget( 'ac-testimonials', 'Arconix Testimonials', 'act_dashboard_widget_output' );
+        wp_add_dashboard_widget( 'ac-testimonials', 'Arconix Testimonials', array( $this, 'dashboard_widget_output' ) );
     }
 
     /**
@@ -302,8 +303,8 @@ class Arconix_Testimonials {
      *
      * @since 0.5
      */
-    function act_dashboard_widget_output() {
-        include_once( ACT_VIEWS_DIR . 'dash-widget.php' );
+    function dashboard_widget_output() {
+        require_once( ACT_VIEWS_DIR . 'dash-widget.php' );
     }
 
     /**
@@ -321,10 +322,12 @@ class Arconix_Testimonials {
     }
 }
 
-include_once( plugin_dir_path( __FILE__ ) . '/includes/class-widgets.php' );
+require_once( plugin_dir_path( __FILE__ ) . '/includes/class-widgets.php' );
 
-if( ! class_exists( 'cmb_Meta_Box' ) )
-    require_once( plugin_dir_path( __FILE__ ) . '/includes/metabox/init.php' );
-
+add_action( 'init', 'arconix_testimonials_init_meta_boxes', 9999 );
+function arconix_testimonials_init_meta_boxes() {
+    if( ! class_exists( 'cmb_Meta_Box' ) )
+        require_once( plugin_dir_path( __FILE__ ) . '/includes/metabox/init.php' );
+}
 
 new Arconix_Testimonials;

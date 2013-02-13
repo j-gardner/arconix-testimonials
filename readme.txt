@@ -3,8 +3,8 @@ Contributors: jgardner03
 Donate link: http://arcnx.co/actdonation
 Tags: arconix, testimonials, quotes, feedback
 Requires at least: 3.4
-Tested up to: 3.4.2
-Stable tag: 0.5
+Tested up to: 3.5.1
+Stable tag: 1.0
 
 Easily showcase what your customers or users are saying about you or your business.
 
@@ -14,7 +14,7 @@ Arconix Testimonials is an easy-to-use plugin that allows you to showcase the gr
 
 == Installation ==
 
-You can download and install Arconix Testimonials using the built in WordPress plugin installer. If you download the plugin manually, make sure the files are uploaded to `/wp-content/plugins/arconix-shortcodes/`.
+You can download and install Arconix Testimonials using the built in WordPress plugin installer. If you download the plugin manually, make sure the files are uploaded to `/wp-content/plugins/arconix-testimonials/`.
 
 Activate Arconix Testimonials in the "Plugins" admin panel using the "Activate" link.
 
@@ -30,9 +30,9 @@ Upgrade normally via your WordPress admin -> Plugins panel.
 * Use the shortcode `[ac-testimonials]` on a post, page or other area
 * Place `<?php echo do_shortcode( "[ac-testimonials]" ); ?>` in the desired page template
 
-= Why is the plugin unstyled? =
+= Why is the plugin basically unstyled? =
 
-With no 2 themes exactly alike, it's impossible to style a plugin that seamlessly integrates without issue. That's why I made the plugin flexible -- copy `includes/testimonials.css` to the root of your theme's folder and rename it to `arconix-testimonials.css`. My plugin will try automatically load that file. Or you can add the styles to your theme's `style.css`
+With no 2 themes exactly alike, it's impossible to style a plugin that seamlessly integrates without issue. That's why I made the plugin flexible -- copy `includes/arconix-testimonials.css` to the root of your theme's folder and make your desired modifications. My plugin will automatically load that file instead.
 
 = Is there any other documentation? =
 
@@ -52,5 +52,5 @@ That's fantastic! Feel free to submit a pull request over at [Github](http://arc
 
 == Changelog ==
 
-= 0.5.0 =
+= 1.0.0 =
 Initial release
