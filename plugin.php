@@ -180,9 +180,9 @@ class Arconix_Testimonials {
         elseif( file_exists( get_template_directory() . '/arconix-testimonials.css' ) )
             wp_enqueue_style( 'arconix-testimonials', get_template_directory_uri() . '/arconix-testimonials.css', false, ACT_VERSION );
         else
-            // If the CSS is not being overridden in the theme file, allow the user to filter it out entirely (if building into stylesheet or the like)
+            // If the CSS is not being overridden in a theme folder, allow the user to filter it out entirely (if building into stylesheet or the like)
             if( apply_filters( 'pre_register_arconix_testimonials_css', true ) )
-                wp_enqueue_style( 'arconix-shortcodes', ACT_CSS_URL . 'arconix-testimonials.css', false, ACT_VERSION );
+                wp_enqueue_style( 'arconix-shortcodes', ACT_INCLUDES_URL . 'arconix-testimonials.css', false, ACT_VERSION );
     }
 
     /**
@@ -225,7 +225,6 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function columns_filter( $columns ) {
-
         $columns = array(
             "cb" => "<input type=\"checkbox\" />",
             "title" => "Testimonial Author",
@@ -244,7 +243,6 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function column_action( $column ) {
-
         global $post;
 
         switch( $column ) {
@@ -274,7 +272,7 @@ class Arconix_Testimonials {
         $screen = get_current_screen();
 
         if( 'testimonials' == $screen->post_type )
-            $title = __( 'Enter the person\'s name here', 'act' );
+            $title = __( 'Enter the author\'s name here', 'act' );
 
         return $title;
     }
