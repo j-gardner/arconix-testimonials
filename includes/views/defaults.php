@@ -1,4 +1,6 @@
 <?php
+$prefix = '_act_'; // for use in the metabox id
+
 $defaults = array(
     'post_type' => array(
         'slug' => 'testimonials',
@@ -26,31 +28,31 @@ $defaults = array(
             'rewrite'           => array( 'slug' => 'testimonials', 'with_front' => false )
         )
     ),
-    'metabox' => array(
-        'id'            => 'testimonials_box',
-        'title'         => 'Testimonial Information',
-        'pages'         => array( 'testimonials'), // post type
-        'context'       => 'normal',
-        'priority'      => 'high',
-        'show_names'    => true, // Show field names left of input
+    'meta_box' => array(
+        'id' => 'testimonials-information',
+        'title' => 'Testimonial Information',
+        'pages' => array( 'testimonials' ), // post type
+        'context' => 'normal',
+        'priority' => 'high',
+        'show_names' => true, // Show field names left of input
         'fields' => array(
             array(
-                'name'  => 'E-mail Address',
-                'desc'  => '',//sprintf( __( 'To display the individual\'s %sGravatar%s (optional).', 'act' ), '<a href="' . esc_url( 'http://gravatar.com/' ) . '" target="_blank">', '</a>' ),
-                'id'    => $prefix . 'email',
-                'type'  => 'text'
+                'name' => 'E-mail Address',
+                'id' => $prefix . 'email',
+                'desc' => sprintf( __( 'To display the author\'s %sGravatar%s (optional).', 'act' ), '<a href="' . esc_url( 'http://gravatar.com' ) . '" target="_blank">', '</a>' ),
+                'type' => 'text',
             ),
             array(
-                'name'  => 'Byline',
-                'desc'  => __( 'Enter a byline for the individual giving this testimonial (optional).', 'act' ),
-                'id'    => $prefix . 'byline',
-                'type'  => 'text'
+                'name' => 'Byline',
+                'id' => $prefix . 'byline',
+                'desc' => __( 'Enter a byline for the author of this testimonial (optional).', 'act' ),
+                'type' => 'text',
             ),
             array(
-                'name'  => 'Website',
-                'desc'  => __( 'Enter a URL for the individual or organization (optional).', 'act' ),
-                'id'    => $prefix . 'url',
-                'type'  => 'text'
+                'name' => 'Website',
+                'id' => $prefix . 'url',
+                'desc' => __( 'Enter a URL for the individual or organization (optional).', 'act' ),
+                'type' => 'text'
             )
         )
     )
