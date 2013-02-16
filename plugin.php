@@ -26,20 +26,21 @@ class Arconix_Testimonials {
         register_activation_hook( __FILE__, array( $this, 'activation' ) );
         register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
 
+        add_action( 'init', 'arconix_testimonials_init_meta_boxes', 9999 );
         add_action( 'init', array( $this, 'content_types' ) );
-        add_action( 'manage_posts_custom_column', array( $this, 'column_action' ) ); // done
-        add_action( 'wp_dashboard_setup', array( $this, 'dash_widget' ) ); // done
-        add_action( 'right_now_content_table_end', array( $this, 'right_now' ) ); // done
-        add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) ); // done
-        add_action( 'widgets_init', array( $this, 'widget' ) ); // done
-        add_action( 'init', array( $this, 'shortcodes' ) ); // done
+        add_action( 'manage_posts_custom_column', array( $this, 'column_action' ) ); 
+        add_action( 'wp_dashboard_setup', array( $this, 'dash_widget' ) );
+        add_action( 'right_now_content_table_end', array( $this, 'right_now' ) );
+        add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
+        add_action( 'widgets_init', array( $this, 'widget' ) );
+        add_action( 'init', array( $this, 'shortcodes' ) );
 
         add_filter( 'widget_text', 'do_shortcode' );
         add_filter( 'the_content', array( $this, 'content_filter' ) );
         add_filter( 'cmb_meta_boxes', array( $this, 'metaboxes' ) );
-        add_filter( 'post_updated_messages', array( $this, 'messages' ) ); // done
-        add_filter( 'manage_edit-testimonials_columns', array( $this, 'columns_filter' ) ); // done
-        add_filter( 'enter_title_here', array( $this, 'title_text' ) ); // done
+        add_filter( 'post_updated_messages', array( $this, 'messages' ) );
+        add_filter( 'manage_edit-testimonials_columns', array( $this, 'columns_filter' ) );
+        add_filter( 'enter_title_here', array( $this, 'title_text' ) );
     }
 
     /**
@@ -105,6 +106,11 @@ class Arconix_Testimonials {
      */
     function widget() {
         register_widget( 'Arconix_Testimonials_Widget' );
+    }
+
+
+    function content_filter( $content ) {
+        return $content;
     }
 
 
@@ -313,8 +319,36 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function metaboxes( $meta_boxes ) {
-        $defaults = $this->defaults();
-        $meta_boxes[] = $defaults['meta_box'];
+        $metabox = array(
+            'id' => 'testimonials-info',
+            'title' => 'Testimonial Details',
+            'pages' => array( 'testimonials' ), 
+            'context' => 'normal',
+            'priority' => 'high',
+            'show_names' => true, 
+            'fields' => array(
+                array(
+                    'name' => 'E-mail Address',
+                    'id' => '_act_email',
+                    'desc' => sprintf( __( 'To display the author\'s %sGravatar%s (optional).', 'act' ), '<a href="' . esc_url( 'http://gravatar.com' ) . '" target="_blank">', '</a>' ),
+                    'type' => 'text_medium',
+                ),
+                array(
+                    'name' => 'Byline',
+                    'id' => '_act_byline',
+                    'desc' => __( 'Enter a byline for the author of this testimonial (optional).', 'act' ),
+                    'type' => 'text_medium',
+                ),
+                array(
+                    'name' => 'Website',
+                    'id' => '_act_url',
+                    'desc' => __( 'Enter a URL for the individual or organization (optional).', 'act' ),
+                    'type' => 'text_medium',
+                )
+            )
+        );
+
+        $meta_boxes[] = $metabox;
 
         return $meta_boxes;
     }
@@ -322,7 +356,6 @@ class Arconix_Testimonials {
 
 require_once( plugin_dir_path( __FILE__ ) . '/includes/class-widgets.php' );
 
-add_action( 'init', 'arconix_testimonials_init_meta_boxes', 9999 );
 function arconix_testimonials_init_meta_boxes() {
     if( ! class_exists( 'cmb_Meta_Box' ) )
         require_once( plugin_dir_path( __FILE__ ) . '/includes/metabox/init.php' );

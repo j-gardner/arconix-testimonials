@@ -1,5 +1,5 @@
 <?php
-$prefix = '_act_'; // for use in the metabox id
+$prefix = '_act_'; // for use in the metabox id <--- WHICH UNFORTUNATELY IS NOT WORKING
 
 $defaults = array(
     'post_type' => array(
@@ -29,30 +29,30 @@ $defaults = array(
         )
     ),
     'meta_box' => array(
-        'id' => 'testimonials-information',
-        'title' => 'Testimonial Information',
-        'pages' => array( 'testimonials' ), // post type
+        'id' => 'testimonials-info',
+        'title' => 'Testimonial Details',
+        'pages' => array( 'testimonials' ), 
         'context' => 'normal',
         'priority' => 'high',
-        'show_names' => true, // Show field names left of input
+        'show_names' => true, 
         'fields' => array(
             array(
                 'name' => 'E-mail Address',
-                'id' => $prefix . 'email',
+                'id' => '_act_email',
                 'desc' => sprintf( __( 'To display the author\'s %sGravatar%s (optional).', 'act' ), '<a href="' . esc_url( 'http://gravatar.com' ) . '" target="_blank">', '</a>' ),
-                'type' => 'text',
+                'type' => 'text_medium',
             ),
             array(
                 'name' => 'Byline',
-                'id' => $prefix . 'byline',
+                'id' => '_act_byline',
                 'desc' => __( 'Enter a byline for the author of this testimonial (optional).', 'act' ),
-                'type' => 'text',
+                'type' => 'text_medium',
             ),
             array(
                 'name' => 'Website',
-                'id' => $prefix . 'url',
+                'id' => '_act_url',
                 'desc' => __( 'Enter a URL for the individual or organization (optional).', 'act' ),
-                'type' => 'text'
+                'type' => 'text_medium',
             )
         )
     )
