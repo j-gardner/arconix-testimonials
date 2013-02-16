@@ -32,6 +32,7 @@ class Arconix_Testimonials {
         add_action( 'wp_dashboard_setup', array( $this, 'dash_widget' ) );
         add_action( 'right_now_content_table_end', array( $this, 'right_now' ) );
         add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
+        add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
         add_action( 'widgets_init', array( $this, 'widget' ) );
         add_action( 'init', array( $this, 'shortcodes' ) );
 
@@ -53,6 +54,7 @@ class Arconix_Testimonials {
         define( 'ACT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
         define( 'ACT_INCLUDES_URL', trailingslashit( ACT_URL . 'includes' ) );
         define( 'ACT_IMAGES_URL', trailingslashit( ACT_URL . 'images' ) );
+        define( 'ACT_CSS_URL', trailingslashit( ACT_INCLUDES_URL . 'css' ) );
         define( 'ACT_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
         define( 'ACT_INCLUDES_DIR', trailingslashit( ACT_DIR . 'includes' ) );
         define( 'ACT_VIEWS_DIR', trailingslashit( ACT_INCLUDES_DIR . 'views' ) );
@@ -188,7 +190,16 @@ class Arconix_Testimonials {
         else
             // If the CSS is not being overridden in a theme folder, allow the user to filter it out entirely (if building into stylesheet or the like)
             if( apply_filters( 'pre_register_arconix_testimonials_css', true ) )
-                wp_enqueue_style( 'arconix-shortcodes', ACT_INCLUDES_URL . 'arconix-testimonials.css', false, ACT_VERSION );
+                wp_enqueue_style( 'arconix-shortcodes', ACT_CSS_URL . 'arconix-testimonials.css', false, ACT_VERSION );
+    }
+
+    /**
+     * Includes admin scripts
+     *
+     * @since 0.5
+     */
+    function admin_scripts() {
+        wp_enqueue_style( 'arconix-testimonials-admin', ACT_CSS_URL . 'admin.css', false, ACT_VERSION );
     }
 
     /**
@@ -233,8 +244,9 @@ class Arconix_Testimonials {
     function columns_filter( $columns ) {
         $columns = array(
             "cb" => "<input type=\"checkbox\" />",
-            "title" => "Testimonial Author",
-            "testimonial_content" => "Testimonial",
+            "testimonial-gravatar" => "Gravatar",
+            "title" => "Author",
+            "testimonial-content" => "Testimonial",
             "date" => "Date"
         );
 
@@ -252,13 +264,14 @@ class Arconix_Testimonials {
         global $post;
 
         switch( $column ) {
-            case "title":
+            case "testimonial-gravatar":
                 $custom = get_post_custom();
-                $meta_byline = isset( $custom["_act_byline"][0] ) ? $custom["_act_byline"][0] : null;
-                if( $meta_byline ) echo $meta_byline;
+                $meta_email = isset( $custom["_act_email"][0] ) ? $custom["_act_email"][0] : null;
+                if( isset( $meta_email) ) {
+                    echo get_avatar( $meta_email, 32 );
+                }
                 break;
-
-            case "testimonial_content":
+            case "testimonial-content":
                 the_excerpt();
                 break;
 
@@ -278,7 +291,7 @@ class Arconix_Testimonials {
         $screen = get_current_screen();
 
         if( 'testimonials' == $screen->post_type )
-            $title = __( 'Enter the author\'s name here', 'act' );
+            $title = __( 'Enter author here', 'act' );
 
         return $title;
     }
