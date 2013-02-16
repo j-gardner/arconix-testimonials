@@ -1,0 +1,7 @@
+#ac-testimonials .rsssummary { display: block; }
+.act-widget-bottom ul {}
+.act-widget-bottom { border-top: 1px solid #ddd; padding-top: 10px; text-align: center; }
+.act-widget-bottom ul li { display: inline; list-style:none; padding-right: 20px; }
+.act-widget-bottom img { padding-right: 3px; vertical-align: top; }
+
+.column-testimonial-gravatar { width: 85px; }
