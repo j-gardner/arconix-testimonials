@@ -22,37 +22,40 @@ $defaults = array(
             'public'            => true,
             'query_var'         => true,
             'menu_position'     => 20,
-            'menu_icon'         => ACT_IMAGES_URL . 'testimonials-icon-16x16.png',
+            'menu_icon'         => ACT_IMAGES_URL . 'testimonials-16x16.png',
             'has_archive'       => false,
             'supports'          => array( 'title', 'editor', 'thumbnail', 'revisions' ),
             'rewrite'           => array( 'slug' => 'testimonials', 'with_front' => false )
         )
     ),
+    'gravatar' => array(
+        'size' => 32 
+    ),
     'meta_box' => array(
-        'id' => 'testimonials-info',
-        'title' => 'Testimonial Details',
-        'pages' => array( 'testimonials' ), 
-        'context' => 'normal',
-        'priority' => 'high',
-        'show_names' => true, 
-        'fields' => array(
+        'id'            => 'testimonials-info',
+        'title'         => 'Testimonial Details',
+        'pages'         => array( 'testimonials' ), 
+        'context'       => 'normal',
+        'priority'      => 'high',
+        'show_names'    => true, 
+        'fields'        => array(
             array(
-                'name' => 'E-mail Address',
-                'id' => '_act_email',
-                'desc' => sprintf( __( 'To display the author\'s %sGravatar%s (optional).', 'act' ), '<a href="' . esc_url( 'http://gravatar.com' ) . '" target="_blank">', '</a>' ),
-                'type' => 'text_medium',
+                'name'  => 'E-mail Address',
+                'id'    => '_act_email',
+                'desc'  => sprintf( __( 'To display the author\'s %sGravatar%s (optional).', 'act' ), '<a href="' . esc_url( 'http://gravatar.com' ) . '" target="_blank">', '</a>' ),
+                'type'  => 'text_medium',
             ),
             array(
-                'name' => 'Byline',
-                'id' => '_act_byline',
-                'desc' => __( 'Enter a byline for the author of this testimonial (optional).', 'act' ),
-                'type' => 'text_medium',
+                'name'  => 'Byline',
+                'id'    => '_act_byline',
+                'desc'  => __( 'Enter a byline for the author of this testimonial (optional).', 'act' ),
+                'type'  => 'text_medium',
             ),
             array(
-                'name' => 'Website',
-                'id' => '_act_url',
-                'desc' => __( 'Enter a URL for the individual or organization (optional).', 'act' ),
-                'type' => 'text_medium',
+                'name'  => 'Website',
+                'id'    => '_act_url',
+                'desc'  => __( 'Enter a URL for the individual or organization (optional).', 'act' ),
+                'type'  => 'text_medium',
             )
         )
     )
