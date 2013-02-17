@@ -267,9 +267,8 @@ class Arconix_Testimonials {
             case "testimonial-gravatar":
                 $custom = get_post_custom();
                 $meta_email = isset( $custom["_act_email"][0] ) ? $custom["_act_email"][0] : null;
-                if( isset( $meta_email) ) {
+                if( isset( $meta_email) )
                     echo get_avatar( $meta_email, 32 );
-                }
                 break;
             case "testimonial-content":
                 the_excerpt();
