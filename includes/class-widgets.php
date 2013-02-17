@@ -16,7 +16,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     /**
      * Constructor. Set the default widget options and create widget.
      *
-     * @since 0.9
+     * @since 0.5
      */
     function __construct() {
         $this->defaults = array(
@@ -30,7 +30,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
             'classname'     => 'arconix_testimonials_widget',
             'description'   => __( 'Display client testimonials', 'act' ),
         );
-        parent::__construct( 'arconix-plugins-details', __( 'Arconix Plugin Details', 'acpl' ), $widget_ops );
+        parent::__construct( 'arconix-testimonials', __( 'Arconix Testimonials', 'act' ), $widget_ops );
     }
 
     /**
@@ -43,21 +43,20 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     function widget( $args, $instance ) {
         extract( $args, EXTR_SKIP );
 
-        /* Merge with defaults */
-       $instance = wp_parse_args( (array)$instance, $this->defaults );
+        // Merge with defaults
+        $instance = wp_parse_args( $instance, $this->defaults );
 
-        /* Before widget (defined by themes). */
+        // Before widget (defined by themes).
         echo $before_widget;
 
-        /* Title of widget (before and after defined by themes). */
+        // Title of widget (before and after defined by themes).
         if ( !empty( $instance['title'] ) )
             echo $before_title . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $after_title;
 
-        testimonial_data( $instance );
+        ARCONIX_TESTIMONIALS::get_testimonial_data( $instance, $echo = true );
 
-        /* After widget (defined by themes). */
+        // After widget (defined by themes).
         echo $after_widget;
-
     }
 
     /**
@@ -69,8 +68,9 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      * @since 0.5
      */
     function update( $new_instance, $old_instance ) {
-        $new_instance = $old_instance;
-        $new_instance['title'] = strip_tags( $new_instance['title'] );
+        $instance = $old_instance;
+        $instance['title'] = strip_tags( $new_instance['title'] );
+        $instance['posts_per_page'] = strip_tags( $new_instance['posts_per_page'] );
 
         return $new_instance;
    }
@@ -135,5 +135,5 @@ class Arconix_Testimonials_Widget extends WP_Widget {
         </p>
         <?php
     }
+
 }
-?>
