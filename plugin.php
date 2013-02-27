@@ -150,10 +150,12 @@ class Arconix_Testimonials {
         $custom = get_post_custom();
         isset( $custom["_act_byline"][0] )? $byline = $custom["_act_byline"][0] : $byline = '';
 
-        if( $byline )
-            $title .= ' - ' . $byline;
+        $separator = ', ';
 
-        return apply_filters( 'arconix_testimonials_title_filter', $title );
+        if( $byline )
+            $title .= $separator . $byline;
+
+        return apply_filters( 'arconix_testimonials_title_filter', $title, $separator );
     }
 
     /**
@@ -238,9 +240,6 @@ class Arconix_Testimonials {
                 if( $meta_url )
                     $meta_name = '<a href="' . esc_url( $meta_url ) . '">' . $meta_name . '</a>';
 
-                $meta_details .= $meta_name;
-                if( isset( $meta_byline ) ) $meta_details .= ' - ' . $meta_byline;
-
                 $return .= '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial-wrap">';
                 $return .= $meta_gravatar;
                 $return .= '<div class="arconix-testimonial-content">';
@@ -277,7 +276,7 @@ class Arconix_Testimonials {
         else
             // If the CSS is not being overridden in a theme folder, allow the user to filter it out entirely (if building into stylesheet or the like)
             if( apply_filters( 'pre_register_arconix_testimonials_css', true ) )
-                wp_enqueue_style( 'arconix-shortcodes', ACT_CSS_URL . 'arconix-testimonials.css', false, ACT_VERSION );
+                wp_enqueue_style( 'arconix-testimonials', ACT_CSS_URL . 'arconix-testimonials.css', false, ACT_VERSION );
     }
 
     /**
