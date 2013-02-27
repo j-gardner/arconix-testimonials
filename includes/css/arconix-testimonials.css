@@ -10,10 +10,15 @@
 .arconix-testimonials-wrap { }
 /* Wraps around a single testimonial */
 .arconix-testimonial-wrap { }
+/* User gravatar */
+.arconix-testimonial-wrap .avatar {
+	float: left;
+	margin-right: 5px;
+}
 /* Around the testimonial blockquote and cite */
 .arconix-testimonial-content { }
 /* The testimonial itself */
-.arconix-testimonial-content blockquote { }
+.arconix-testimonial-content blockquote { padding: 0; }
 /* The testimonial submitter and his/her byline */
 .arconix-testimonial-content cite { }
 /* If there are no testimonials returned */
