@@ -11,7 +11,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      * @var array defaults
      * @since 0.5
      */
-    protected $defaults;
+    protected $defaults = array();
 
     /**
      * Constructor. Set the default widget options and create widget.
