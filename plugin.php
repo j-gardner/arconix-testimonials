@@ -268,15 +268,19 @@ class Arconix_Testimonials {
                 // If there's an e-mail address, return a gravatar
                 if( $meta_email ) $meta_gravatar = get_avatar( $meta_email, $gravatar_size );
 
-                // If the url has a value, then wrap it around the name and/or gravatar
-                if( $meta_url )
-                    $meta_name = '<a href="' . esc_url( $meta_url ) . '">' . $meta_name . '</a>';
+                // If the url has a value, then wrap it around the name or byline
+                if( $meta_url ) {
+                    if( ! $meta_byline )
+                        $meta_name = '<a href="' . esc_url( $meta_url ) . '">' . $meta_name . '</a>';
+                    else
+                        $meta_byline = ' <a href="' . esc_url( $meta_url ) . '">' . $meta_byline . '</a>';
+                }
 
                 $return .= '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial-wrap">';
                 $return .= $meta_gravatar;
                 $return .= '<div class="arconix-testimonial-content">';
                 $return .= '<blockquote>' . get_the_content() . '</blockquote>';
-                $return .= '<cite>' . $meta_name . '</cite>';
+                $return .= '<cite>' . $meta_name . $meta_byline . '</cite>';
                 $return .= '</div></div>';
 
             endwhile;
