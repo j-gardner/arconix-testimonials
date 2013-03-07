@@ -38,7 +38,6 @@ class Arconix_Testimonials {
         
 
         add_filter( 'widget_text',                      'do_shortcode' );
-        add_filter( 'the_title',                        array( $this, 'title_filter' ) );
         add_filter( 'the_content',                      array( $this, 'content_filter' ) );
         add_filter( 'enter_title_here',                 array( $this, 'title_text' ) );
         add_filter( 'cmb_meta_boxes',                   array( $this, 'metaboxes' ) );
@@ -170,27 +169,6 @@ class Arconix_Testimonials {
     }
 
     /**
-     * Filter the Testimonial Post Title
-     * 
-     * @param  string $title
-     * @return string $title
-     * @since 0.5
-     */
-    function title_filter( $title ) {
-        if( ! 'testimonials' == get_post_type() ) return $title;
-
-        $custom = get_post_custom();
-        isset( $custom["_act_byline"][0] )? $byline = $custom["_act_byline"][0] : $byline = '';
-
-        $separator = ', ';
-
-        if( $byline )
-            $title .= $separator . $byline;
-
-        return apply_filters( 'arconix_testimonials_title_filter', $title, $separator );
-    }
-
-    /**
      * Register plugin shortcode(s)
      *
      * @since 0.5
@@ -223,6 +201,7 @@ class Arconix_Testimonials {
 
         $defaults = array(
             'post_type' => 'testimonials',
+            'p' => '',
             'posts_per_page' => 1,
             'orderby' => 'rand',
             'order' => 'DESC',
@@ -268,6 +247,10 @@ class Arconix_Testimonials {
                 // If there's an e-mail address, return a gravatar
                 if( $meta_email ) $meta_gravatar = get_avatar( $meta_email, $gravatar_size );
 
+                // Define the separator and allow it to be filtered
+                $separator = ', ';
+                $separator = apply_filters( 'arconix_testimonials_separator', $separator );
+
                 // If the url has a value, then wrap it around the name or byline
                 if( $meta_url ) {
                     if( ! $meta_byline )
@@ -280,7 +263,7 @@ class Arconix_Testimonials {
                 $return .= $meta_gravatar;
                 $return .= '<div class="arconix-testimonial-content">';
                 $return .= '<blockquote>' . get_the_content() . '</blockquote>';
-                $return .= '<cite>' . $meta_name . $meta_byline . '</cite>';
+                $return .= '<cite>' . $meta_name . $separator . $meta_byline . '</cite>';
                 $return .= '</div></div>';
 
             endwhile;
@@ -321,7 +304,8 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function admin_scripts() {
-        wp_enqueue_style( 'arconix-testimonials-admin', ACT_CSS_URL . 'admin.css', false, ACT_VERSION );
+        if( apply_filters( 'pre_register_arconix_testimonials_admin_css', true ) )
+            wp_enqueue_style( 'arconix-testimonials-admin', ACT_CSS_URL . 'admin.css', false, ACT_VERSION );
     }
 
     /**
@@ -412,7 +396,7 @@ class Arconix_Testimonials {
         $screen = get_current_screen();
 
         if( 'testimonials' == $screen->post_type )
-            $title = __( 'Enter author here', 'act' );
+            $title = __( 'Enter author name here', 'act' );
 
         return $title;
     }
