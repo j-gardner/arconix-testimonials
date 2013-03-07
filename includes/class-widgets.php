@@ -21,6 +21,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     function __construct() {
         $this->defaults = array(
             'posts_per_page'        => 1,
+            'p'                     => '',
             'orderby'               => 'rand',
             'order'                 => 'ASC',
             'gravatar_size'         => 32
@@ -70,6 +71,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     function update( $new_instance, $old_instance ) {
         $instance = $old_instance;
         $instance['title'] = strip_tags( $new_instance['title'] );
+        $instance['p'] = strip_tags( $new_instance['p'] );
         $instance['posts_per_page'] = strip_tags( $new_instance['posts_per_page'] );
 
         return $new_instance;
@@ -93,9 +95,15 @@ class Arconix_Testimonials_Widget extends WP_Widget {
             <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'act' ); ?>:</label>
             <input class="widefat" type="text" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo esc_attr( $instance['title'] ) ;?>" />
         </p>
+        <!-- Specific Post ID: Input Box -->
+        <p>
+            <label for="<?php echo $this->get_field_id( 'p' ); ?>"><?php _e( 'Specific ID:', 'act' ); ?></label>
+            <input id="<?php echo $this->get_field_id( 'p' ); ?>" name="<?php echo $this->get_field_name( 'p' ); ?>" type="text" value="<?php echo esc_attr( $instance['p'] ); ?>" size="4" />
+            </p>
+        </p>
         <!-- Posts Number: Input Box -->
         <p>
-            <label for="<?php echo $this->get_field_id( 'posts_per_page' ); ?>"><?php _e( 'Number of items to show:', 'acfs' ); ?></label>
+            <label for="<?php echo $this->get_field_id( 'posts_per_page' ); ?>"><?php _e( 'Number of items to show:', 'act' ); ?></label>
             <input id="<?php echo $this->get_field_id( 'posts_per_page' ); ?>" name="<?php echo $this->get_field_name( 'posts_per_page' ); ?>" type="text" value="<?php echo esc_attr( $instance['posts_per_page'] ); ?>" size="2" />
             </p>
         </p>
