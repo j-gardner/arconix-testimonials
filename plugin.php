@@ -114,7 +114,7 @@ class Arconix_Testimonials {
                     'menu_icon'         => ACT_IMAGES_URL . 'testimonials-16x16.png',
                     'has_archive'       => false,
                     'supports'          => array( 'title', 'editor', 'thumbnail', 'revisions' ),
-                    'rewrite'           => array( 'slug' => 'testimonials', 'with_front' => false )
+                    'rewrite'           => array( 'with_front' => false )
                 )
             ),
             'gravatar' => array(
