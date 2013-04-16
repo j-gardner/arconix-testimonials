@@ -1,9 +1,11 @@
-/*  Arconix Testimonials CSS 
+/* 
+ARCONIX TESTIMONIALS CSS
+--------------------------
 
-    This file offers the base styles which can be used to style the plugin. You
-    can copy these classes to your style.css file and style away, or copy this 
-    file into the root of your theme's directory and the plugin will automatically 
-    load the file for you.
+PLEASE DO NOT make modifications to this file directly as it will be overwritten on update.
+Instead, save a copy of this file to your theme or child theme directory. It will then be
+loaded in place of the plugin's version and will maintain your changes on upgrade
+
 */
 
 /* Wraps around all the testimonials */
