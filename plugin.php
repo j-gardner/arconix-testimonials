@@ -117,6 +117,12 @@ class Arconix_Testimonials {
                     'rewrite'           => array( 'with_front' => false )
                 )
             ),
+            'query' => array(
+                'p' => '',
+                'posts_per_page' => 1,
+                'orderby' => 'rand',
+                'order' => 'DESC',
+            ),
             'gravatar' => array(
                 'size' => 32 
             )
@@ -174,7 +180,7 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function shortcodes() {
-        add_shortcode( 'ac-testimonials', 'testimonials_shortcode' );
+        add_shortcode( 'ac-testimonials', array( $this, 'testimonials_shortcode' ) );
     }
 
     /**
