@@ -26,7 +26,7 @@ class Arconix_Testimonials {
         register_activation_hook( __FILE__,             array( $this, 'activation' ) );
         register_deactivation_hook( __FILE__,           array( $this, 'deactivation' ) );
 
-        add_action( 'init',                             'arconix_testimonials_init_meta_boxes', 9999 ); // Run outside the class
+        add_action( 'init',                             'arconix_testimonials_init', 9999 ); // Run outside the class
         add_action( 'init',                             array( $this, 'content_types' ) );
         add_action( 'init',                             array( $this, 'shortcodes' ) );
         add_action( 'widgets_init',                     array( $this, 'widgets' ) );
@@ -34,7 +34,7 @@ class Arconix_Testimonials {
         add_action( 'admin_enqueue_scripts',            array( $this, 'admin_scripts' ) );
         add_action( 'manage_posts_custom_column',       array( $this, 'column_action' ) ); 
         add_action( 'wp_dashboard_setup',               array( $this, 'dash_widget' ) );
-        add_action( 'right_now_content_table_end',      array( $this, 'right_now' ) );
+        add_action( 'dashboard_glance_items',           array( $this, 'at_a_glance' ) );
         
 
         add_filter( 'widget_text',                      'do_shortcode' );
@@ -58,7 +58,6 @@ class Arconix_Testimonials {
         define( 'ACT_CSS_URL',          trailingslashit( ACT_INCLUDES_URL . 'css' ) );
         define( 'ACT_DIR',              trailingslashit( plugin_dir_path( __FILE__ ) ) );
         define( 'ACT_INCLUDES_DIR',     trailingslashit( ACT_DIR . 'includes' ) );
-        define( 'ACT_VIEWS_DIR',        trailingslashit( ACT_INCLUDES_DIR . 'views' ) );
     }
 
 
@@ -88,7 +87,6 @@ class Arconix_Testimonials {
      * @return array $defaults
      */
     function defaults() {
-        $prefix = '_act_'; // for use in the metabox id <--- WHICH UNFORTUNATELY IS NOT WORKING
 
         $defaults = array(
             'post_type' => array(
@@ -111,17 +109,18 @@ class Arconix_Testimonials {
                     'public'            => true,
                     'query_var'         => true,
                     'menu_position'     => 20,
-                    'menu_icon'         => ACT_IMAGES_URL . 'testimonials-16x16.png',
+                    'menu_icon'         => 'dashicons-testimonial',
                     'has_archive'       => false,
-                    'supports'          => array( 'title', 'editor', 'thumbnail', 'revisions' ),
+                    'supports'          => array( 'title', 'editor', 'thumbnail' ),
                     'rewrite'           => array( 'with_front' => false )
                 )
             ),
             'query' => array(
-                'p' => '',
-                'posts_per_page' => 1,
-                'orderby' => 'rand',
-                'order' => 'DESC',
+                'post_type'         => 'testimonials',
+                'p'                 => '',
+                'posts_per_page'    => 1,
+                'orderby'           => 'rand',
+                'order'             => 'DESC',
             ),
             'gravatar' => array(
                 'size' => 32 
@@ -192,7 +191,7 @@ class Arconix_Testimonials {
      * @since  0.5
      */
     function testimonials_shortcode( $atts, $content = null ) {
-        return get_testimonial_data( $atts );
+        return ARCONIX_TESTIMONIALS::get_testimonial_data( $atts );
     }
 
     /**
@@ -205,14 +204,8 @@ class Arconix_Testimonials {
     function get_testimonial_data( $args, $echo = false ) {
         $plugin_defaults = ARCONIX_TESTIMONIALS::defaults();
 
-        $defaults = array(
-            'post_type' => 'testimonials',
-            'p' => '',
-            'posts_per_page' => 1,
-            'orderby' => 'rand',
-            'order' => 'DESC',
-            'gravatar_size' => $plugin_defaults['gravatar']['size']
-        );
+        $defaults = $plugin_defaults['query'];
+        $defaults['gravatar_size'] = $plugin_defaults['gravatar']['size'];
 
         // Combine the passed args with the function defaults
         $args = wp_parse_args( $args, $defaults );
@@ -288,24 +281,34 @@ class Arconix_Testimonials {
     }
 
     /**
-     * Load the CSS if it exists
+     * Load the plugin CSS. If the css file is present in the theme directory, it will be loaded instead,
+     * allowing for an easy way to override the default template. If you'd like to remove the CSS entirely,
+     * such as when building the styles into a single file, simply reference the filter and return false
+     *
+     * @example add_filter( 'pre_register_arconix_testimonials_css', '__return_false' );
      *
      * @since 0.5
      */
     function scripts() {
-        // Checks the child directory and then the parent directory.
-        if( file_exists( get_stylesheet_directory() . '/arconix-testimonials.css' ) )
-            wp_enqueue_style( 'arconix-testimonials', get_stylesheet_directory_uri() . '/arconix-testimonials.css', false, ACT_VERSION );
-        elseif( file_exists( get_template_directory() . '/arconix-testimonials.css' ) )
-            wp_enqueue_style( 'arconix-testimonials', get_template_directory_uri() . '/arconix-testimonials.css', false, ACT_VERSION );
-        else
-            // If the CSS is not being overridden in a theme folder, allow the user to filter it out entirely (if building into stylesheet or the like)
-            if( apply_filters( 'pre_register_arconix_testimonials_css', true ) )
+         // If the CSS is not being overridden in a theme folder, allow the user to filter it out entirely (if building into stylesheet or the like)
+        if( apply_filters( 'pre_register_arconix_testimonials_css', true ) ) {
+            // Checks the child directory and then the parent directory.
+            if( file_exists( get_stylesheet_directory() . '/arconix-testimonials.css' ) )
+                wp_enqueue_style( 'arconix-testimonials', get_stylesheet_directory_uri() . '/arconix-testimonials.css', false, ACT_VERSION );
+            elseif( file_exists( get_template_directory() . '/arconix-testimonials.css' ) )
+                wp_enqueue_style( 'arconix-testimonials', get_template_directory_uri() . '/arconix-testimonials.css', false, ACT_VERSION );
+            else
                 wp_enqueue_style( 'arconix-testimonials', ACT_CSS_URL . 'arconix-testimonials.css', false, ACT_VERSION );
+        }
+
+
     }
 
     /**
-     * Includes admin scripts
+     * Load the admin CSS. If you'd like to remove the CSS entirely, such as when building the styles
+     * into a single file, simply reference the filter and return false
+     *
+     * @example add_filter( 'pre_register_arconix_testimonials_admin_css', '__return_false' );
      *
      * @since 0.5
      */
@@ -358,6 +361,7 @@ class Arconix_Testimonials {
             "cb" => "<input type=\"checkbox\" />",
             "testimonial-gravatar" => "Gravatar",
             "title" => "Author",
+            "testimonial-byline" => "Byline",
             "testimonial-content" => "Testimonial",
             "date" => "Date"
         );
@@ -380,11 +384,15 @@ class Arconix_Testimonials {
                 $custom = get_post_custom();
                 $meta_email = isset( $custom["_act_email"][0] ) ? $custom["_act_email"][0] : null;
                 if( isset( $meta_email) )
-                    echo get_avatar( $meta_email, 32 );
+                    echo get_avatar( $meta_email, 36 );
                 break;
             case "testimonial-content":
-                the_excerpt();
+                the_excerpt();                
                 break;
+            case "testimonial-byline":
+                $custom = get_post_custom();
+                $meta_byline = isset( $custom["_act_byline"][0] ) ? $custom["_act_byline"][0] : $meta_byline = '';
+                echo '<cite>' . $meta_byline . '</cite>';
 
             default:
                 break;
@@ -413,8 +421,9 @@ class Arconix_Testimonials {
      * @link http://bajada.net/2010/06/08/how-to-add-custom-post-types-and-taxonomies-to-the-wordpress-right-now-dashboard-widget
      * @since 0.5
      */
-    function right_now() {
-        require_once( ACT_VIEWS_DIR . 'right-now.php' );
+    function at_a_glance() {
+        $glancer = new Gamajo_Dashboard_Glancer;
+        $glancer->add( 'testimonials' ); // show only published entries
     }
 
     /**
@@ -432,7 +441,7 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function dash_widget_output() {
-        require_once( ACT_VIEWS_DIR . 'dash-widget.php' );
+        require_once( ACT_INCLUDES_DIR . 'dash-widget.php' );
     }
 
     /**
@@ -480,9 +489,12 @@ class Arconix_Testimonials {
 
 require_once( plugin_dir_path( __FILE__ ) . '/includes/class-widgets.php' );
 
-function arconix_testimonials_init_meta_boxes() {
+function arconix_testimonials_init() {
     if( ! class_exists( 'cmb_Meta_Box' ) )
         require_once( plugin_dir_path( __FILE__ ) . '/includes/metabox/init.php' );
+
+    if ( ! class_exists( 'Gamajo_Dashboard_Glancer' ) )
+        require_once( plugin_dir_path( __FILE__ ) . '/includes/class-gamajo-dashboard-glancer.php' );
 }
 
 new Arconix_Testimonials;

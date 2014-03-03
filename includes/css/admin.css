@@ -6,4 +6,4 @@
 
 .column-testimonial-gravatar { min-width: 40px; width: 8%; }
 
-.icon32-posts-testimonials { background: transparent url( ../../images/testimonials-32x32.png ) no-repeat !important; }
+.testimonials-count a:before { content: "\f473"!important; }
