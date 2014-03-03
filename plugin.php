@@ -118,8 +118,8 @@ class Arconix_Testimonials {
             'query' => array(
                 'post_type'         => 'testimonials',
                 'p'                 => '',
-                'posts_per_page'    => 1,
-                'orderby'           => 'rand',
+                'posts_per_page'    => -1,
+                'orderby'           => 'date',
                 'order'             => 'DESC',
             ),
             'gravatar' => array(
