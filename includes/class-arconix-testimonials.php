@@ -154,16 +154,59 @@ class Arconix_Testimonials {
         // So we can grab the default gravatar size
         $defaults = $this->defaults();
 
-        // Grab our metadata
-        $custom = get_post_custom();
-
-        isset( $custom["_act_email"][0] )? $gravatar = get_avatar( $custom["_act_email"][0], $defaults['gravatar']['size'] ) : $gravatar = '';
-        //isset( $custom["_act_byline"][0] )? $byline = $custom["_act_byline"][0] : $byline = '';
+        $gravatar = $this->get_testimonial_gravatar;
         //isset( $custom["_act_url"][0] )? $url = esc_url( $custom["_act_url"][0] ) : $url = '';
 
         $content = $gravatar . $content;
 
         return apply_filters( 'arconix_testimonial_content_filter', $content );
+    }
+
+
+    function get_testimonial_gravatar( $size = 32, $echo = false ) {
+        // Grab our metadata
+        $custom = get_post_custom();
+
+        isset( $custom["_act_email"][0] ) ? $gravatar = get_avatar( $custom["_act_email"][0], $size ) : $gravatar = '';
+
+        if ( $echo )
+            echo $gravatar;
+        else
+            return $gravatar;
+
+    }
+
+
+    function get_testimonial_citation( $show_author = true, $wrap_url = true, $echo = false ) {
+        // Grab our metadata
+        $custom = get_post_custom();
+        isset( $custom["_act_url"][0] )? $url = esc_url( $custom["_act_url"][0] ) : $url = '';
+        isset( $custom["_act_byline"][0] )? $byline = $custom["_act_url"][0] : $byline = '';
+
+        $sep = apply_filters( 'arconix_testimonial_separator', ', ' );
+
+        $before = '';
+        $after = '';
+
+        if ( $wrap_url && ! strlen( $url ) == 0 ) {
+            $before = '<a href="{$url}">';
+            $after = '</a>';
+        }
+
+        $author = '';
+
+        if ( $show_author )
+            $author = get_the_title();
+        else
+            $sep = '';
+
+        $r = $before . $author . $sep . $byline . $after;
+
+        if ( $echo )
+            echo $r;
+        else
+            return $r;
+
     }
 
     /**
@@ -201,11 +244,7 @@ class Arconix_Testimonials {
         $defaults['gravatar_size'] = $plugin_defaults['gravatar']['size'];
 
         // Combine the passed args with the function defaults
-        $args = wp_parse_args( $args, $defaults );
-
-        // Allow filtering of the array
-        $args = apply_filters( 'arconix_get_testimonial_data_args', $args );
-
+        $args = apply_filters( 'arconix_get_testimonial_data_args', wp_parse_args( $args, $defaults ) );
 
         // Data integrity check
         if( ! absint( $args['gravatar_size'] ) ) {
@@ -374,10 +413,7 @@ class Arconix_Testimonials {
 
         switch( $column ) {
             case "testimonial-gravatar":
-                $custom = get_post_custom();
-                $meta_email = isset( $custom["_act_email"][0] ) ? $custom["_act_email"][0] : null;
-                if( isset( $meta_email) )
-                    echo get_avatar( $meta_email, 36 );
+                $this->get_testimonial_gravatar( 36, true );
                 break;
             case "testimonial-content":
                 the_excerpt();                
