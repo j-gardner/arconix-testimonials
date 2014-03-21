@@ -66,7 +66,7 @@ class Arconix_Testimonials {
     }
 
     /**
-     * Set our plugin defaults for post type and metabox registration
+     * Set our plugin defaults for post type registration and default query args
      *
      * @since 0.5
      * @return array $defaults
@@ -144,8 +144,8 @@ class Arconix_Testimonials {
     /**
      * Filter The_Content and add our data to it
      * 
-     * @param  mixed $content 
-     * @return mixed $content
+     * @param  string       $content 
+     * @return null|string  $content return early if not on the correct CPT
      * @since 0.5
      */
     function content_filter( $content ) {
@@ -153,13 +153,13 @@ class Arconix_Testimonials {
 
         // So we can grab the default gravatar size
         $defaults = $this->defaults();
+        $gs = apply_filters( ' arconix_testimonials_content_gravatar_size', $defaults['gravatar']['size'] );
 
-        $gravatar = $this->get_testimonial_gravatar;
-        //isset( $custom["_act_url"][0] )? $url = esc_url( $custom["_act_url"][0] ) : $url = '';
+        $gravatar = $this->get_testimonial_gravatar( $gs );
 
         $content = $gravatar . $content;
 
-        return apply_filters( 'arconix_testimonial_content_filter', $content );
+        return $content;
     }
 
 
@@ -244,7 +244,8 @@ class Arconix_Testimonials {
         $defaults['gravatar_size'] = $plugin_defaults['gravatar']['size'];
 
         // Combine the passed args with the function defaults
-        $args = apply_filters( 'arconix_get_testimonial_data_args', wp_parse_args( $args, $defaults ) );
+        $args = wp_parse_args( $args, $defaults );
+        $args = apply_filters( 'arconix_get_testimonial_data_args', $args );
 
         // Data integrity check
         if( ! absint( $args['gravatar_size'] ) ) {
@@ -266,29 +267,7 @@ class Arconix_Testimonials {
 
             while( $tquery->have_posts() ) : $tquery->the_post();
 
-                // Grab all of our custom post information
-                $custom = get_post_custom();
-                $meta_email = isset( $custom["_act_email"][0] ) ? $custom["_act_email"][0] : $meta_email = '';
-                $meta_byline = isset( $custom["_act_byline"][0] ) ? $custom["_act_byline"][0] : $meta_byline = '';
-                $meta_url = isset( $custom["_act_url"][0] ) ? $custom["_act_url"][0] : $meta_url = '';
-                $meta_name = get_the_title();
-                $meta_details = '';
-                $meta_gravatar = '';
-
-                // If there's an e-mail address, return a gravatar
-                if( $meta_email ) $meta_gravatar = get_avatar( $meta_email, $gravatar_size );
-
-                // Define the separator and allow it to be filtered
-                $separator = ', ';
-                $separator = apply_filters( 'arconix_testimonials_separator', $separator );
-
-                // If the url has a value, then wrap it around the name or byline
-                if( $meta_url ) {
-                    if( ! $meta_byline )
-                        $meta_name = '<a href="' . esc_url( $meta_url ) . '">' . $meta_name . '</a>';
-                    else
-                        $meta_byline = ' <a href="' . esc_url( $meta_url ) . '">' . $meta_byline . '</a>';
-                }
+                
 
                 $return .= '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial-wrap">';
                 $return .= $meta_gravatar;
