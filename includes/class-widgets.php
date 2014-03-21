@@ -20,6 +20,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      */
     function __construct() {
         $this->defaults = array(
+            'title'                 => '',
             'posts_per_page'        => 1,
             'p'                     => '',
             'orderby'               => 'rand',
@@ -54,7 +55,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
         if ( !empty( $instance['title'] ) )
             echo $before_title . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $after_title;
 
-        ARCONIX_TESTIMONIALS::get_testimonial_data( $instance, $echo = true );
+        ARCONIX_TESTIMONIALS::get_testimonials_loop( $instance, true );
 
         // After widget (defined by themes).
         echo $after_widget;
@@ -63,10 +64,10 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     /**
      * Update a particular instance.
      *
-     * @param array $new_instance New settings for this instance as input by the user via form()
-     * @param array $old_instance Old settings for this instance
+     * @param  array $new_instance New settings for this instance as input by the user via form()
+     * @param  array $old_instance Old settings for this instance
      * @return array Settings to save or bool false to cancel saving
-     * @since 0.5
+     * @since  0.5
      */
     function update( $new_instance, $old_instance ) {
         $instance = $old_instance;
@@ -86,14 +87,14 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     function form( $instance ) {
 
         /* Merge with defaults */
-        $instance = wp_parse_args( (array) $instance, $this->defaults ); ?>
+        $instance = wp_parse_args( $instance, $this->defaults ); ?>
 
         <p>Use the Testimonials custom post type to add content to this widget.</p>
 
         <!-- Title: Text Input -->
         <p>
             <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'act' ); ?>:</label>
-            <input class="widefat" type="text" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo esc_attr( $instance['title'] ) ;?>" />
+            <input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" class="widefat" />
         </p>
         <!-- Specific Post ID: Input Box -->
         <p>
@@ -135,8 +136,8 @@ class Arconix_Testimonials_Widget extends WP_Widget {
             <select id="<?php echo $this->get_field_id( 'gravatar_size' ); ?>" name="<?php echo $this->get_field_name( 'gravatar_size' ); ?>">
                     <?php
                     $sizes = array( __( 'Small', 'act' ) => 32, __( 'Medium', 'act' ) => 48, __( 'Large', 'act' ) => 64, __( 'X-Large', 'act' ) => 80 );
-                    $sizes = apply_filters( 'arconix_testimonials_gravatar_sizes', $sizes );
-                    foreach ( (array) $sizes as $label => $size ) { ?>
+                    $sizes = apply_filters( 'arconix_testimonials_widget_gravatar_sizes', $sizes );
+                    foreach ( $sizes as $label => $size ) { ?>
                         <option value="<?php echo absint( $size ); ?>" <?php selected( $size, $instance['gravatar_size'] ); ?>><?php printf( '%s (%spx)', $label, $size ); ?></option>
                     <?php } ?>
             </select>

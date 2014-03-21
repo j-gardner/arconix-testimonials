@@ -12,16 +12,15 @@ loaded in place of the plugin's version and will maintain your changes on upgrad
 .arconix-testimonials-wrap { }
 /* Wraps around a single testimonial */
 .arconix-testimonial-wrap { }
-/* User gravatar */
-.arconix-testimonial-wrap .avatar {
-	float: left;
-	margin-right: 5px;
-}
-/* Around the testimonial blockquote and cite */
+/* Around the testimonial itself */
 .arconix-testimonial-content { }
-/* The testimonial itself */
-.arconix-testimonial-content blockquote { padding: 0; }
-/* The testimonial submitter and his/her byline */
-.arconix-testimonial-content cite { }
-/* If there are no testimonials returned */
+/* Wrap around the Gravatar and Author Info */
+.arconix-testimonial-info-wrap { }
+/* User gravatar */
+.arconix-testimonial-gravatar { }
+/* Author */
+.arconix-testimonial-author { }
+/* Byline */
+.arconix-testimonial-byline { }
+/* No testimonials */
 .arconix-testimonials-none { }

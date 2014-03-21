@@ -68,8 +68,8 @@ class Arconix_Testimonials {
     /**
      * Set our plugin defaults for post type registration and default query args
      *
-     * @since 0.5
      * @return array $defaults
+     * @since  0.5
      */
     function defaults() {
 
@@ -146,10 +146,10 @@ class Arconix_Testimonials {
      * 
      * @param  string       $content 
      * @return null|string  $content return early if not on the correct CPT
-     * @since 0.5
+     * @since  0.5
      */
     function content_filter( $content ) {
-        if( ! 'testimonials' == get_post_type() ) return $content;
+      /*  if( ! 'testimonials' == get_post_type() ) return $content;
 
         // So we can grab the default gravatar size
         $defaults = $this->defaults();
@@ -158,15 +158,25 @@ class Arconix_Testimonials {
         $gravatar = $this->get_testimonial_gravatar( $gs );
 
         $content = $gravatar . $content;
-
+*/
         return $content;
     }
 
 
+    /**
+     * Gets the gravatar associated with the e-mail address entered in the Testimonial Metabox.
+     * If there is no gravatar it returns an empty string.
+     * 
+     * @param  integer $size size of the gravatar to return
+     * @param  boolean $echo echo or return the data
+     * @return string        the e-mail's gravatar or empty string
+     * @since  0.5.0
+     */
     function get_testimonial_gravatar( $size = 32, $echo = false ) {
-        // Grab our metadata
+        // Get the post metadata
         $custom = get_post_custom();
 
+        // Get the e-mail address and return the gravatar if there is one
         isset( $custom["_act_email"][0] ) ? $gravatar = get_avatar( $custom["_act_email"][0], $size ) : $gravatar = '';
 
         if ( $echo )
@@ -176,37 +186,45 @@ class Arconix_Testimonials {
 
     }
 
-
+    /**
+     * Get the testimonial citation information
+     * 
+     * @param  boolean $show_author show the author with the citation
+     * @param  boolean $wrap_url    wrap the URL around the byline 
+     * @param  boolean $echo        echo or return the citation
+     * @return string               citation
+     * @since  0.5
+     */
     function get_testimonial_citation( $show_author = true, $wrap_url = true, $echo = false ) {
         // Grab our metadata
         $custom = get_post_custom();
-        isset( $custom["_act_url"][0] )? $url = esc_url( $custom["_act_url"][0] ) : $url = '';
-        isset( $custom["_act_byline"][0] )? $byline = $custom["_act_url"][0] : $byline = '';
+        isset( $custom["_act_byline"][0] ) ? $byline = $custom["_act_byline"][0] : $byline = '';
+        isset( $custom["_act_url"][0] ) ? $url = esc_url( $custom["_act_url"][0] ) : $url = '';
 
+        // Separator between Author and Byline
         $sep = apply_filters( 'arconix_testimonial_separator', ', ' );
+        
+        $author = '';
+
+        if ( $show_author )
+            $author = '<div class="arconix-testimonial-author">' . get_the_title() . '</div>';
+        else
+            $sep = '';
 
         $before = '';
         $after = '';
 
         if ( $wrap_url && ! strlen( $url ) == 0 ) {
-            $before = '<a href="{$url}">';
-            $after = '</a>';
+            $before = '<div class="arconix-testimonial-byline"><a href="' . $url . '">';
+            $after = '</a></div>';
         }
 
-        $author = '';
-
-        if ( $show_author )
-            $author = get_the_title();
-        else
-            $sep = '';
-
-        $r = $before . $author . $sep . $byline . $after;
+        $r = $author . $sep . $before . $byline . $after;
 
         if ( $echo )
             echo $r;
         else
             return $r;
-
     }
 
     /**
@@ -221,24 +239,25 @@ class Arconix_Testimonials {
     /**
      * Testimonials shortcode
      *
-     * @param array $atts Passed attributes
-     * @param string $content N/A - self-closing shortcode
-     * @return string result of query
+     * @param  array  $atts    Passed attributes
+     * @param  string $content N/A - self-closing shortcode
+     * @return string          result of query
      * @since  0.5
      */
     function testimonials_shortcode( $atts, $content = null ) {
-        return ARCONIX_TESTIMONIALS::get_testimonial_data( $atts );
+        return $this->get_testimonials_loop( $atts );
     }
 
     /**
      * Returns the testimonial loop results
      *
-     * @param array $args Arguments for the query
-     * @return string $return Returns the query results
-     * @since 0.5
+     * @param  array   $args   query arguments
+     * @param  boolean $echo   echo or return results
+     * @return string  $return returns the query results
+     * @since  0.5
      */
-    function get_testimonial_data( $args, $echo = false ) {
-        $plugin_defaults = ARCONIX_TESTIMONIALS::defaults();
+    function get_testimonials_loop( $args, $echo = false ) {
+        $plugin_defaults = $this->defaults();
 
         $defaults = $plugin_defaults['query'];
         $defaults['gravatar_size'] = $plugin_defaults['gravatar']['size'];
@@ -247,11 +266,6 @@ class Arconix_Testimonials {
         $args = wp_parse_args( $args, $defaults );
         $args = apply_filters( 'arconix_get_testimonial_data_args', $args );
 
-        // Data integrity check
-        if( ! absint( $args['gravatar_size'] ) ) {
-            $args['gravatar_size'] = $plugin_defaults['gravatar']['size'];
-        }
-
         // Extract the avatar size and remove the key from the array
         $gravatar_size = $args['gravatar_size'];
         unset( $args['gravatar_size'] );
@@ -259,36 +273,34 @@ class Arconix_Testimonials {
         // Run our query
         $tquery = new WP_Query( $args );
         
-        // Our string container
-        $return = ''; 
+        ob_start();
 
         if( $tquery->have_posts() ) {
-            $return .= '<div class="arconix-testimonials-wrap">';
+
+            echo '<div class="arconix-testimonials-wrap">';
 
             while( $tquery->have_posts() ) : $tquery->the_post();
 
-                
-
-                $return .= '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial-wrap">';
-                $return .= $meta_gravatar;
-                $return .= '<div class="arconix-testimonial-content">';
-                $return .= '<blockquote>' . get_the_content() . '</blockquote>';
-                $return .= '<cite>' . $meta_name . $separator . $meta_byline . '</cite>';
-                $return .= '</div></div>';
+                echo '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial-wrap">';
+                echo '<div class="arconix-testimonial-content">' . get_the_content() . '</div>';
+                echo '<div class="arconix-testimonial-info-wrap">';
+                echo '<div class="arconix-testimonial-gravatar">' . $this->get_testimonial_gravatar( $gravatar_size ) . '</div>';
+                echo '<div class="arconix-testimonial-cite">' . $this->get_testimonial_citation() . '</div>';
+                echo '</div></div>';
 
             endwhile;
 
-            $return .= '</div>';
+            echo '</div>';
         }
         else {
-            $return = '<div class="arconix-testimonials-wrap"><div class="arconix-testimonials-none">' . __( 'No testimonials to display', 'act' ) . '</div></div>';
+            echo '<div class="arconix-testimonials-wrap"><div class="arconix-testimonials-none">' . __( 'No testimonials to display', 'act' ) . '</div></div>';
         }
         wp_reset_postdata();
 
         if( $echo )
-            echo $return;
+            echo ob_get_clean();
         else
-            return $return;
+            return ob_get_clean();
     }
 
     /**
@@ -331,11 +343,11 @@ class Arconix_Testimonials {
     /**
      * Modifies the post save notifications to properly reflect the post-type
      *
-     * @global array $post
-     * @global int $post_ID
-     * @param array $messages
-     * @return array $messages
-     * @since 0.5
+     * @global stdObject $post
+     * @global int       $post_ID
+     * @param  array     $messages
+     * @return array     $messages
+     * @since  0.5
      */
     function messages( $messages ) {
         global $post, $post_ID;
@@ -361,11 +373,11 @@ class Arconix_Testimonials {
     }
 
     /**
-     * Choose the specific columns we want to display
+     * Choose the specific columns we want to display in the WP Admin Testimonials list
      *
-     * @param array $columns
+     * @param  array $columns
      * @return array $columns
-     * @since 0.5
+     * @since  0.5
      */
     function columns_filter( $columns ) {
         $columns = array(
@@ -381,7 +393,7 @@ class Arconix_Testimonials {
     }
 
     /**
-     * Filter the data that shows up in the columns we defined above
+     * Supply the data that shows up in the custom columns we defined
      *
      * @global array $post
      * @param array $column
@@ -392,15 +404,13 @@ class Arconix_Testimonials {
 
         switch( $column ) {
             case "testimonial-gravatar":
-                $this->get_testimonial_gravatar( 36, true );
+                $this->get_testimonial_gravatar( 32, true );
                 break;
             case "testimonial-content":
                 the_excerpt();                
                 break;
             case "testimonial-byline":
-                $custom = get_post_custom();
-                $meta_byline = isset( $custom["_act_byline"][0] ) ? $custom["_act_byline"][0] : $meta_byline = '';
-                echo '<cite>' . $meta_byline . '</cite>';
+                $this->get_testimonial_citation( false, false, true );
 
             default:
                 break;
@@ -424,14 +434,13 @@ class Arconix_Testimonials {
     }
 
     /**
-     * Add the Post type to the "Right Now" Dashboard Widget
+     * Add the Post type to the "At a Glance" Dashboard Widget
      *
-     * @link http://bajada.net/2010/06/08/how-to-add-custom-post-types-and-taxonomies-to-the-wordpress-right-now-dashboard-widget
      * @since 0.5
      */
     function at_a_glance() {
         $glancer = new Gamajo_Dashboard_Glancer;
-        $glancer->add( 'testimonials' ); // show only published entries
+        $glancer->add( 'testimonials' );
     }
 
     /**
@@ -449,7 +458,26 @@ class Arconix_Testimonials {
      * @since 0.5
      */
     function dash_widget_output() {
-        require_once( ACT_DIR . 'dash-widget.php' );
+        echo '<div class="rss-widget">';
+
+            wp_widget_rss_output( array(
+                'url' => 'http://arconixpc.com/tag/arconix-testimonials/feed', // feed url
+                'title' => 'Arconix Testimonials Posts', // feed title
+                'items' => 3, // how many posts to show
+                'show_summary' => 1, // display excerpt
+                'show_author' => 0, // display author
+                'show_date' => 1 // display post date
+            ) );
+
+            echo '<div class="act-widget-bottom"><ul>';
+            ?>
+                <li><a href="http://arcnx.co/atwiki" class="atdocs"><img src="<?php echo ACT_IMAGES_URL . 'page-16x16.png' ?>">Documentation</a></li>
+                <li><a href="http://arcnx.co/athelp" class="athelp"><img src="<?php echo ACT_IMAGES_URL . 'help-16x16.png' ?>">Support Forum</a></li>
+                <li><a href="http://arcnx.co/attrello" class="atdev"><img src="<?php echo ACT_IMAGES_URL . 'trello-16x16.png' ?>">Dev Board</a></li>
+                <li><a href="http://arcnx.co/atsource" class="atsource"><img src="<?php echo ACT_IMAGES_URL . 'github-16x16.png'; ?>">Source Code</a></li>
+            <?php
+            echo '</ul></div>';
+        echo '</div>';
     }
 
     /**
