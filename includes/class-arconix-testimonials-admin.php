@@ -87,7 +87,7 @@ class Arconix_Testimonials_Admin {
                         'new_item'              => __( 'New Item',                                  'act' ),
                         'view'                  => __( 'View Testimonial',                          'act' ),
                         'view_item'             => __( 'View Testimonial Item',                     'act' ),
-                        'search_items'          => __( 'Search Testimonial',                        'act' ),
+                        'search_items'          => __( 'Search Testimonials',                        'act' ),
                         'not_found'             => __( 'No testimonial items found',                'act' ),
                         'not_found_in_trash'    => __( 'No testimonial items found in the trash',   'act' )
                     ),
@@ -96,7 +96,7 @@ class Arconix_Testimonials_Admin {
                     'menu_position'     => 20,
                     'menu_icon'         => 'dashicons-testimonial',
                     'has_archive'       => false,
-                    'supports'          => array( 'title', 'editor', 'thumbnail' ),
+                    'supports'          => array( 'title', 'editor' ),
                     'rewrite'           => array( 'with_front' => false )
                 )
             )

@@ -14,8 +14,8 @@
  */
 
 
-require_once( '/includes/class-arconix-testimonials.php' );
-require_once( '/includes/class-arconix-testimonials-admin.php' );
-require_once( '/includes/class-widgets.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/class-arconix-testimonials.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/class-arconix-testimonials-admin.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/class-widgets.php' );
 
 new Arconix_Testimonials_Admin;

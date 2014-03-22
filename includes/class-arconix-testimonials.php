@@ -77,22 +77,33 @@ class Arconix_Testimonials {
         isset( $custom["_act_byline"][0] ) ? $byline = $custom["_act_byline"][0] : $byline = '';
         isset( $custom["_act_url"][0] ) ? $url = esc_url( $custom["_act_url"][0] ) : $url = '';
 
-        // Separator between Author and Byline
-        $sep = apply_filters( 'arconix_testimonial_separator', ', ' );
-        
-        $author = '';
-
+        // Author
         if ( $show_author )
             $author = '<div class="arconix-testimonial-author">' . get_the_title() . '</div>';
         else
+            $author = '';
+
+        // Separator
+        if ( ! $show_author || strlen( $byline ) == 0 )
             $sep = '';
+        else 
+            $sep = apply_filters( 'arconix_testimonial_separator', ', ' );
 
-        $before = '';
-        $after = '';
+        // Byline
+        if ( strlen( $byline ) != 0 ) {
+            $before = '<div class="arconix-testimonial-byline">';
+            $after = '</div>';
 
-        if ( $wrap_url && ! strlen( $url ) == 0 ) {
-            $before = '<div class="arconix-testimonial-byline"><a href="' . $url . '">';
-            $after = '</a></div>';
+            // URL
+            if ( $wrap_url && ! strlen( $url ) == 0 ) {
+                $before .= '<a href="' . $url . '">';
+                $after = '</a>' . $after;
+            }
+
+        }
+        else {
+            $before = '';
+            $after = '';
         }
 
         $r = $author . $sep . $before . $byline . $after;

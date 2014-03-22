@@ -4,7 +4,7 @@ Donate link: http://arcnx.co/actdonation
 Tags: arconix, testimonials, quotes, feedback
 Requires at least: 3.8
 Tested up to: 3.9
-Stable tag: 1.0.0
+
 
 Easily showcase what your customers or users are saying about you or your business.
 
@@ -48,6 +48,10 @@ With no 2 themes exactly alike, it's impossible to style a plugin that seamlessl
 That's fantastic! Feel free to submit a pull request over at [Github](http://arcnx.co/atsource), add an idea to the [Trello Board](http://arcnx.co/attrello), or you can contact me through [Twitter](http://arcnx.co/twitter), [Facebook](http://arcnx.co/facebook) or my [Website](http://arcnx.co/1)
 
 == Screenshots ==
+
+1. Adding a new Testimonial
+2. Testimonial list in the Admin
+3. Shortcode output with default styling
 
 
 == Changelog ==

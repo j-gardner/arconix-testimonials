@@ -4,23 +4,58 @@ ARCONIX TESTIMONIALS CSS
 
 PLEASE DO NOT make modifications to this file directly as it will be overwritten on update.
 Instead, save a copy of this file to your theme or child theme directory. It will then be
-loaded in place of the plugin's version and will maintain your changes on upgrade
+loaded in place of the plugin's version and will maintain your changes on update
 
 */
 
 /* Wraps around all the testimonials */
 .arconix-testimonials-wrap { }
+
 /* Wraps around a single testimonial */
-.arconix-testimonial-wrap { }
+.arconix-testimonial-wrap {
+    background-color: #f5f5f5;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 50px;
+    padding: 5px 10px;
+}
+
 /* Around the testimonial itself */
-.arconix-testimonial-content { }
+.arconix-testimonial-content {
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
 /* Wrap around the Gravatar and Author Info */
-.arconix-testimonial-info-wrap { }
+.arconix-testimonial-info-wrap { 
+    overflow: auto;
+    padding-bottom: 5px;
+}
+
 /* User gravatar */
-.arconix-testimonial-gravatar { }
+.arconix-testimonial-gravatar {
+    float: left;
+    margin-right: 20px;
+}
+
 /* Author */
-.arconix-testimonial-author { }
+.arconix-testimonial-author {
+    display: inline;
+    font-weight: bold;
+}
+
 /* Byline */
-.arconix-testimonial-byline { }
+.arconix-testimonial-byline {
+    display: inline;
+}
+
+/* Byline hyperlink */
+.arconix-testimonial-byline a {
+    text-decoration: none;
+}
+
+.arconix-testimonial-byline a:hover {
+    text-decoration: underline;
+}
+
 /* No testimonials */
 .arconix-testimonials-none { }
