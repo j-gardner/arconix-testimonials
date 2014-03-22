@@ -15,6 +15,7 @@
 
 
 require_once( '/includes/class-arconix-testimonials.php' );
+require_once( '/includes/class-arconix-testimonials-admin.php' );
 require_once( '/includes/class-widgets.php' );
 
-new Arconix_Testimonials;
+new Arconix_Testimonials_Admin;

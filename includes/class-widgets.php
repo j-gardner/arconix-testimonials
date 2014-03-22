@@ -2,21 +2,21 @@
 /**
  * Testimonials Widget
  *
- * @since 0.5
+ * @since 1.0.0
  */
 class Arconix_Testimonials_Widget extends WP_Widget {
     /**
      * Holds widget settings defaults, populated in constructor.
      *
      * @var array defaults
-     * @since 0.5
+     * @since 1.0.0
      */
     protected $defaults = array();
 
     /**
      * Constructor. Set the default widget options and create widget.
      *
-     * @since 0.5
+     * @since 1.0.0
      */
     function __construct() {
         $this->defaults = array(
@@ -40,7 +40,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      *
      * @param array $args
      * @param array $instance
-     * @since 0.5
+     * @since 1.0.0
      */
     function widget( $args, $instance ) {
         extract( $args, EXTR_SKIP );
@@ -55,7 +55,8 @@ class Arconix_Testimonials_Widget extends WP_Widget {
         if ( !empty( $instance['title'] ) )
             echo $before_title . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $after_title;
 
-        ARCONIX_TESTIMONIALS::get_testimonials_loop( $instance, true );
+        $t = new Arconix_Testimonials();
+        $t-> loop( $instance, true );
 
         // After widget (defined by themes).
         echo $after_widget;
@@ -67,7 +68,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      * @param  array $new_instance New settings for this instance as input by the user via form()
      * @param  array $old_instance Old settings for this instance
      * @return array Settings to save or bool false to cancel saving
-     * @since  0.5
+     * @since  1.0.0
      */
     function update( $new_instance, $old_instance ) {
         $instance = $old_instance;
@@ -82,7 +83,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      * Widget form
      *
      * @param array $instance Current Settings
-     * @since 0.5
+     * @since 1.0.0
      */
     function form( $instance ) {
 
@@ -134,12 +135,12 @@ class Arconix_Testimonials_Widget extends WP_Widget {
         <p>
             <label for="<?php echo $this->get_field_id( 'gravatar_size' ); ?>"><?php _e( 'Gravatar Size', 'act' ); ?>:</label>
             <select id="<?php echo $this->get_field_id( 'gravatar_size' ); ?>" name="<?php echo $this->get_field_name( 'gravatar_size' ); ?>">
-                    <?php
-                    $sizes = array( __( 'Small', 'act' ) => 32, __( 'Medium', 'act' ) => 48, __( 'Large', 'act' ) => 64, __( 'X-Large', 'act' ) => 80 );
-                    $sizes = apply_filters( 'arconix_testimonials_widget_gravatar_sizes', $sizes );
-                    foreach ( $sizes as $label => $size ) { ?>
-                        <option value="<?php echo absint( $size ); ?>" <?php selected( $size, $instance['gravatar_size'] ); ?>><?php printf( '%s (%spx)', $label, $size ); ?></option>
-                    <?php } ?>
+                <?php
+                $sizes = array( __( 'Small', 'act' ) => 32, __( 'Medium', 'act' ) => 48, __( 'Large', 'act' ) => 64, __( 'X-Large', 'act' ) => 80, __( 'XX-Large', 'act' ) => 96 );
+                $sizes = apply_filters( 'arconix_testimonials_widget_gravatar_sizes', $sizes );
+                foreach ( $sizes as $label => $size ) { ?>
+                    <option value="<?php echo absint( $size ); ?>" <?php selected( $size, $instance['gravatar_size'] ); ?>><?php printf( '%s (%spx)', $label, $size ); ?></option>
+                <?php } ?>
             </select>
         </p>
         <?php

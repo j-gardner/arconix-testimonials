@@ -4,6 +4,7 @@
 .act-widget-bottom ul li { display: inline; list-style:none; padding-right: 20px; }
 .act-widget-bottom img { padding-right: 3px; vertical-align: top; }
 
-.column-testimonial-gravatar { min-width: 40px; width: 8%; }
+.column-testimonial-gravatar { width: 60px; }
+.column-testimonial-gravatar img { max-width: 100%; }
 
 .testimonials-count a:before { content: "\f473"!important; }
