@@ -168,8 +168,10 @@ class Arconix_Testimonials_Admin {
      * @since  1.0.0
      */
     function content_filter( $content ) {
-        if( ! 'testimonials' == get_post_type() && ! is_single() ) return $content;
-        
+
+        if ( ! is_single() ) return $content;
+        if ( ! get_post_type() == 'testimonial' ) return $content;
+
         // So we can grab the default gravatar size
         $t = new Arconix_Testimonials();
         $defaults = $t->defaults();
