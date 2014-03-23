@@ -31,7 +31,7 @@ class Arconix_Testimonials {
                 'order'             => 'DESC',
             ),
             'gravatar' => array(
-                'size' => 32 
+                'size' => 96 
             )
         );
 
@@ -48,7 +48,7 @@ class Arconix_Testimonials {
      * @return string        the e-mail's gravatar or empty string
      * @since  1.0.0
      */
-    function get_gravatar( $size = 32, $echo = false ) {
+    function get_gravatar( $size = 60, $echo = false ) {
         // Get the post metadata
         $custom = get_post_custom();
 

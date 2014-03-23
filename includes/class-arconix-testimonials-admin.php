@@ -176,11 +176,13 @@ class Arconix_Testimonials_Admin {
 
         $gs = apply_filters( 'arconix_testimonials_content_gravatar_size', $defaults['gravatar']['size'] );
 
-        $gravatar = $t->get_gravatar( $gs );
+        $gravatar = '<div class="arconix-testimonial-gravatar">' . $t->get_gravatar( $gs ) . '</div>';
 
         $cite = '<div class="arconix-testimonial-info-wrap">' . $t->get_citation( false ) . '</div>';
 
-        $content = $gravatar . $content . $cite;
+        $content = '<div class="arconix-testimonial-content">' . $content . '</div>';
+
+        $content = $cite . $gravatar . $content;
         
         return $content;
     }
@@ -290,7 +292,7 @@ class Arconix_Testimonials_Admin {
                 the_excerpt();                
                 break;
             case "testimonial-byline":
-                $t->get_citation( false, false, true );
+                $t->get_citation( false, true, true );
             default:
                 break;
         }

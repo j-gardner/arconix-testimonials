@@ -59,3 +59,21 @@ loaded in place of the plugin's version and will maintain your changes on update
 
 /* No testimonials */
 .arconix-testimonials-none { }
+
+/* Single Testimonial Page byline */
+.single-testimonials .arconix-testimonial-byline {
+    font-style: italic;
+}
+
+/* Single Testimonial Page content */
+.single-testimonials .arconix-testimonial-content {
+    font-style: normal;
+}
+
+.single-testimonials .entry-header {
+    margin-bottom: 10px;
+}
+
+.single-testimonials .arconix-testimonial-info-wrap {
+    margin-bottom: 20px;
+}
