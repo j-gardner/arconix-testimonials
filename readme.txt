@@ -4,7 +4,6 @@ Donate link: http://arcnx.co/actdonation
 Tags: arconix, testimonials, quotes, feedback
 Requires at least: 3.8
 Tested up to: 3.9
-Stable tag: 1.0.0
 
 Easily showcase what your customers or users are saying about you or your business.
 
