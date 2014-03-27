@@ -39,7 +39,7 @@ class Arconix_Testimonials_Admin {
      * @since 1.0.0
      */
     function constants() {
-        define( 'ACT_VERSION',          '1.0.0' );
+        define( 'ACT_VERSION',          '1.0.1' );
         define( 'ACT_URL',              trailingslashit( plugin_dir_url( __FILE__ ) ) );
         define( 'ACT_CSS_URL',          trailingslashit( ACT_URL . 'css' ) );
         define( 'ACT_IMAGES_URL',       trailingslashit( ACT_CSS_URL . 'images' ) );

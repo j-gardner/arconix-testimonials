@@ -4,13 +4,21 @@ Donate link: http://arcnx.co/actdonation
 Tags: arconix, testimonials, quotes, feedback
 Requires at least: 3.8
 Tested up to: 3.9
-Stable Tag: 1.0.0
+Stable Tag: 1.0.1
 
 Easily showcase what your customers or users are saying about you or your business.
 
 == Description ==
 
-Arconix Testimonials is an easy-to-use plugin that allows you to showcase the great things your customers or users are saying about you or your business. Add a new testimonial via the custom post type and show them on your site via the included widget or shortcode.
+Arconix Testimonials is an easy-to-use plugin that allows you to showcase the great things your customers or users are saying about you or your business. 
+
+**Features**
+* Base stylesheet is responsive and is looks good out of the box with almost any theme, but supports upgrade-safe customizations if a tighter integration is desired.
+* Integrates into the new dashboard design with WordPress 3.8
+* Add testimonials to your site via a widget, shortcode or template tag
+* Displays [Gravatars](http://gravatar.com) when available
+
+[Live Demo](http://demo.arconixpc.com/arconix-testimonials)
 
 == Installation ==
 
@@ -55,6 +63,9 @@ That's fantastic! Feel free to submit a pull request over at [Github](http://arc
 
 
 == Changelog ==
+
+= 1.0.1 = 
+Fixed a bug where sometimes empty testimonial html was showing up on non-testimonial pages.
 
 = 1.0.0 =
 Initial release

@@ -4,7 +4,7 @@
  * Plugin URI: http://arconixpc.com/plugins/arconix-testimonials
  * Description: Arconix Testimonials is a plugin which makes it easy for you to display customer feedback on your site
  *
- * Version: 1.0.0
+ * Version: 1.0.1
  *
  * Author: John Gardner
  * Author URI: http://arconixpc.com/
