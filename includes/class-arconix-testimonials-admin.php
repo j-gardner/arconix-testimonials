@@ -160,32 +160,38 @@ class Arconix_Testimonials_Admin {
         return $t->loop( $atts );
     }
 
+    
     /**
      * Filter The_Content and add our data to it
-     * 
-     * @param  string       $content 
-     * @return null|string  $content return early if not on the correct CPT
-     * @since  1.0.0
+     *
+     * @global  stdObj $post    std Post
+     * @param   string $content main content
+     * @return  string          our testimonial content
+     * @since   1.0.0
+     * @version 1.0.1
      */
     function content_filter( $content ) {
+        global $post;
 
-        if ( ! is_single() ) return $content;
-        if ( ! get_post_type() == 'testimonial' ) return $content;
+        if( is_single() && $post->post_type == 'testimonial' && is_main_query() ) {
 
-        // So we can grab the default gravatar size
-        $t = new Arconix_Testimonials();
-        $defaults = $t->defaults();
+            $t = new Arconix_Testimonials();
 
-        $gs = apply_filters( 'arconix_testimonials_content_gravatar_size', $defaults['gravatar']['size'] );
+            // So we can grab our default gravatar size and allow it to be filtered.
+            $defaults = $t->defaults();
 
-        $gravatar = '<div class="arconix-testimonial-gravatar">' . $t->get_gravatar( $gs ) . '</div>';
+            $gs = apply_filters( 'arconix_testimonials_content_gravatar_size', $defaults['gravatar']['size'] );
 
-        $cite = '<div class="arconix-testimonial-info-wrap">' . $t->get_citation( false ) . '</div>';
+            $gravatar = '<div class="arconix-testimonial-gravatar">' . $t->get_gravatar( $gs ) . '</div>';
 
-        $content = '<div class="arconix-testimonial-content">' . $content . '</div>';
+            $cite = '<div class="arconix-testimonial-info-wrap">' . $t->get_citation( false ) . '</div>';
 
-        $content = $cite . $gravatar . $content;
-        
+            $content = '<div class="arconix-testimonial-content">' . $content . '</div>';
+
+            $content = $cite . $gravatar . $content;
+
+        }
+
         return $content;
     }
 
