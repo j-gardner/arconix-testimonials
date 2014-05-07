@@ -4,6 +4,10 @@
  * Class covers the testimonial admin functionality
  */
 class Arconix_Testimonials_Admin {
+
+    public static $version = '1.0.1';
+
+
     /**
      * Construct Method
      *
@@ -21,7 +25,7 @@ class Arconix_Testimonials_Admin {
         add_action( 'widgets_init',                     array( $this, 'widgets' ) );
         add_action( 'wp_enqueue_scripts',               array( $this, 'scripts' ) );
         add_action( 'admin_enqueue_scripts',            array( $this, 'admin_scripts' ) );
-        add_action( 'manage_posts_custom_column',       array( $this, 'column_action' ) ); 
+        add_action( 'manage_posts_custom_column',       array( $this, 'column_action' ) );
         add_action( 'wp_dashboard_setup',               array( $this, 'dash_widget' ) );
         add_action( 'dashboard_glance_items',           array( $this, 'at_a_glance' ) );
 
@@ -39,7 +43,7 @@ class Arconix_Testimonials_Admin {
      * @since 1.0.0
      */
     function constants() {
-        define( 'ACT_VERSION',          '1.0.1' );
+        define( 'ACT_VERSION',          self::$version );
         define( 'ACT_URL',              trailingslashit( plugin_dir_url( __FILE__ ) ) );
         define( 'ACT_CSS_URL',          trailingslashit( ACT_URL . 'css' ) );
         define( 'ACT_IMAGES_URL',       trailingslashit( ACT_CSS_URL . 'images' ) );
@@ -107,7 +111,7 @@ class Arconix_Testimonials_Admin {
 
     /**
      * Load our Meta Box and At a Glance helper classes
-     * 
+     *
      * @since  1.0.0
      */
     function init() {
@@ -130,7 +134,7 @@ class Arconix_Testimonials_Admin {
 
     /**
      * Register Plugin Widget
-     * 
+     *
      * @since 1.0.0
      */
     function widgets() {
@@ -160,7 +164,7 @@ class Arconix_Testimonials_Admin {
         return $t->loop( $atts );
     }
 
-    
+
     /**
      * Filter The_Content and add our data to it
      *
@@ -297,7 +301,7 @@ class Arconix_Testimonials_Admin {
                 $t->get_gravatar( 60, true );
                 break;
             case "testimonial-content":
-                the_excerpt();                
+                the_excerpt();
                 break;
             case "testimonial-byline":
                 $t->get_citation( false, true, true );
@@ -339,7 +343,7 @@ class Arconix_Testimonials_Admin {
      * @since 1.0.0
      */
     function dash_widget() {
-        if( apply_filters( 'pre_register_arconix_testimonials_dashboard_widget', true ) and 
+        if( apply_filters( 'pre_register_arconix_testimonials_dashboard_widget', true ) and
             apply_filters( 'arconix_testimonial_dashboard_widget_security', current_user_can( 'manage_options' ) ) )
                 wp_add_dashboard_widget( 'ac-testimonials', 'Arconix Testimonials', array( $this, 'dash_widget_output' ) );
     }
@@ -383,10 +387,10 @@ class Arconix_Testimonials_Admin {
         $metabox = array(
             'id' => 'testimonials-info',
             'title' => 'Testimonial Details',
-            'pages' => array( 'testimonials' ), 
+            'pages' => array( 'testimonials' ),
             'context' => 'normal',
             'priority' => 'high',
-            'show_names' => true, 
+            'show_names' => true,
             'fields' => array(
                 array(
                     'name' => 'E-mail Address',
