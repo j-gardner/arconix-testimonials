@@ -270,21 +270,25 @@ class Arconix_Testimonials_Admin {
     /**
      * Choose the specific columns we want to display in the WP Admin Testimonials list
      *
-     * @param  array $columns
-     * @return array $columns
-     * @since  1.0.0
+     * @param   array $columns
+     * @return  array $columns
+     * @since   1.0.0
+     * @version 1.1.0
      */
     function columns_filter( $columns ) {
-        $columns = array(
-            "cb" => "<input type=\"checkbox\" />",
-            "testimonial-gravatar" => "Gravatar",
-            "title" => "Author",
-            "testimonial-byline" => "Byline",
-            "testimonial-content" => "Testimonial",
-            "date" => "Date"
-        );
+        $col_gr = array( 'testimonial-gravatar' => __( 'Gravatar', 'act' ) );
+        $col_ta = array( 'title' => __( 'Author', 'act' ) );
+        $col_tb = array( 'testimonial-byline' => __( 'Byline', 'act' ) );
+        $col_tc = array( 'testimonial-content' => __( 'Testimonial', 'act' ) );
 
-        return $columns;
+        unset( $columns['title'] );
+
+        $columns = array_slice( $columns, 0, 1, true ) + $col_gr + array_slice( $columns, 1, NULL, true );
+        $columns = array_slice( $columns, 0, 2, true ) + $col_ta + array_slice( $columns, 2, NULL, true );
+        $columns = array_slice( $columns, 0, 3, true ) + $col_tb + array_slice( $columns, 3, NULL, true );
+        $columns = array_slice( $columns, 0, 4, true ) + $col_tc + array_slice( $columns, 4, NULL, true );
+
+        return apply_filters( 'arconix_testimonials_admin_column_define', $columns );
     }
 
     /**
