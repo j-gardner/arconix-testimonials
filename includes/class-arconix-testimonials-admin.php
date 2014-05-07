@@ -28,6 +28,7 @@ class Arconix_Testimonials_Admin {
         add_action( 'manage_posts_custom_column',       array( $this, 'column_action' ) );
         add_action( 'wp_dashboard_setup',               array( $this, 'dash_widget' ) );
         add_action( 'dashboard_glance_items',           array( $this, 'at_a_glance' ) );
+        add_action( 'add_meta_boxes',                   array( $this, 'shortcode_metabox' ) );
 
         add_filter( 'widget_text',                      'do_shortcode' );
         add_filter( 'the_content',                      array( $this, 'content_filter' ) );
@@ -420,6 +421,34 @@ class Arconix_Testimonials_Admin {
         $meta_boxes[] = $metabox;
 
         return $meta_boxes;
+    }
+
+    /**
+     * Adds another metabox to the testimonial creation screen. This metabox shows the shortcode with the post_id for users
+     * to display just that testimonial on a post, page or other applicable location
+     *
+     * @since 1.1.0
+     */
+    function shortcode_metabox() {
+        add_meta_box( 'ac-shortcode-box', __( 'Testimonial Shortcode', 'act' ), array( $this, 'shortcode_box' ), 'testimonials', 'side' );
+    }
+
+    /**
+     * Output for the testimonial shortcode metabox. Creates a readonly inputbox that outputs the testimonial shortcode
+     * plus the $post_id
+     *
+     * @global int $post_ID ID of the current post
+     *
+     * @since 1.1.0
+     */
+    function shortcode_box() {
+        global $post_ID;
+        ?>
+        <p class="howto">
+            <?php _e( 'To display this testimonial, copy the code below and paste it into your post, page or text widget content.', 'act' ); ?>
+        </p>
+        <p><input type="text" value="[ac-testimonials p=<?php echo $post_ID; ?>]" readonly="readonly" class="wp-ui-text-highlight code"></p>
+        <?php
     }
 
 }
