@@ -117,10 +117,10 @@ class Arconix_Testimonials_Admin {
      */
     function init() {
         if( ! class_exists( 'cmb_Meta_Box' ) )
-            require_once( '/metabox/init.php' );
+            require_once( ACT_DIR . 'metabox/init.php' );
 
         if ( ! class_exists( 'Gamajo_Dashboard_Glancer' ) )
-            require_once( 'class-gamajo-dashboard-glancer.php' );
+            require_once( ACT_DIR . 'class-gamajo-dashboard-glancer.php' );
     }
 
     /**
