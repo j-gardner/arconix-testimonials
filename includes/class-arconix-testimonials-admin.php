@@ -1,15 +1,24 @@
 <?php
 
 /**
- * Class covers the testimonial admin functionality
+ * Class covers the testimonial admin functionality.
+ *
+ * @since 1.0.0
  */
 class Arconix_Testimonials_Admin {
 
+    /**
+     * Plugin version.
+     *
+     * @since 1.1.0
+     *
+     * @var string plugin version
+     */
     public static $version = '1.1.0';
 
 
     /**
-     * Construct Method
+     * Construct Method.
      *
      * @since 1.0.0
      */
@@ -39,7 +48,7 @@ class Arconix_Testimonials_Admin {
     }
 
     /**
-     * Define plugin constants
+     * Define plugin constants.
      *
      * @since 1.0.0
      */
@@ -53,7 +62,7 @@ class Arconix_Testimonials_Admin {
 
 
     /**
-     * Runs on plugin activation
+     * Runs on plugin activation.
      *
      * @since 1.0.0
      */
@@ -63,7 +72,7 @@ class Arconix_Testimonials_Admin {
     }
 
     /**
-     * Runs on plugin deactivation
+     * Runs on plugin deactivation.
      *
      * @since 1.0.0
      */
@@ -72,10 +81,11 @@ class Arconix_Testimonials_Admin {
     }
 
     /**
-     * Set our plugin defaults for post type registration and default query args
+     * Set our plugin defaults for post type registration and default query args.
+     *
+     * @since  1.0.0
      *
      * @return array $defaults
-     * @since  1.0.0
      */
     function defaults() {
         $defaults = array(
@@ -92,7 +102,7 @@ class Arconix_Testimonials_Admin {
                         'new_item'              => __( 'New Item',                                  'act' ),
                         'view'                  => __( 'View Testimonial',                          'act' ),
                         'view_item'             => __( 'View Testimonial Item',                     'act' ),
-                        'search_items'          => __( 'Search Testimonials',                        'act' ),
+                        'search_items'          => __( 'Search Testimonials',                       'act' ),
                         'not_found'             => __( 'No testimonial items found',                'act' ),
                         'not_found_in_trash'    => __( 'No testimonial items found in the trash',   'act' )
                     ),
@@ -111,7 +121,7 @@ class Arconix_Testimonials_Admin {
     }
 
     /**
-     * Load our Meta Box and At a Glance helper classes
+     * Load our Meta Box and At a Glance helper classes.
      *
      * @since   1.0.0
      * @version 1.1.0
@@ -125,7 +135,7 @@ class Arconix_Testimonials_Admin {
     }
 
     /**
-     * Register the post_type
+     * Register the post_type.
      *
      * @since 1.0.0
      */
@@ -135,7 +145,7 @@ class Arconix_Testimonials_Admin {
     }
 
     /**
-     * Register Plugin Widget
+     * Register Plugin Widget.
      *
      * @since 1.0.0
      */
@@ -144,7 +154,7 @@ class Arconix_Testimonials_Admin {
     }
 
     /**
-     * Register plugin shortcode(s)
+     * Register plugin shortcode.
      *
      * @since 1.0.0
      */
@@ -153,12 +163,14 @@ class Arconix_Testimonials_Admin {
     }
 
     /**
-     * Testimonials shortcode
+     * Testimonials shortcode.
+     *
+     * @since  1.0.0
      *
      * @param  array  $atts    Passed attributes
      * @param  string $content N/A - self-closing shortcode
+     *
      * @return string          result of query
-     * @since  1.0.0
      */
     function testimonials_shortcode( $atts, $content = null ) {
         $t = new Arconix_Testimonials();
@@ -170,11 +182,12 @@ class Arconix_Testimonials_Admin {
     /**
      * Filter The_Content and add our data to it
      *
+     * @since   1.0.0
+     * @version 1.0.1
+     *
      * @global  stdObj $post    std Post
      * @param   string $content main content
      * @return  string          our testimonial content
-     * @since   1.0.0
-     * @version 1.0.1
      */
     function content_filter( $content ) {
         global $post;
@@ -203,6 +216,8 @@ class Arconix_Testimonials_Admin {
 
 
     /**
+     * Load required CSS.
+     *
      * Load the plugin CSS. If the css file is present in the theme directory, it will be loaded instead,
      * allowing for an easy way to override the default template. If you'd like to remove the CSS entirely,
      * such as when building the styles into a single file, simply reference the filter and return false
@@ -225,6 +240,8 @@ class Arconix_Testimonials_Admin {
     }
 
     /**
+     * Load the Amid-side CSS.
+     *
      * Load the admin CSS. If you'd like to remove the CSS entirely, such as when building the styles
      * into a single file, simply reference the filter and return false
      *
@@ -240,11 +257,14 @@ class Arconix_Testimonials_Admin {
     /**
      * Modifies the post save notifications to properly reflect the post-type
      *
+     * @since  1.0.0
+     *
      * @global stdObject $post
      * @global int       $post_ID
+     *
      * @param  array     $messages
+     *
      * @return array     $messages
-     * @since  1.0.0
      */
     function messages( $messages ) {
         global $post, $post_ID;
@@ -270,12 +290,14 @@ class Arconix_Testimonials_Admin {
     }
 
     /**
-     * Choose the specific columns we want to display in the WP Admin Testimonials list
+     * Choose the specific columns we want to display in the WP Admin Testimonials list.
      *
-     * @param   array $columns
-     * @return  array $columns
      * @since   1.0.0
      * @version 1.1.0
+     *
+     * @param   array $columns
+     *
+     * @return  array $columns
      */
     function columns_filter( $columns ) {
         $col_gr = array( 'testimonial-gravatar' => __( 'Gravatar', 'act' ) );
@@ -294,10 +316,11 @@ class Arconix_Testimonials_Admin {
     }
 
     /**
-     * Supply the data that shows up in the custom columns we defined
+     * Supply the data that shows up in the custom columns we defined.
+     *
+     * @since 1.0.0
      *
      * @param array $column
-     * @since 1.0.0
      */
     function column_action( $column ) {
         $t = new Arconix_Testimonials();
@@ -319,9 +342,11 @@ class Arconix_Testimonials_Admin {
     /**
      * Customize the "Enter title here" text on the Testimonial creation screen
      *
-     * @param  string $title
-     * @return $title
      * @since  1.0.0
+     *
+     * @param  string $title
+     *
+     * @return $title
      */
     function title_text( $title ) {
         $screen = get_current_screen();
@@ -333,7 +358,7 @@ class Arconix_Testimonials_Admin {
     }
 
     /**
-     * Add the Post type to the "At a Glance" Dashboard Widget
+     * Add the Post type to the "At a Glance" Dashboard Widget.
      *
      * @since 1.0.0
      */
@@ -343,6 +368,8 @@ class Arconix_Testimonials_Admin {
     }
 
     /**
+     * Adds a dashboard widget.
+     *
      * Adds a widget to the dashboard. Can be overridden completely by a filter, but only shows for users that can
      * manage options (also filterable if desired)
      *
@@ -355,7 +382,7 @@ class Arconix_Testimonials_Admin {
     }
 
     /**
-     * Output for the dashboard widget
+     * Output for the dashboard widget.
      *
      * @since 1.0.0
      */
@@ -383,11 +410,13 @@ class Arconix_Testimonials_Admin {
     }
 
     /**
-     * Create the post type metabox
+     * Create the post type metabox.
+     *
+     * @since  1.0.0
      *
      * @param  array $meta_boxes
+     *
      * @return array $meta_boxes
-     * @since  1.0.0
      */
     function metaboxes( $meta_boxes ) {
         $metabox = array(
@@ -425,8 +454,10 @@ class Arconix_Testimonials_Admin {
     }
 
     /**
-     * Adds another metabox to the testimonial creation screen. This metabox shows the shortcode with the post_id for users
-     * to display just that testimonial on a post, page or other applicable location
+     * Adds another metabox to the testimonial creation screen.
+     *
+     * This metabox shows the shortcode with the post_id for users to display
+     * just that testimonial on a post, page or other applicable location
      *
      * @since 1.1.0
      */
@@ -438,9 +469,9 @@ class Arconix_Testimonials_Admin {
      * Output for the testimonial shortcode metabox. Creates a readonly inputbox that outputs the testimonial shortcode
      * plus the $post_id
      *
-     * @global int $post_ID ID of the current post
-     *
      * @since 1.1.0
+     *
+     * @global int $post_ID ID of the current post
      */
     function shortcode_box() {
         global $post_ID;

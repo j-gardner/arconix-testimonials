@@ -2,6 +2,8 @@
 
 /**
  * Class covers the testimonial loop itself and associated functions
+ *
+ * @since 1.0.0
  */
 class Arconix_Testimonials {
 
@@ -13,12 +15,13 @@ class Arconix_Testimonials {
     function __construct() {
 
     }
-    
+
     /**
      * Set our default values for the query and gravatar
      *
-     * @return array $defaults
      * @since  1.0.0
+     *
+     * @return array $defaults
      */
     function defaults() {
 
@@ -31,7 +34,7 @@ class Arconix_Testimonials {
                 'order'             => 'DESC',
             ),
             'gravatar' => array(
-                'size' => 96 
+                'size' => 96
             )
         );
 
@@ -42,11 +45,13 @@ class Arconix_Testimonials {
     /**
      * Gets the gravatar associated with the e-mail address entered in the Testimonial Metabox.
      * If there is no gravatar it returns an empty string.
-     * 
+     *
+     * @since  1.0.0
+     *
      * @param  integer $size size of the gravatar to return
      * @param  boolean $echo echo or return the data
+     *
      * @return string        the e-mail's gravatar or empty string
-     * @since  1.0.0
      */
     function get_gravatar( $size = 60, $echo = false ) {
         // Get the post metadata
@@ -63,13 +68,15 @@ class Arconix_Testimonials {
     }
 
     /**
-     * Get the testimonial citation information
-     * 
-     * @param  boolean $show_author show the author with the citation
-     * @param  boolean $wrap_url    wrap the URL around the byline 
-     * @param  boolean $echo        echo or return the citation
-     * @return string               citation
+     * Get the testimonial citation information.
+     *
      * @since  1.0.0
+     *
+     * @param  boolean $show_author show the author with the citation
+     * @param  boolean $wrap_url    wrap the URL around the byline
+     * @param  boolean $echo        echo or return the citation
+     *
+     * @return string               text of citation
      */
     function get_citation( $show_author = true, $wrap_url = true, $echo = false ) {
         // Grab our metadata
@@ -86,7 +93,7 @@ class Arconix_Testimonials {
         // Separator
         if ( ! $show_author || strlen( $byline ) == 0 )
             $sep = '';
-        else 
+        else
             $sep = apply_filters( 'arconix_testimonial_separator', ', ' );
 
         // Byline
@@ -114,15 +121,17 @@ class Arconix_Testimonials {
             return $r;
     }
 
-    
+
 
     /**
      * Returns the testimonial loop results
      *
+     * @since  1.0.0
+     *
      * @param  array   $args   query arguments
      * @param  boolean $echo   echo or return results
+     *
      * @return string  $return returns the query results
-     * @since  1.0.0
      */
     function loop( $args, $echo = false ) {
         $plugin_defaults = $this->defaults();
@@ -140,7 +149,7 @@ class Arconix_Testimonials {
 
         // Run our query
         $tquery = new WP_Query( $args );
-        
+
         ob_start();
 
         if( $tquery->have_posts() ) {
