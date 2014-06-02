@@ -5,7 +5,7 @@ Tags: arconix, testimonials, quotes, feedback
 Requires at least: 3.8
 Tested up to: 3.9
 License: GPLv2 or later
-Stable Tag: 1.0.2
+Stable Tag: 1.1.0
 
 Easily showcase what your customers or users are saying about you or your business.
 
@@ -68,8 +68,10 @@ That's fantastic! Feel free to submit a pull request over at [Github](http://arc
 
 
 == Changelog ==
-= 1.0.2 =
-Fixed a bug where some users were getting an error message about a missing file
+= 1.1.0 =
+* Added a metabox to the testimonial edit screen that provides the Post ID. Good for when a specific testimonial is needed to display
+* Fixed a bug where some users were getting an error message about a missing file
+* Enhaned the testimonial column display on the admin side to be more flexible 
 
 = 1.0.1 = 
 Fixed a bug where sometimes empty testimonial html was showing up on non-testimonial pages.

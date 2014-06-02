@@ -5,7 +5,7 @@
  */
 class Arconix_Testimonials_Admin {
 
-    public static $version = '1.0.2';
+    public static $version = '1.1.0';
 
 
     /**
@@ -114,7 +114,7 @@ class Arconix_Testimonials_Admin {
      * Load our Meta Box and At a Glance helper classes
      *
      * @since   1.0.0
-     * @version 1.0.2
+     * @version 1.1.0
      */
     function init() {
         if( ! class_exists( 'cmb_Meta_Box' ) )
