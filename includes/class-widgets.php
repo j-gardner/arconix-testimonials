@@ -14,6 +14,15 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     protected $defaults = array();
 
     /**
+     * Registers the widget with the WordPress Widget API.
+     *
+     * @since 1.1.0
+     */
+    public static function register() {
+        register_widget( __CLASS__ );
+    }
+
+    /**
      * Constructor. Set the default widget options and create widget.
      *
      * @since 1.0.0

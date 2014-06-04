@@ -31,7 +31,7 @@ class Arconix_Testimonials_Admin {
         add_action( 'init',                             array( $this, 'init'), 9999 );
         add_action( 'init',                             array( $this, 'content_types' ) );
         add_action( 'init',                             array( $this, 'shortcodes' ) );
-        add_action( 'widgets_init',                     array( $this, 'widgets' ) );
+        add_action( 'widgets_init',                     array( 'Arconix_Testimonials_Widget', 'register' ) );
         add_action( 'wp_enqueue_scripts',               array( $this, 'scripts' ) );
         add_action( 'admin_enqueue_scripts',            array( $this, 'admin_scripts' ) );
         add_action( 'manage_posts_custom_column',       array( $this, 'column_action' ) );
@@ -142,15 +142,6 @@ class Arconix_Testimonials_Admin {
     function content_types() {
         $defaults = $this->defaults();
         register_post_type( $defaults['post_type']['slug'], $defaults['post_type']['args'] );
-    }
-
-    /**
-     * Register Plugin Widget.
-     *
-     * @since 1.0.0
-     */
-    function widgets() {
-        register_widget( 'Arconix_Testimonials_Widget' );
     }
 
     /**
