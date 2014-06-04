@@ -11,7 +11,7 @@ Easily showcase what your customers or users are saying about you or your busine
 
 == Description ==
 
-Arconix Testimonials is an easy-to-use plugin that allows you to showcase the great things your customers or users are saying about you or your business. 
+Arconix Testimonials is an easy-to-use plugin that allows you to showcase the great things your customers or users are saying about you or your business.
 
 **Features**
 
@@ -65,15 +65,16 @@ That's fantastic! Feel free to submit a pull request over at [Github](http://arc
 1. Adding a new Testimonial
 2. Testimonial list in the Admin
 3. Shortcode output with default styling
+4. Shortcode metabox on Testimonial creation screen
 
 
 == Changelog ==
 = 1.1.0 =
 * Added a metabox to the testimonial edit screen that provides the Post ID. Good for when a specific testimonial is needed to display
 * Fixed a bug where some users were getting an error message about a missing file
-* Enhaned the testimonial column display on the admin side to be more flexible 
+* Enhanced the testimonial column display on the admin side to be more flexible
 
-= 1.0.1 = 
+= 1.0.1 =
 Fixed a bug where sometimes empty testimonial html was showing up on non-testimonial pages.
 
 = 1.0.0 =
