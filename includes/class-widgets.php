@@ -8,8 +8,9 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     /**
      * Holds widget settings defaults, populated in constructor.
      *
-     * @var array defaults
      * @since 1.0.0
+     *
+     * @var array defaults
      */
     protected $defaults = array();
 
@@ -45,11 +46,15 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     }
 
     /**
-     * Widget Display
+     * Widget Display.
+     *
+     * Loops through available testimonials as dictated by user and outputs
+     * them to the screen
+     *
+     * @since 1.0.0
      *
      * @param array $args
      * @param array $instance
-     * @since 1.0.0
      */
     function widget( $args, $instance ) {
         extract( $args, EXTR_SKIP );
@@ -74,10 +79,12 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     /**
      * Update a particular instance.
      *
+     * @since  1.0.0
+     *
      * @param  array $new_instance New settings for this instance as input by the user via form()
      * @param  array $old_instance Old settings for this instance
+     *
      * @return array Settings to save or bool false to cancel saving
-     * @since  1.0.0
      */
     function update( $new_instance, $old_instance ) {
         $instance = $old_instance;
@@ -91,8 +98,9 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     /**
      * Widget form
      *
-     * @param array $instance Current Settings
      * @since 1.0.0
+     *
+     * @param array $instance Current Settings
      */
     function form( $instance ) {
 
