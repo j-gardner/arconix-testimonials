@@ -468,7 +468,7 @@ class Arconix_Testimonials_Admin {
         global $post_ID;
         ?>
         <p class="howto">
-            <?php _e( 'To display this testimonial, copy the code below and paste it into your post, page or text widget content.', 'act' ); ?>
+            <?php _e( 'To display this testimonial, copy the code below and paste it into your post, page, text widget or other content area.', 'act' ); ?>
         </p>
         <p><input type="text" value="[ac-testimonials p=<?php echo $post_ID; ?>]" readonly="readonly" class="widefat wp-ui-text-highlight code"></p>
         <?php
