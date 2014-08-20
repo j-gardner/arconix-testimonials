@@ -126,7 +126,8 @@ class Arconix_Testimonials {
     /**
      * Returns the testimonial loop results
      *
-     * @since  1.0.0
+     * @since   1.0.0
+     * @version 1.1.1
      *
      * @param  array   $args   query arguments
      * @param  boolean $echo   echo or return results
@@ -159,7 +160,7 @@ class Arconix_Testimonials {
             while( $tquery->have_posts() ) : $tquery->the_post();
 
                 echo '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial-wrap">';
-                echo '<div class="arconix-testimonial-content">' . get_the_content() . '</div>';
+                echo '<div class="arconix-testimonial-content">' . apply_filters( 'the_content', get_the_content() ) . '</div>';
                 echo '<div class="arconix-testimonial-info-wrap">';
                 echo '<div class="arconix-testimonial-gravatar">' . $this->get_gravatar( $gravatar_size ) . '</div>';
                 echo '<div class="arconix-testimonial-cite">' . $this->get_citation() . '</div>';
