@@ -14,7 +14,7 @@ class Arconix_Testimonials_Admin {
      *
      * @var string plugin version
      */
-    public static $version = '1.1.0';
+    public static $version = '1.1.1';
 
 
     /**
