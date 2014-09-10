@@ -3,7 +3,7 @@ Contributors: jgardner03
 Donate link: http://arcnx.co/actdonation
 Tags: arconix, testimonials, quotes, feedback
 Requires at least: 3.8
-Tested up to: 3.9
+Tested up to: 4.0
 License: GPLv2 or later
 Stable Tag: 1.1.1
 
