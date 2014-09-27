@@ -20,6 +20,7 @@ class Arconix_Testimonials {
      * Set our default values for the query and gravatar
      *
      * @since  1.0.0
+     * @version 1.2.0
      *
      * @return array $defaults
      */
@@ -34,7 +35,7 @@ class Arconix_Testimonials {
                 'order'             => 'DESC',
             ),
             'gravatar' => array(
-                'size' => 96
+                'size' => 60
             )
         );
 
@@ -43,28 +44,33 @@ class Arconix_Testimonials {
     }
 
     /**
-     * Gets the gravatar associated with the e-mail address entered in the Testimonial Metabox.
-     * If there is no gravatar it returns an empty string.
-     *
+     * Finds and returns the image associated with the Testimonial.
+     * Checks for a post_thumbnail, then a gravatar and if neither exist
+     * return false
+    *
      * @since  1.0.0
+     * @version 1.2.0
      *
-     * @param  integer $size size of the gravatar to return
+     * @param  integer $size size of the image to return
      * @param  boolean $echo echo or return the data
      *
-     * @return string        the e-mail's gravatar or empty string
+     * @return mixed         string containing the image or false
      */
-    function get_gravatar( $size = 60, $echo = false ) {
+    function get_image( $size = 60, $echo = false ) {
         // Get the post metadata
         $custom = get_post_custom();
 
-        // Get the e-mail address and return the gravatar if there is one
-        isset( $custom["_act_email"][0] ) ? $gravatar = get_avatar( $custom["_act_email"][0], $size ) : $gravatar = '';
-
-        if ( $echo )
-            echo $gravatar;
+        if ( has_post_thumbnail() )
+            $image = get_the_post_thumbnail( null, array( $size, $size ) );
+        elseif ( isset ( $custom["_act_email"][0] ) )
+            $image = get_avatar( $custom["_act_email"][0], $size );
         else
-            return $gravatar;
+            return false;
 
+        if ( $echo === true && $image != false )
+            echo $image;
+        else
+            return $image;
     }
 
     /**
@@ -162,7 +168,7 @@ class Arconix_Testimonials {
                 echo '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial-wrap">';
                 echo '<div class="arconix-testimonial-content">' . apply_filters( 'the_content', get_the_content() ) . '</div>';
                 echo '<div class="arconix-testimonial-info-wrap">';
-                echo '<div class="arconix-testimonial-gravatar">' . $this->get_gravatar( $gravatar_size ) . '</div>';
+                echo '<div class="arconix-testimonial-gravatar">' . $this->get_image( $gravatar_size ) . '</div>';
                 echo '<div class="arconix-testimonial-cite">' . $this->get_citation() . '</div>';
                 echo '</div></div>';
 
