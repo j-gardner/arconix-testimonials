@@ -14,8 +14,86 @@
  */
 
 
-require_once( plugin_dir_path( __FILE__ ) . 'includes/class-arconix-testimonials-loader.php' );
-require_once( plugin_dir_path( __FILE__ ) . 'includes/class-arconix-testimonials.php' );
-require_once( plugin_dir_path( __FILE__ ) . 'includes/class-widgets.php' );
+class Arconix_Testimonials {
 
-new Arconix_Testimonials_Loader;
+    /**
+     * Plugin version.
+     *
+     * @since 1.1.0
+     *
+     * @var string plugin version
+     */
+    private $version;
+
+    /**
+     * The directory path to the plugin file's includes folder.
+     *
+     * @since   1.0.0
+     * @access  private
+     * @var     string      $dir    The directory path to the includes folder
+     */
+    private $inc;
+
+    /**
+     * Initialize the class and set its properties.
+     *
+     * @since   1.0.0
+     */
+    public function __construct() {
+        $this->version = '1.1.1';
+        $this->inc = trailingslashit( plugin_dir_path( __FILE__ ) . '/includes' );
+        $this->load_dependencies();
+        $this->load_admin();
+
+    }
+
+    /**
+     * Load the required dependencies for the plugin.
+     *
+     * - Admin loads the backend functionality
+     * - Public provides front-end functionality
+     * - Widgets loads the widget functionality
+     * - Metabox loads the helper class for metabox creation
+     * - Dashboard Glancer loads the helper class for the admin dashboard
+     *
+     * @since   1.0.0
+     */
+    private function load_dependencies() {
+        require_once( $this->inc . 'class-arconix-testimonials-admin.php' );
+        require_once( $this->inc . 'class-arconix-testimonials-public.php' );
+        require_once( $this->inc . 'class-arconix-testimonials-widgets.php' );
+
+        if ( ! class_exists( 'cmb_Meta_Box' ) )
+            require_once( $this->inc . 'metabox/init.php');
+
+        if ( ! class_exists( 'Gamajo_Dashboard_Glancer' ) )
+            require_once( $this->inc . 'class-gamajo-dashboard-glancer.php' );
+    }
+
+    /**
+     * Loads the admin functionality
+     *
+     * @since   1.0.0
+     */
+    private function load_admin() {
+        new Arconix_Testimonials_Admin( $this->get_version() );
+    }
+
+    /**
+     * Return the current version of the plugin
+     *
+     * @since   1.0.0
+     * @return  string   Returns plugin version
+     */
+    public function get_version() {
+        return $this->version;
+    }
+
+}
+
+/** Vroom vroom */
+add_action( 'plugins_loaded', 'arconix_testimonials_run' );
+
+function arconix_testimonials_run() {
+    new Arconix_Testimonials;
+}
