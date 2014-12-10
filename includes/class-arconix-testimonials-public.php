@@ -3,17 +3,17 @@
 /**
  * Class covers the testimonial loop itself and associated functions
  *
- * @since 1.0.0
+ * @since 1.2.0
  */
 class Arconix_Testimonial {
 
     /**
      * Set our default values for the query and gravatar
      *
-     * @since  1.0.0
+     * @since   1.0.0
      * @version 1.2.0
      *
-     * @return array $defaults
+     * @return  array   $defaults
      */
     function defaults() {
 
@@ -38,14 +38,14 @@ class Arconix_Testimonial {
      * Finds and returns the image associated with the Testimonial.
      * Checks for a post_thumbnail, then a gravatar and if neither exist
      * return false
-    *
-     * @since  1.0.0
+     *
+     * @since   1.0.0
      * @version 1.2.0
      *
-     * @param  integer $size size of the image to return
-     * @param  boolean $echo echo or return the data
+     * @param   integer $size   size of the image to return
+     * @param   boolean $echo   echo or return the data
      *
-     * @return mixed         string containing the image or false
+     * @return  mixed           string containing the image or false
      */
     function get_image( $size = 60, $echo = false ) {
         // Get the post metadata
@@ -112,7 +112,7 @@ class Arconix_Testimonial {
 
         $r = $author . $sep . $before . $byline . $after;
 
-        if ( $echo )
+        if ( $echo === true )
             echo $r;
         else
             return $r;
@@ -126,10 +126,10 @@ class Arconix_Testimonial {
      * @since   1.0.0
      * @version 1.1.1
      *
-     * @param  array   $args   query arguments
-     * @param  boolean $echo   echo or return results
+     * @param   array   $args   query arguments
+     * @param   boolean $echo   echo or return results
      *
-     * @return string  $return returns the query results
+     * @return  string  $return returns the query results
      */
     function loop( $args, $echo = false ) {
         $plugin_defaults = $this->defaults();
@@ -172,7 +172,7 @@ class Arconix_Testimonial {
         }
         wp_reset_postdata();
 
-        if( $echo )
+        if( $echo === true )
             echo ob_get_clean();
         else
             return ob_get_clean();

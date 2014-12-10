@@ -13,13 +13,19 @@
  * License URI: http://www.opensource.org/licenses/gpl-license.php
  */
 
-
+/**
+ * Arconix Testimonials
+ *
+ * This is the base class which sets the version, loads dependencies and gets the plugin running
+ *
+ * @since 1.2.0
+ */
 class Arconix_Testimonials {
 
     /**
      * Plugin version.
      *
-     * @since 1.1.0
+     * @since 1.2.0
      *
      * @var string plugin version
      */
@@ -28,7 +34,7 @@ class Arconix_Testimonials {
     /**
      * The directory path to the plugin file's includes folder.
      *
-     * @since   1.0.0
+     * @since   1.2.0
      * @access  private
      * @var     string      $dir    The directory path to the includes folder
      */
@@ -37,10 +43,10 @@ class Arconix_Testimonials {
     /**
      * Initialize the class and set its properties.
      *
-     * @since   1.0.0
+     * @since   1.2.0
      */
     public function __construct() {
-        $this->version = '1.1.1';
+        $this->version = '1.2.0';
         $this->inc = trailingslashit( plugin_dir_path( __FILE__ ) . '/includes' );
         $this->load_dependencies();
         $this->load_admin();
@@ -56,7 +62,7 @@ class Arconix_Testimonials {
      * - Metabox loads the helper class for metabox creation
      * - Dashboard Glancer loads the helper class for the admin dashboard
      *
-     * @since   1.0.0
+     * @since   1.2.0
      */
     private function load_dependencies() {
         require_once( $this->inc . 'class-arconix-testimonials-admin.php' );
@@ -73,7 +79,7 @@ class Arconix_Testimonials {
     /**
      * Loads the admin functionality
      *
-     * @since   1.0.0
+     * @since   1.2.0
      */
     private function load_admin() {
         new Arconix_Testimonials_Admin( $this->get_version() );
@@ -82,7 +88,7 @@ class Arconix_Testimonials {
     /**
      * Return the current version of the plugin
      *
-     * @since   1.0.0
+     * @since   1.2.0
      * @return  string   Returns plugin version
      */
     public function get_version() {
@@ -93,7 +99,6 @@ class Arconix_Testimonials {
 
 /** Vroom vroom */
 add_action( 'plugins_loaded', 'arconix_testimonials_run' );
-
 function arconix_testimonials_run() {
     new Arconix_Testimonials;
 }
