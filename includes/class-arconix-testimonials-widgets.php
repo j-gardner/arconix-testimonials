@@ -69,7 +69,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
         if ( !empty( $instance['title'] ) )
             echo $before_title . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $after_title;
 
-        $t = new Arconix_Testimonials();
+        $t = new Arconix_Testimonial();
         $t-> loop( $instance, true );
 
         // After widget (defined by themes).
