@@ -70,7 +70,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
             echo $before_title . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $after_title;
 
         $t = new Arconix_Testimonial();
-        $t-> loop( $instance, true );
+        $t->loop( $instance, true );
 
         // After widget (defined by themes).
         echo $after_widget;
@@ -150,7 +150,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
         </p>
         <!-- Gravatar Size: Select Box -->
         <p>
-            <label for="<?php echo $this->get_field_id( 'gravatar_size' ); ?>"><?php _e( 'Gravatar Size', 'act' ); ?>:</label>
+            <label for="<?php echo $this->get_field_id( 'gravatar_size' ); ?>"><?php _e( 'Image Size', 'act' ); ?>:</label>
             <select id="<?php echo $this->get_field_id( 'gravatar_size' ); ?>" name="<?php echo $this->get_field_name( 'gravatar_size' ); ?>">
                 <?php
                 $sizes = array( __( 'Small', 'act' ) => 32, __( 'Medium', 'act' ) => 48, __( 'Large', 'act' ) => 64, __( 'X-Large', 'act' ) => 80, __( 'XX-Large', 'act' ) => 96 );
