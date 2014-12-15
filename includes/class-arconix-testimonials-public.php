@@ -18,16 +18,17 @@ class Arconix_Testimonial {
     function defaults() {
 
         $defaults = array(
-            'query' => array(
+            'query'     => array(
                 'post_type'         => 'testimonials',
                 'p'                 => '',
                 'posts_per_page'    => -1,
                 'orderby'           => 'date',
                 'order'             => 'DESC',
             ),
-            'gravatar' => array(
-                'size' => 60
-            )
+            'gravatar'  => array(
+                'size'              => 60
+            ),
+            'excerpt'   => false
         );
 
         return apply_filters( 'arconix_testimonials_defaults', $defaults );
@@ -42,10 +43,10 @@ class Arconix_Testimonial {
      * @since   1.0.0
      * @version 1.2.0
      *
-     * @param   integer $size   size of the image to return
-     * @param   boolean $echo   echo or return the data
+     * @param   int     $size   size of the image to return
+     * @param   bool    $echo   echo or return the data
      *
-     * @return  mixed           string containing the image or false
+     * @return  string  $image  string containing the image or false
      */
     function get_image( $size = 60, $echo = false ) {
         // Get the post metadata
@@ -69,9 +70,9 @@ class Arconix_Testimonial {
      *
      * @since  1.0.0
      *
-     * @param  boolean $show_author show the author with the citation
-     * @param  boolean $wrap_url    wrap the URL around the byline
-     * @param  boolean $echo        echo or return the citation
+     * @param  bool $show_author    show the author with the citation
+     * @param  bool $wrap_url       wrap the URL around the byline
+     * @param  bool $echo           echo or return the citation
      *
      * @return string               text of citation
      */
@@ -118,7 +119,32 @@ class Arconix_Testimonial {
             return $r;
     }
 
+    /**
+     * Output Testimonial Content
+     *
+     * If the excerpt flag is set or the testimonial has a custom excerpt,
+     * echo/return the excerpt, otherwise echo/return the content
+     *
+     * @since   1.2.0
+     * @param   bool    $excerpt    Display the excerpt
+     * @param   bool    $echo       echo or return the results
+     * @return  string              Testimonial content
+     */
+    function get_content( $excerpt = false, $echo = false ) {
+        if ( $excerpt == true ) {
+            if( $echo === true )
+                    echo get_the_excerpt();
+                else
+                    return get_the_excerpt();
+        }
+        else {
+            if ( $echo === true )
+                    echo apply_filters( 'the_content', get_the_content() );
+                else
+                    return apply_filters( 'the_content', get_the_content() );
+        }
 
+    }
 
     /**
      * Returns the testimonial loop results
@@ -127,7 +153,7 @@ class Arconix_Testimonial {
      * @version 1.1.1
      *
      * @param   array   $args   query arguments
-     * @param   boolean $echo   echo or return results
+     * @param   bool    $echo   echo or return results
      *
      * @return  string  $return returns the query results
      */
@@ -136,6 +162,7 @@ class Arconix_Testimonial {
 
         $defaults = $plugin_defaults['query'];
         $defaults['gravatar_size'] = $plugin_defaults['gravatar']['size'];
+        $defaults['excerpt'] = $plugin_defaults['excerpt'];
 
         // Combine the passed args with the function defaults
         $args = wp_parse_args( $args, $defaults );
@@ -144,6 +171,10 @@ class Arconix_Testimonial {
         // Extract the avatar size and remove the key from the array
         $gravatar_size = $args['gravatar_size'];
         unset( $args['gravatar_size'] );
+
+        // Extract the excerpt value and remove the key from the array
+        $excerpt = $args['excerpt'];
+        unset( $args['excerpt'] );
 
         // Run our query
         $tquery = new WP_Query( $args );
@@ -157,7 +188,7 @@ class Arconix_Testimonial {
             while( $tquery->have_posts() ) : $tquery->the_post();
 
                 echo '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial-wrap">';
-                echo '<div class="arconix-testimonial-content">' . apply_filters( 'the_content', get_the_content() ) . '</div>';
+                echo '<div class="arconix-testimonial-content">' . $this->get_content( $excerpt ) . '</div>';
                 echo '<div class="arconix-testimonial-info-wrap">';
                 echo '<div class="arconix-testimonial-gravatar">' . $this->get_image( $gravatar_size ) . '</div>';
                 echo '<div class="arconix-testimonial-cite">' . $this->get_citation() . '</div>';

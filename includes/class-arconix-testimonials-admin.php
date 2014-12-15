@@ -6,7 +6,7 @@
  * @since 1.0.0
  */
 class Arconix_Testimonials_Admin {
-    
+
     /**
      * The version of this plugin.
      *
@@ -19,7 +19,7 @@ class Arconix_Testimonials_Admin {
     /**
      * The directory path to this plugin.
      *
-     * @since   1.0.0
+     * @since   1.2.0
      * @access  private
      * @var     string      $dir    The directory path to this plugin
      */
@@ -28,7 +28,7 @@ class Arconix_Testimonials_Admin {
     /**
      * The url path to this plugin.
      *
-     * @since   1.0.0
+     * @since   1.2.0
      * @access  private
      * @var     string      $url    The url path to this plugin
      */
@@ -39,7 +39,7 @@ class Arconix_Testimonials_Admin {
      * Initialize the class and set its properties.
      *
      * @since   1.0.0
-     * @version 1.1.1
+     * @version 1.2.0
      * @param   string      $version    The version of this plugin.
      */
     public function __construct( $version ) {
@@ -118,7 +118,7 @@ class Arconix_Testimonials_Admin {
                     'menu_position'     => 20,
                     'menu_icon'         => 'dashicons-testimonial',
                     'has_archive'       => false,
-                    'supports'          => array( 'title', 'editor', 'thumbnail' ),
+                    'supports'          => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
                     'rewrite'           => array( 'with_front' => false )
                 )
             )
@@ -167,7 +167,7 @@ class Arconix_Testimonials_Admin {
      * Filter The_Content and add our data to it
      *
      * @since   1.0.0
-     * @version 1.0.1
+     * @version 1.2.0
      *
      * @global  stdObj $post    std Post
      * @param   string $content main content
@@ -189,7 +189,7 @@ class Arconix_Testimonials_Admin {
 
             $cite = '<div class="arconix-testimonial-info-wrap">' . $t->get_citation( false ) . '</div>';
 
-            $content = '<div class="arconix-testimonial-content">' . $content . '</div>';
+            $content = '<div class="arconix-testimonial-content">' . $t->get_content() . '</div>';
 
             $content = $cite . $gravatar . $content;
 
