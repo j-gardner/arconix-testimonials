@@ -51,6 +51,17 @@ class Arconix_Testimonials {
         $this->load_dependencies();
         $this->load_admin();
 
+        add_action( 'init', array( $this, 'metabox_init' ), 9999 );
+    }
+
+    /**
+     * Conditionally load the metabox class
+     *
+     * @since   2.0.0
+     */
+    public function metabox_init() {
+        if ( ! class_exists( 'cmb_Meta_Box' ) )
+            require_once( $this->inc . 'metabox/init.php');
     }
 
     /**
@@ -68,9 +79,6 @@ class Arconix_Testimonials {
         require_once( $this->inc . 'class-arconix-testimonials-admin.php' );
         require_once( $this->inc . 'class-arconix-testimonials-public.php' );
         require_once( $this->inc . 'class-arconix-testimonials-widgets.php' );
-
-        if ( ! class_exists( 'cmb_Meta_Box' ) )
-            require_once( $this->inc . 'metabox/init.php');
 
         if ( ! class_exists( 'Gamajo_Dashboard_Glancer' ) )
             require_once( $this->inc . 'class-gamajo-dashboard-glancer.php' );
