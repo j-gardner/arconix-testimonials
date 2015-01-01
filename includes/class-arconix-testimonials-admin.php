@@ -66,6 +66,10 @@ class Arconix_Testimonials_Admin {
         add_filter( 'cmb_meta_boxes',                   array( $this, 'metaboxes' ) );
         add_filter( 'post_updated_messages',            array( $this, 'messages' ) );
         add_filter( 'manage_edit-testimonials_columns', array( $this, 'columns_filter' ) );
+
+        // For use if Arconix Flexslider is active
+        add_filter( 'arconix_flexslider_slide_image_return',    array( $this, 'flexslider_image_return' ), 10, 4 );
+        add_filter( 'arconix_flexslider_slide_content_return',  array( $this, 'flexslider_content' ), 10, 2 );
     }
 
     /**
@@ -197,7 +201,6 @@ class Arconix_Testimonials_Admin {
 
         return $content;
     }
-
 
     /**
      * Load required CSS.
@@ -467,5 +470,65 @@ class Arconix_Testimonials_Admin {
         <p><input type="text" value="[ac-testimonials p=<?php echo $post_ID; ?>]" readonly="readonly" class="widefat wp-ui-text-highlight code"></p>
         <?php
     }
+
+    /**
+     * Modify the Arconix Flexslider content
+     *
+     * Customizes the flexslider content with our testimonial data
+     *
+     * @since   1.2.0
+     * @global  stdObj      $post           Standard WP Post object
+     * @param   string      $content        Incoming content to be modified
+     * @param   string      $display        From the Flexslider user, displaying either 'none', 'excerpt' or 'content'
+     * @return  string      $content        Modified return content with our testimonial-customized options
+     */
+    function flexslider_content( $content, $display ) {
+        global $post;
+
+        // return early if we're not displaying anything or we're not working with a testimonial
+        if ( ! $display || $display == 'none' || $post->post_type != 'testimonials' ) return;
+
+        // Initialize our testimonial class
+        $t = new Arconix_Testimonial();
+
+        // Get our gravatar size
+        $defaults = $t->defaults();
+        $gs = apply_filters( 'arconix_testimonials_content_gravatar_size', $defaults['gravatar']['size'] );
+
+        $image = '<div class="arconix-testimonial-gravatar">' . $t->get_image( $gs ) . '</div>';
+
+        $cite = '<div class="arconix-testimonial-info-wrap">' . $t->get_citation() . '</div>';
+
+        $display == 'content' ? $display = false : $display = true;
+        $content = '<div class="arconix-testimonial-content">' . $t->get_content( $display ) . '</div>';
+
+        $content .= $image . $cite;
+
+        return $content;
+    }
+
+    /**
+     * Modify the Arconix Flexslider image information
+     *
+     * Returns an empty string if we're working with a testimonial as the content filter handles the
+     * image output
+     *
+     * @since   1.2.0
+     * @global  stdObj      $post           Standard WP Post object
+     * @param   string      $content        Existing image data
+     * @param   bool        $link_image     Wrap the image in a hyperlink to the permalink (false for basic image slider)
+     * @param   string      $image_size     The size of the image to display. Accepts any valid built-in or added WordPress image size
+     * @param   string      $caption        Caption to be displayed
+     * @return  string      $s              Empty string if on the testimonial post_type
+     */
+    function flexslider_image_return( $content, $link_image, $image_size, $caption ) {
+        global $post;
+
+        if ( $post->post_type == 'testimonials' ) $content = '';
+
+        return $content;
+    }
+
+
 
 }
