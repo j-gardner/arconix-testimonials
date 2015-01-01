@@ -77,7 +77,7 @@ class Arconix_Testimonials_Admin {
      *
      * @since 1.0.0
      */
-    function activation() {
+    public function activation() {
         $this->content_types();
         flush_rewrite_rules();
     }
@@ -87,7 +87,7 @@ class Arconix_Testimonials_Admin {
      *
      * @since 1.0.0
      */
-    function deactivation() {
+    public function deactivation() {
         flush_rewrite_rules();
     }
 
@@ -98,7 +98,7 @@ class Arconix_Testimonials_Admin {
      *
      * @return array $defaults
      */
-    function defaults() {
+    public function defaults() {
         $defaults = array(
             'post_type' => array(
                 'slug' => 'testimonials',
@@ -136,7 +136,7 @@ class Arconix_Testimonials_Admin {
      *
      * @since 1.0.0
      */
-    function content_types() {
+    public function content_types() {
         $defaults = $this->defaults();
         register_post_type( $defaults['post_type']['slug'], $defaults['post_type']['args'] );
     }
@@ -146,7 +146,7 @@ class Arconix_Testimonials_Admin {
      *
      * @since 1.0.0
      */
-    function shortcodes() {
+    public function shortcodes() {
         add_shortcode( 'ac-testimonials', array( $this, 'testimonials_shortcode' ) );
     }
 
@@ -160,7 +160,7 @@ class Arconix_Testimonials_Admin {
      *
      * @return string          result of query
      */
-    function testimonials_shortcode( $atts, $content = null ) {
+    public function testimonials_shortcode( $atts, $content = null ) {
         $t = new Arconix_Testimonial;
 
         return $t->loop( $atts );
@@ -177,7 +177,7 @@ class Arconix_Testimonials_Admin {
      * @param   string $content main content
      * @return  string          our testimonial content
      */
-    function content_filter( $content ) {
+    public function content_filter( $content ) {
         global $post;
 
         if( is_single() && $post->post_type == 'testimonial' && is_main_query() ) {
@@ -213,7 +213,7 @@ class Arconix_Testimonials_Admin {
      *
      * @since 1.0.0
      */
-    function scripts() {
+    public function scripts() {
          // If the CSS is not being overridden in a theme folder, allow the user to filter it out entirely (if building into stylesheet or the like)
         if ( apply_filters( 'pre_register_arconix_testimonials_css', true ) ) {
             // Checks the child directory and then the parent directory.
@@ -236,7 +236,7 @@ class Arconix_Testimonials_Admin {
      *
      * @since 1.0.0
      */
-    function admin_scripts() {
+    public function admin_scripts() {
         if( apply_filters( 'pre_register_arconix_testimonials_admin_css', true ) )
             wp_enqueue_style( 'arconix-testimonials-admin', $this->url . 'css/admin.css', false, $this->version );
     }
@@ -287,11 +287,11 @@ class Arconix_Testimonials_Admin {
      *
      * @return  array $columns
      */
-    function columns_filter( $columns ) {
+    public function columns_filter( $columns ) {
         $col_gr = array( 'testimonial-gravatar' => __( 'Image', 'act' ) );
-        $col_ta = array( 'title' => __( 'Author', 'act' ) );
-        $col_tb = array( 'testimonial-byline' => __( 'Byline', 'act' ) );
-        $col_tc = array( 'testimonial-content' => __( 'Testimonial', 'act' ) );
+        $col_ta = array( 'title'                => __( 'Author', 'act' ) );
+        $col_tb = array( 'testimonial-byline'   => __( 'Byline', 'act' ) );
+        $col_tc = array( 'testimonial-content'  => __( 'Testimonial', 'act' ) );
 
         unset( $columns['title'] );
 
@@ -310,7 +310,7 @@ class Arconix_Testimonials_Admin {
      *
      * @param array $column
      */
-    function column_action( $column ) {
+    public function column_action( $column ) {
         $t = new Arconix_Testimonial;
 
         switch( $column ) {
@@ -336,7 +336,7 @@ class Arconix_Testimonials_Admin {
      *
      * @return $title
      */
-    function title_text( $title ) {
+    public function title_text( $title ) {
         $screen = get_current_screen();
 
         if( 'testimonials' == $screen->post_type )
@@ -350,7 +350,7 @@ class Arconix_Testimonials_Admin {
      *
      * @since 1.0.0
      */
-    function at_a_glance() {
+    public function at_a_glance() {
         $glancer = new Gamajo_Dashboard_Glancer;
         $glancer->add( 'testimonials' );
     }
@@ -363,7 +363,7 @@ class Arconix_Testimonials_Admin {
      *
      * @since 1.0.0
      */
-    function dash_widget() {
+    public function dash_widget() {
         if( apply_filters( 'pre_register_arconix_testimonials_dashboard_widget', true ) and
             apply_filters( 'arconix_testimonial_dashboard_widget_security', current_user_can( 'manage_options' ) ) )
                 wp_add_dashboard_widget( 'ac-testimonials', 'Arconix Testimonials', array( $this, 'dash_widget_output' ) );
@@ -374,7 +374,7 @@ class Arconix_Testimonials_Admin {
      *
      * @since 1.0.0
      */
-    function dash_widget_output() {
+    public function dash_widget_output() {
         echo '<div class="rss-widget">';
 
             wp_widget_rss_output( array(
@@ -406,7 +406,7 @@ class Arconix_Testimonials_Admin {
      *
      * @return array $meta_boxes
      */
-    function metaboxes( $meta_boxes ) {
+    public function metaboxes( $meta_boxes ) {
         $metabox = array(
             'id' => 'testimonials-info',
             'title' => 'Testimonial Details',
@@ -449,7 +449,7 @@ class Arconix_Testimonials_Admin {
      *
      * @since 1.1.0
      */
-    function shortcode_metabox() {
+    public function shortcode_metabox() {
         add_meta_box( 'ac-shortcode-box', __( 'Testimonial Shortcode', 'act' ), array( $this, 'shortcode_box' ), 'testimonials', 'side' );
     }
 
@@ -461,7 +461,7 @@ class Arconix_Testimonials_Admin {
      *
      * @global int $post_ID ID of the current post
      */
-    function shortcode_box() {
+    public function shortcode_box() {
         global $post_ID;
         ?>
         <p class="howto">
@@ -482,7 +482,7 @@ class Arconix_Testimonials_Admin {
      * @param   string      $display        From the Flexslider user, displaying either 'none', 'excerpt' or 'content'
      * @return  string      $content        Modified return content with our testimonial-customized options
      */
-    function flexslider_content( $content, $display ) {
+    public function flexslider_content( $content, $display ) {
         global $post;
 
         // return early if we're not displaying anything or we're not working with a testimonial
@@ -521,7 +521,7 @@ class Arconix_Testimonials_Admin {
      * @param   string      $caption        Caption to be displayed
      * @return  string      $s              Empty string if on the testimonial post_type
      */
-    function flexslider_image_return( $content, $link_image, $image_size, $caption ) {
+    public function flexslider_image_return( $content, $link_image, $image_size, $caption ) {
         global $post;
 
         if ( $post->post_type == 'testimonials' ) $content = '';
