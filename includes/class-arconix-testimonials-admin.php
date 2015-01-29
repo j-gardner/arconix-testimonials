@@ -288,10 +288,11 @@ class Arconix_Testimonials_Admin {
      * @return  array $columns
      */
     public function columns_filter( $columns ) {
-        $col_gr = array( 'testimonial-gravatar' => __( 'Image', 'act' ) );
-        $col_ta = array( 'title'                => __( 'Author', 'act' ) );
-        $col_tb = array( 'testimonial-byline'   => __( 'Byline', 'act' ) );
-        $col_tc = array( 'testimonial-content'  => __( 'Testimonial', 'act' ) );
+        $col_gr = array( 'testimonial-gravatar'     => __( 'Image', 'act' ) );
+        $col_ta = array( 'title'                    => __( 'Author', 'act' ) );
+        $col_tb = array( 'testimonial-byline'       => __( 'Byline', 'act' ) );
+        $col_tc = array( 'testimonial-content'      => __( 'Testimonial', 'act' ) );
+        $col_sc = array( 'testimonial-shortcode'    => __( 'Shortcode', 'act' ) );
 
         unset( $columns['title'] );
 
@@ -299,6 +300,7 @@ class Arconix_Testimonials_Admin {
         $columns = array_slice( $columns, 0, 2, true ) + $col_ta + array_slice( $columns, 2, NULL, true );
         $columns = array_slice( $columns, 0, 3, true ) + $col_tb + array_slice( $columns, 3, NULL, true );
         $columns = array_slice( $columns, 0, 4, true ) + $col_tc + array_slice( $columns, 4, NULL, true );
+        $columns = array_slice( $columns, 0, 5, true ) + $col_sc + array_slice( $columns, 5, NULL, true );
 
         return apply_filters( 'arconix_testimonials_admin_column_define', $columns );
     }
@@ -322,6 +324,10 @@ class Arconix_Testimonials_Admin {
                 break;
             case "testimonial-byline":
                 $t->get_citation( false, true, true );
+                break;
+            case "testimonial-shortcode":
+                printf( '[ac-testimonials p=%d]', get_the_ID() );
+
             default:
                 break;
         }
