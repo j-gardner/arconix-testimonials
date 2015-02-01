@@ -8,16 +8,23 @@
 class Arconix_Testimonial {
 
     /**
-     * Set our default values for the query and gravatar
+     * Holds class defaults, populated in constructor.
      *
-     * @since   1.0.0
-     * @version 1.2.0
-     *
-     * @return  array   $defaults
+     * @since   1.2.0
+     * @access  protected
+     * @var     array       $defaults   default args
      */
-    function defaults() {
+    protected $defaults;
 
-        $defaults = array(
+    /**
+     * Constructor
+     *
+     * Populates the $defaults var
+     *
+     * @since   1.2.0
+     */
+    function __construct() {
+        $this->defaults = array(
             'query'     => array(
                 'post_type'         => 'testimonials',
                 'p'                 => '',
@@ -30,9 +37,18 @@ class Arconix_Testimonial {
             ),
             'excerpt'   => false
         );
+    }
 
-        return apply_filters( 'arconix_testimonials_defaults', $defaults );
-
+    /**
+     * Return our default values for the query and gravatar
+     *
+     * @since   1.0.0
+     * @version 1.2.0
+     *
+     * @return  array       $defaults
+     */
+    function defaults() {
+        return apply_filters( 'arconix_testimonials_defaults', $this->defaults );
     }
 
     /**
@@ -179,34 +195,34 @@ class Arconix_Testimonial {
         // Run our query
         $tquery = new WP_Query( $args );
 
-        ob_start();
+        $r = '';
 
         if( $tquery->have_posts() ) {
 
-            echo '<div class="arconix-testimonials-wrap">';
+            $r .= '<div class="arconix-testimonials-wrap">';
 
             while( $tquery->have_posts() ) : $tquery->the_post();
 
-                echo '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial-wrap">';
-                echo '<div class="arconix-testimonial-content">' . $this->get_content( $excerpt ) . '</div>';
-                echo '<div class="arconix-testimonial-info-wrap">';
-                echo '<div class="arconix-testimonial-gravatar">' . $this->get_image( $gravatar_size ) . '</div>';
-                echo '<div class="arconix-testimonial-cite">' . $this->get_citation() . '</div>';
-                echo '</div></div>';
+                $r .= '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial-wrap">';
+                $r .= '<div class="arconix-testimonial-content">' . $this->get_content( $excerpt ) . '</div>';
+                $r .= '<div class="arconix-testimonial-info-wrap">';
+                $r .= '<div class="arconix-testimonial-gravatar">' . $this->get_image( $gravatar_size ) . '</div>';
+                $r .= '<div class="arconix-testimonial-cite">' . $this->get_citation() . '</div>';
+                $r .= '</div></div>';
 
             endwhile;
 
-            echo '</div>';
+            $r .= '</div>';
         }
         else {
-            echo '<div class="arconix-testimonials-wrap"><div class="arconix-testimonials-none">' . __( 'No testimonials to display', 'act' ) . '</div></div>';
+            $r .= '<div class="arconix-testimonials-wrap"><div class="arconix-testimonials-none">' . __( 'No testimonials to display', 'act' ) . '</div></div>';
         }
         wp_reset_postdata();
 
         if( $echo === true )
-            echo ob_get_clean();
+            echo $r;
         else
-            return ob_get_clean();
+            return $r;
     }
 
 }
