@@ -35,7 +35,7 @@ class Arconix_Testimonial {
             'gravatar'  => array(
                 'size'              => 60
             ),
-            'excerpt'   => false
+            'content'   => 'full'
         );
     }
 
@@ -138,28 +138,24 @@ class Arconix_Testimonial {
     /**
      * Output Testimonial Content
      *
-     * If the excerpt flag is set or the testimonial has a custom excerpt,
-     * echo/return the excerpt, otherwise echo/return the content
+     * Echo/Return the content or the excerpt depending on the $content param
      *
      * @since   1.2.0
-     * @param   bool    $excerpt    Display the excerpt
+     * @param   bool    $content    full | excerpt - display all the testimonial or
      * @param   bool    $echo       echo or return the results
      * @return  string              Testimonial content
      */
-    function get_content( $excerpt = false, $echo = false ) {
-        if ( $excerpt == true ) {
-            if( $echo === true )
-                    echo get_the_excerpt();
-                else
-                    return get_the_excerpt();
-        }
-        else {
-            if ( $echo === true )
-                    echo apply_filters( 'the_content', get_the_content() );
-                else
-                    return apply_filters( 'the_content', get_the_content() );
-        }
+    function get_content( $content = 'full', $echo = false ) {
 
+        if ( $content == 'excerpt' )
+            $s = get_the_excerpt();
+        else
+            $s = apply_filters( 'the_content', get_the_content() );
+
+        if ( $echo === true )
+            echo $s;
+        else
+            return $s;
     }
 
     /**
@@ -178,7 +174,7 @@ class Arconix_Testimonial {
 
         $defaults = $plugin_defaults['query'];
         $defaults['gravatar_size'] = $plugin_defaults['gravatar']['size'];
-        $defaults['excerpt'] = $plugin_defaults['excerpt'];
+        $defaults['content'] = $plugin_defaults['content'];
 
         // Combine the passed args with the function defaults
         $args = wp_parse_args( $args, $defaults );
@@ -188,9 +184,9 @@ class Arconix_Testimonial {
         $gravatar_size = $args['gravatar_size'];
         unset( $args['gravatar_size'] );
 
-        // Extract the excerpt value and remove the key from the array
-        $excerpt = $args['excerpt'];
-        unset( $args['excerpt'] );
+        // Extract the content value and remove the key from the array
+        $content = $args['content'];
+        unset( $args['content'] );
 
         // Run our query
         $tquery = new WP_Query( $args );
@@ -204,7 +200,7 @@ class Arconix_Testimonial {
             while( $tquery->have_posts() ) : $tquery->the_post();
 
                 $r .= '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial-wrap">';
-                $r .= '<div class="arconix-testimonial-content">' . $this->get_content( $excerpt ) . '</div>';
+                $r .= '<div class="arconix-testimonial-content">' . $this->get_content( $content ) . '</div>';
                 $r .= '<div class="arconix-testimonial-info-wrap">';
                 $r .= '<div class="arconix-testimonial-gravatar">' . $this->get_image( $gravatar_size ) . '</div>';
                 $r .= '<div class="arconix-testimonial-cite">' . $this->get_citation() . '</div>';
