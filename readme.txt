@@ -81,8 +81,8 @@ That's fantastic! Feel free to submit a pull request over at [Github](http://arc
 == Changelog ==
 = 1.2.0 =
 * Now supports the WordPress featured image functionality for displaying testimonial author images
-* Integration with Arconix Flexslider for displaying the testimonials in a slider
-* Added a column to the admin display showing the shortcode to display that single testimonial
+* Integration with Arconix Flexslider for displaying the testimonials in a slider or carousel
+* Added a column to the admin display showing the shortcode to display that individual testimonial
 
 = 1.1.1 =
 Fixed a text formatting bug
