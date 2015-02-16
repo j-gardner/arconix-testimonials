@@ -8,9 +8,9 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     /**
      * Holds widget settings defaults, populated in constructor.
      *
-     * @since 1.0.0
+     * @since   1.0.0
      *
-     * @var array defaults
+     * @var     array   defaults
      */
     protected $defaults = array();
 
@@ -53,10 +53,10 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      * Loops through available testimonials as dictated by user and outputs
      * them to the screen
      *
-     * @since 1.0.0
+     * @since   1.0.0
      *
-     * @param array $args
-     * @param array $instance
+     * @param   array   $args
+     * @param   array   $instance
      */
     function widget( $args, $instance ) {
         extract( $args, EXTR_SKIP );
@@ -87,7 +87,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      * @param   array   $new_instance   New settings for this instance as input by the user via form()
      * @param   array   $old_instance   Old settings for this instance
      *
-     * @return array Settings to save or bool false to cancel saving
+     * @return  array   Settings to save or bool false to cancel saving
      */
     function update( $new_instance, $old_instance ) {
         $instance = $old_instance;
@@ -113,7 +113,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
         /* Merge with defaults */
         $instance = wp_parse_args( $instance, $this->defaults ); ?>
 
-        <p>Use the Testimonials custom post type to add content to this widget.</p>
+        <p><?php _e( 'Use the Testimonials custom post type to add content to this widget', 'act'); ?>.</p>
 
         <!-- Title: Text Input -->
         <p>
