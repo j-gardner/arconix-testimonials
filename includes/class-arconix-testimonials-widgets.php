@@ -81,10 +81,11 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     /**
      * Update a particular instance.
      *
-     * @since  1.0.0
+     * @since   1.0.0
+     * @version 1.2.0
      *
-     * @param  array $new_instance New settings for this instance as input by the user via form()
-     * @param  array $old_instance Old settings for this instance
+     * @param   array   $new_instance   New settings for this instance as input by the user via form()
+     * @param   array   $old_instance   Old settings for this instance
      *
      * @return array Settings to save or bool false to cancel saving
      */
@@ -93,6 +94,8 @@ class Arconix_Testimonials_Widget extends WP_Widget {
         $instance['title'] = strip_tags( $new_instance['title'] );
         $instance['p'] = strip_tags( $new_instance['p'] );
         $instance['posts_per_page'] = strip_tags( $new_instance['posts_per_page'] );
+        $instance['text_limit'] = strip_tags( $new_instance['text_limit'] );
+
 
         return $new_instance;
    }
@@ -100,9 +103,10 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     /**
      * Widget form
      *
-     * @since 1.0.0
+     * @since   1.0.0
+     * @version 1.2.0
      *
-     * @param array $instance Current Settings
+     * @param   array   $instance   Current Settings
      */
     function form( $instance ) {
 
@@ -134,9 +138,9 @@ class Arconix_Testimonials_Widget extends WP_Widget {
             </select>
         </p>
         <!-- Content Limit: Text Input -->
-        <p>
-            <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'act' ); ?>:</label>
-            <input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" class="widefat" />
+        <p class="testimonial-text-limit">
+            <label for="<?php echo $this->get_field_id( 'text_limit' ); ?>"><?php _e( 'Content Limit', 'act' ); ?>:</label>
+            <input id="<?php echo $this->get_field_id( 'text_limit' ); ?>" name="<?php echo $this->get_field_name( 'text_limit' ); ?>" type="text" value="<?php echo esc_attr( $instance['text_limit'] ); ?>" class="widefat" />
         </p>
         <!-- Posts Number: Input Box -->
         <p>
