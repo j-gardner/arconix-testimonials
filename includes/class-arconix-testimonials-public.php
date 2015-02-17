@@ -79,9 +79,9 @@ class Arconix_Testimonial {
      * Get the testimonial citation information.
      *
      * @since  1.0.0
-     * @param  bool $show_author    show the author with the citation
-     * @param  bool $wrap_url       wrap the URL around the byline
-     * @return string               text of citation
+     * @param  bool     $show_author    show the author with the citation
+     * @param  bool     $wrap_url       wrap the URL around the byline
+     * @return string                   text of citation
      */
     function get_citation( $show_author = true, $wrap_url = true ) {
         // Grab our metadata
