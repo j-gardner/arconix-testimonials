@@ -58,41 +58,32 @@ class Arconix_Testimonial {
      *
      * @since   1.0.0
      * @version 1.2.0
-     *
      * @param   int     $size   size of the image to return
-     * @param   bool    $echo   echo or return the data
-     *
      * @return  string  $image  string containing the image or false
      */
-    function get_image( $size = 60, $echo = false ) {
+    function get_image( $size = 60 ) {
         // Get the post metadata
-        $custom = get_post_custom();
+        $meta = get_post_meta( get_the_id(), '_act_email', true );
 
         if ( has_post_thumbnail() )
             $image = get_the_post_thumbnail( null, array( $size, $size ) );
-        elseif ( isset ( $custom["_act_email"][0] ) )
-            $image = get_avatar( $custom["_act_email"][0], $size );
+        elseif ( isset ( $meta ) )
+            $image = get_avatar( $meta, $size );
         else
             return false;
 
-        if ( $echo === true && $image != false )
-            echo $image;
-        else
-            return $image;
+        return $image;
     }
 
     /**
      * Get the testimonial citation information.
      *
      * @since  1.0.0
-     *
      * @param  bool $show_author    show the author with the citation
      * @param  bool $wrap_url       wrap the URL around the byline
-     * @param  bool $echo           echo or return the citation
-     *
      * @return string               text of citation
      */
-    function get_citation( $show_author = true, $wrap_url = true, $echo = false ) {
+    function get_citation( $show_author = true, $wrap_url = true ) {
         // Grab our metadata
         $custom = get_post_custom();
         isset( $custom["_act_byline"][0] ) ? $byline = $custom["_act_byline"][0] : $byline = '';
@@ -127,35 +118,26 @@ class Arconix_Testimonial {
             $after = '';
         }
 
-        $r = $author . $sep . $before . $byline . $after;
-
-        if ( $echo === true )
-            echo $r;
-        else
-            return $r;
+        return $author . $sep . $before . $byline . $after;
     }
 
     /**
      * Output Testimonial Content
      *
-     * Echo/Return the content or the excerpt depending on the $content param
+     * Return the content or the excerpt depending on the $content param
      *
      * @since   1.2.0
-     * @param   bool    $content    full | excerpt - display all the testimonial or
-     * @param   bool    $echo       echo or return the results
+     * @param   bool    $content    full | excerpt - display all the testimonial or the excerpt
      * @return  string              Testimonial content
      */
-    function get_content( $content = 'full', $echo = false ) {
+    function get_content( $content = 'full' ) {
 
         if ( $content == 'excerpt' )
             $s = get_the_excerpt();
         else
             $s = apply_filters( 'the_content', get_the_content() );
 
-        if ( $echo === true )
-            echo $s;
-        else
-            return $s;
+        return $s;
     }
 
     /**
@@ -164,10 +146,9 @@ class Arconix_Testimonial {
      * @since   1.0.0
      * @version 1.1.1
      *
-     * @param   array   $args   query arguments
-     * @param   bool    $echo   echo or return results
-     *
-     * @return  string  $return returns the query results
+     * @param   array   $args       Query arguments
+     * @param   bool    $echo       Echo or return results
+     * @return  string              The query results
      */
     function loop( $args, $echo = false ) {
         $plugin_defaults = $this->defaults();

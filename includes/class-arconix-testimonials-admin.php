@@ -317,13 +317,13 @@ class Arconix_Testimonials_Admin {
 
         switch( $column ) {
             case "testimonial-gravatar":
-                $t->get_image( 60, true );
+                echo $t->get_image( 60 );
                 break;
             case "testimonial-content":
                 the_excerpt();
                 break;
             case "testimonial-byline":
-                $t->get_citation( false, true, true );
+                echo $t->get_citation( false, true );
                 break;
             case "testimonial-shortcode":
                 printf( '[ac-testimonials p=%d]', get_the_ID() );
