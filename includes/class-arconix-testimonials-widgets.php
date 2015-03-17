@@ -37,6 +37,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
             'p'                     => '',
             'orderby'               => 'rand',
             'order'                 => 'ASC',
+            'text_limit'            => 0,
             'gravatar_size'         => 32
         );
 
@@ -139,8 +140,8 @@ class Arconix_Testimonials_Widget extends WP_Widget {
         </p>
         <!-- Content Limit: Text Input -->
         <p class="testimonial-text-limit">
-            <label for="<?php echo $this->get_field_id( 'text_limit' ); ?>"><?php _e( 'Content Limit', 'act' ); ?>:</label>
-            <input id="<?php echo $this->get_field_id( 'text_limit' ); ?>" name="<?php echo $this->get_field_name( 'text_limit' ); ?>" type="text" value="<?php echo esc_attr( $instance['text_limit'] ); ?>" class="widefat" />
+            <label for="<?php echo $this->get_field_id( 'text_limit' ); ?>"><?php _e( 'Content Limit (in number of words)', 'act' ); ?>:</label>
+            <input id="<?php echo $this->get_field_id( 'text_limit' ); ?>" name="<?php echo $this->get_field_name( 'text_limit' ); ?>" type="text" value="<?php echo esc_attr( $instance['text_limit'] ); ?>" />
         </p>
         <!-- Posts Number: Input Box -->
         <p>
