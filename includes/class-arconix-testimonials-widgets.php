@@ -69,8 +69,11 @@ class Arconix_Testimonials_Widget extends WP_Widget {
         echo $before_widget;
 
         // Title of widget (before and after defined by themes).
-        if ( !empty( $instance['title'] ) )
+        if( ! empty( $instance['title'] ) )
             echo $before_title . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $after_title;
+
+        // Don't send the widget title through to the loop (causes problems)
+        unset( $instance['title'] );
 
         $t = new Arconix_Testimonial();
         $t->loop( $instance, true );
