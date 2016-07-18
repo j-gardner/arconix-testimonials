@@ -23,7 +23,7 @@ class Arconix_Testimonial {
      *
      * @since   1.2.0
      */
-    function __construct() {
+    public function __construct() {
         $this->defaults = array(
             'query'     => array(
                 'post_type'         => 'testimonials',
@@ -47,8 +47,8 @@ class Arconix_Testimonial {
      *
      * @return  array       $defaults
      */
-    function defaults() {
-        return apply_filters( 'arconix_testimonials_defaults', $this->defaults );
+    public function get_defaults() {
+        return apply_filters( 'arconix_testimonial_defaults', $this->defaults );
     }
 
     /**
@@ -61,7 +61,7 @@ class Arconix_Testimonial {
      * @param   int     $size   size of the image to return
      * @return  string  $image  string containing the image or false
      */
-    function get_image( $size = 60 ) {
+    public function get_image( $size = 60 ) {
         // Get the post metadata
         $meta = get_post_meta( get_the_id(), '_act_email', true );
 
@@ -83,7 +83,7 @@ class Arconix_Testimonial {
      * @param  bool     $wrap_url       wrap the URL around the byline
      * @return string                   text of citation
      */
-    function get_citation( $show_author = true, $wrap_url = true ) {
+    public function get_citation( $show_author = true, $wrap_url = true ) {
         // Grab our metadata
         $custom = get_post_custom();
         isset( $custom["_act_byline"][0] ) ? $byline = $custom["_act_byline"][0] : $byline = '';
@@ -130,7 +130,7 @@ class Arconix_Testimonial {
      * @param   bool    $content    full | excerpt - display all the testimonial or the excerpt
      * @return  string              Testimonial content
      */
-    function get_content( $content = 'full' ) {
+    public function get_content( $content = 'full' ) {
 
         if ( $content == 'excerpt' )
             $s = get_the_excerpt();
@@ -150,8 +150,8 @@ class Arconix_Testimonial {
      * @param   bool    $echo       Echo or return results
      * @return  string              The query results
      */
-    function loop( $args, $echo = false ) {
-        $plugin_defaults = $this->defaults();
+    public function loop( $args, $echo = false ) {
+        $plugin_defaults = $this->get_defaults();
 
         $defaults = $plugin_defaults['query'];
         $defaults['gravatar_size'] = $plugin_defaults['gravatar']['size'];
@@ -192,7 +192,7 @@ class Arconix_Testimonial {
             $r .= '</div>';
         }
         else {
-            $r .= '<div class="arconix-testimonials-wrap"><div class="arconix-testimonials-none">' . __( 'No testimonials to display', 'act' ) . '</div></div>';
+            $r .= '<div class="arconix-testimonials-wrap"><div class="arconix-testimonials-none">' . __( 'No testimonials to display', Arconix_Testimonials_Plugin::$textdomain ) . '</div></div>';
         }
         wp_reset_postdata();
 

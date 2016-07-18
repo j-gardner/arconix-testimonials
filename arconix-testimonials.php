@@ -8,6 +8,8 @@
  *
  * Author: John Gardner
  * Author URI: http://arconixpc.com/
+ * 
+ * Text Domain: arconix-testimonials
  *
  * License: GNU General Public License v2.0
  * License URI: http://www.opensource.org/licenses/gpl-license.php
@@ -25,6 +27,7 @@ function activate_arconix_testimonials() {
 spl_autoload_register( 'arconix_testimonials_autoloader' );
 
 /**
+ * Class Autoloader
  * 
  * @param	string	$class_name		Class to check to autoload
  * @return	null					Return if it's not a valid class
@@ -60,20 +63,28 @@ function arconix_testimonials_autoloader( $class_name ) {
  *
  * @since 1.2.0
  */
-final class Arconix_Testimonials {
+final class Arconix_Testimonials_Plugin {
 
     /**
      * Plugin version.
      *
      * @since	1.2.0
-     * @var		string	$version	Plugin version
+     * @var		string	$version        Plugin version
      */
     public static $version = '1.2.0';
+    
+    /**
+     * Translation Textdomain
+     * 
+     * @since   1.2.0
+     * @var     string  $textdomain     For i18n
+     */
+    public static $textdomain = 'arconix-testimonials';
 	
 	/**
 	 *
 	 * @since	1.2.0
-	 * @var		array	$settings	Post Type default settings 
+	 * @var		array	$settings       Post Type default settings
 	 */
 	protected $settings;
 
@@ -86,12 +97,52 @@ final class Arconix_Testimonials {
         $this->settings = $this->get_settings();
     }
 	
-	
-	public function init() {
-		
-	}
-	
 	/**
+     * Load the plugin instructions
+     * 
+     * @since   1.2.0
+     */
+	public function init() {
+        $this->register_post_type();
+        
+        if ( is_admin() ) {
+            $this->load_admin();
+            $this->load_metaboxes();
+        }
+	}
+    
+    /**
+     * Set up our Custom Post Type
+     * 
+     * @since   1.2.0
+     */
+    private function register_post_type() {
+        $t = new Arconix_CPT_Register();
+        
+        $settings = $this->settings;
+        
+        $t->add( 'testimonials', $settings['post_type']['args'], self::$textdomain );
+    }
+
+    /**
+     * Loads the admin functionality
+     *
+     * @since   1.2.0
+     */
+    private function load_admin() {
+        new Arconix_Testimonials_Admin();
+    }
+    
+    /**
+     * Set up the Post Type Metabox
+     * 
+     * @since   1.2.0
+     */
+    private function load_metaboxes() {
+        new Arconix_Testimonials_Metaboxes();
+    }
+    
+    /**
 	 * Get our default Post Type registration settings
 	 * 
 	 * @since	1.2.0
@@ -102,7 +153,6 @@ final class Arconix_Testimonials {
             'post_type' => array(
                 'args' => array(
                     'public'            => true,
-                    'query_var'         => true,
                     'menu_position'     => 20,
                     'menu_icon'         => 'dashicons-testimonial',
                     'has_archive'       => false,
@@ -112,42 +162,15 @@ final class Arconix_Testimonials {
             )
         );
 
-        return apply_filters( 'arconix_testimonials_content_type_settings', $settings );
+        return apply_filters( 'arconix_testimonials_post_type_settings', $settings );
 	}
-
-    /**
-     * Conditionally load the metabox class
-     *
-     * @since   2.0.0
-     */
-    public function metabox_init() {
-        if ( ! class_exists( 'cmb_Meta_Box' ) )
-            require_once( $this->inc . 'metabox/init.php');
-    }
-
-    /**
-     * Loads the admin functionality
-     *
-     * @since   1.2.0
-     */
-    private function load_admin() {
-        new Arconix_Testimonials_Admin( $this->get_version() );
-    }
-
-    /**
-     * Return the current version of the plugin
-     *
-     * @since   1.2.0
-     * @return  string   Returns plugin version
-     */
-    public function get_version() {
-        return self::$version;
-    }
-
 }
 
 /** Vroom vroom */
 add_action( 'plugins_loaded', 'arconix_testimonials_run' );
 function arconix_testimonials_run() {
-    new Arconix_Testimonials;
+    load_plugin_textdomain( 'arconix-testimonials' );
+    $arconix_testimonials = new Arconix_Testimonials_Plugin();
+    
+    $arconix_testimonials->init();
 }
