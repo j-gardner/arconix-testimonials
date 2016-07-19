@@ -33,7 +33,10 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
      * @param   string      $version    The version of this plugin.
      */
     public function __construct() {
-        $this->dir = trailingslashit( plugin_dir_path( __FILE__ ) );
+        
+        $this->dir = trailingslashit( plugin_dir_path( dirname ( dirname( __FILE__ ) ) ) );
+        
+        //$this->dir = trailingslashit( plugin_dir_path( __FILE__ ) );
         $this->url = trailingslashit( plugin_dir_url( __FILE__ ) );
 
         add_action( 'init',                             array( $this, 'shortcodes' ) );

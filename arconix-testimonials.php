@@ -146,7 +146,7 @@ final class Arconix_Testimonials_Plugin {
 	 * Get our default Post Type registration settings
 	 * 
 	 * @since	1.2.0
-	 * @return	array				Post Type registration Settings
+	 * @return	array                   Post Type registration Settings
 	 */
 	public function get_settings() {
 		$settings = array(
@@ -168,9 +168,10 @@ final class Arconix_Testimonials_Plugin {
 
 /** Vroom vroom */
 add_action( 'plugins_loaded', 'arconix_testimonials_run' );
+
 function arconix_testimonials_run() {
     load_plugin_textdomain( 'arconix-testimonials' );
-    $arconix_testimonials = new Arconix_Testimonials_Plugin();
     
+    $arconix_testimonials = new Arconix_Testimonials_Plugin();
     $arconix_testimonials->init();
 }
