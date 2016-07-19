@@ -1,8 +1,11 @@
 <?php
 /**
  * Testimonials Widget
- *
- * @since 1.0.0
+ * 
+ * @package     WordPress
+ * @subpackage  Arconix Testimonials
+ * @author      John Gardner <john@arconixpc.com>
+ * @since       1.2.0
  */
 class Arconix_Testimonials_Widget extends WP_Widget {
     /**

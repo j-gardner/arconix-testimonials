@@ -1,6 +1,6 @@
 <?php
 /**
- * Create the metabox for the Testimonial Creation Screen
+ * Create the metaboxes for the Testimonial Creation Screen
  * 
  * @since 1.2.0
  */
@@ -14,7 +14,6 @@ class Arconix_Testimonials_Metaboxes {
      */
     protected $textdomain;
     
-    
     /**
      * Initialize the class.
      *
@@ -22,6 +21,14 @@ class Arconix_Testimonials_Metaboxes {
      */
     public function __construct() {
         $this->textdomain = Arconix_Testimonials_Plugin::$textdomain;
+    }
+    
+    /**
+     * Get our hooks into WordPress
+     * 
+     * @since   1.2.0
+     */
+    public function init() {
         add_action( 'cmb2_admin_init',    array( $this, 'cmb2') );        
         add_action( 'add_meta_boxes',     array( $this, 'shortcode_metabox' ) );
     }
@@ -54,14 +61,14 @@ class Arconix_Testimonials_Metaboxes {
             'id'    => '_act_byline',
             'name'  => __( 'Byline', $this->textdomain ),
             'desc'  => __( 'Enter a byline for the author of this testimonial (optional).', $this->textdomain ),
-            'type'  => 'text_medium'
+            'type'  => 'text'
         ) );
         
         $cmb->add_field( array(
             'id'    => '_act_url',
             'name'  => __( 'Website', $this->textdomain ),
             'desc'  => __( 'Enter a URL for the individual or organization (optional).', $this->textdomain ),
-            'type'  => 'text_medium',
+            'type'  => 'text',
         ) );
 
     }

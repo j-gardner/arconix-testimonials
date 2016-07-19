@@ -16,6 +16,7 @@
  */
 
 
+// Set our plugin activation hook
 register_activation_hook( __FILE__, 'activate_arconix_testimonials' );
 
 function activate_arconix_testimonials() {
@@ -23,7 +24,7 @@ function activate_arconix_testimonials() {
 	Arconix_Testimonials_Activator::activate();
 }
 
-
+// Register the overloader
 spl_autoload_register( 'arconix_testimonials_autoloader' );
 
 /**
@@ -104,6 +105,7 @@ final class Arconix_Testimonials_Plugin {
      */
 	public function init() {
         $this->register_post_type();
+        $this->load_public();
         
         if ( is_admin() ) {
             $this->load_admin();
@@ -123,6 +125,13 @@ final class Arconix_Testimonials_Plugin {
         
         $t->add( 'testimonials', $settings['post_type']['args'], self::$textdomain );
     }
+    
+    
+    private function load_public() {
+        $t = new Arconix_Testimonials_Public();
+        
+        $t->init();
+    }
 
     /**
      * Loads the admin functionality
@@ -139,7 +148,9 @@ final class Arconix_Testimonials_Plugin {
      * @since   1.2.0
      */
     private function load_metaboxes() {
-        new Arconix_Testimonials_Metaboxes();
+        $t = new Arconix_Testimonials_Metaboxes();
+        
+        $t->init();
     }
     
     /**

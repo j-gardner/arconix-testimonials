@@ -3,7 +3,12 @@
 /**
  * Class covers the testimonial loop itself and associated functions
  *
- * @since 1.2.0
+ * @package     WordPress
+ * @subpackage  Arconix Testimonials
+ * @author      John Gardner
+ * @link        http://arconixpc.com/plugins/arconix-testimonials
+ * @license     GPL-2.0+
+ * @since       1.2.0
  */
 class Arconix_Testimonial {
 

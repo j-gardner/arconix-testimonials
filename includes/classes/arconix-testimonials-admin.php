@@ -1,9 +1,13 @@
 <?php
-
 /**
  * Class covers the testimonial admin functionality.
- *
- * @since 1.0.0
+ * 
+ * @package     WordPress
+ * @subpackage  Arconix Testimonials
+ * @author      John Gardner
+ * @link        http://arconixpc.com/plugins/arconix-testimonials
+ * @license     GPL-2.0+
+ * @since       1.2.0
  */
 class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
 
@@ -33,110 +37,27 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
      * @param   string      $version    The version of this plugin.
      */
     public function __construct() {
-        
-        $this->dir = trailingslashit( plugin_dir_path( dirname ( dirname( __FILE__ ) ) ) );
-        
-        //$this->dir = trailingslashit( plugin_dir_path( __FILE__ ) );
-        $this->url = trailingslashit( plugin_dir_url( __FILE__ ) );
+        $this->dir = trailingslashit( plugin_dir_path( dirname( __FILE__ ) ) );
+        $this->url = trailingslashit( plugin_dir_url( dirname( __FILE__ ) ) );
 
-        add_action( 'init',                             array( $this, 'shortcodes' ) );
-        add_action( 'wp_enqueue_scripts',               array( $this, 'scripts' ) );
+        parent::__construct( 'testimonials', Arconix_Testimonials_Plugin::$textdomain );
+    }
+    
+    /**
+     * Get our hooks into WordPress
+     * 
+     * Overrides the parent function so we can add our class-specific hooks
+     * 
+     * @since   1.2.0
+     */
+    
+    public function init() {
         add_action( 'admin_enqueue_scripts',            array( $this, 'admin_scripts' ) );
         add_action( 'wp_dashboard_setup',               array( $this, 'dash_widget' ) );
 
-        add_filter( 'widget_text',                      'do_shortcode' );
-        add_filter( 'the_content',                      array( $this, 'content_filter' ) );
         add_filter( 'enter_title_here',                 array( $this, 'title_text' ) );
-        add_filter( 'cmb_meta_boxes',                   array( $this, 'metaboxes' ) );
-
-        // For use if Arconix Flexslider is active
-        add_filter( 'arconix_flexslider_slide_image_return',    array( $this, 'flexslider_image_return' ), 10, 4 );
-        add_filter( 'arconix_flexslider_slide_content_return',  array( $this, 'flexslider_content' ), 10, 2 );
         
-        parent::__construct( 'testimonials', Arconix_Testimonials_Plugin::$textdomain );
-    }
-
-    /**
-     * Register plugin shortcode.
-     *
-     * @since   1.0.0
-     */
-    public function shortcodes() {
-        add_shortcode( 'ac-testimonials', array( $this, 'testimonials_shortcode' ) );
-    }
-
-    /**
-     * Testimonials shortcode.
-     *
-     * @since   1.0.0
-     *
-     * @param   array        $atts       Passed attributes
-     * @param   string       $content    N/A - self-closing shortcode
-     * @return  string                   Result of query
-     */
-    public function testimonials_shortcode( $atts, $content = null ) {
-        $t = new Arconix_Testimonial;
-
-        return $t->loop( $atts );
-    }
-
-
-    /**
-     * Filter The_Content and add our data to it
-     *
-     * @since   1.0.0
-     * @version 1.2.0
-     * @global  stdObj      $post       Std Post
-     * @param   string      $content    Main content
-     * @return  string                  Our testimonial content
-     */
-    public function content_filter( $content ) {
-        global $post;
-
-        if( is_single() && $post->post_type == 'testimonial' && is_main_query() ) {
-
-            $t = new Arconix_Testimonial;
-
-            // So we can grab our default gravatar size and allow it to be filtered.
-            $defaults = $t->defaults();
-
-            $gs = apply_filters( 'arconix_testimonials_content_gravatar_size', $defaults['gravatar']['size'] );
-
-            $gravatar = '<div class="arconix-testimonial-gravatar">' . $t->get_image( $gs ) . '</div>';
-
-            $cite = '<div class="arconix-testimonial-info-wrap">' . $t->get_citation( false ) . '</div>';
-
-            $content = '<div class="arconix-testimonial-content">' . $t->get_content() . '</div>';
-
-            $content = $cite . $gravatar . $content;
-
-        }
-
-        return $content;
-    }
-
-    /**
-     * Load required CSS.
-     *
-     * Load the plugin CSS. If the css file is present in the theme directory, it will be loaded instead,
-     * allowing for an easy way to override the default template. If you'd like to remove the CSS entirely,
-     * such as when building the styles into a single file, simply reference the filter and return false
-     *
-     * @example add_filter( 'pre_register_arconix_testimonials_css', '__return_false' );
-     *
-     * @since   1.0.0
-     */
-    public function scripts() {
-         // If the CSS is not being overridden in a theme folder, allow the user to filter it out entirely (if building into stylesheet or the like)
-        if ( apply_filters( 'pre_register_arconix_testimonials_css', true ) ) {
-            // Checks the child directory and then the parent directory.
-            if ( file_exists( get_stylesheet_directory() . '/arconix-testimonials.css' ) )
-                wp_enqueue_style( 'arconix-testimonials', get_stylesheet_directory_uri() . '/arconix-testimonials.css', false, $this->version );
-            elseif ( file_exists( get_template_directory() . '/arconix-testimonials.css' ) )
-                wp_enqueue_style( 'arconix-testimonials', get_template_directory_uri() . '/arconix-testimonials.css', false, $this->version );
-            else
-                wp_enqueue_style( 'arconix-testimonials', $this->url . 'css/arconix-testimonials.css', false, $this->version );
-        }
+        parent::init();
     }
 
     /**
@@ -151,7 +72,7 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
      */
     public function admin_scripts() {
         if( apply_filters( 'pre_register_arconix_testimonials_admin_css', true ) )
-            wp_enqueue_style( 'arconix-testimonials-admin', $this->url . 'css/admin.css', false, $this->version );
+            wp_enqueue_style( 'arconix-testimonials-admin', $this->url . 'css/admin.css', false, Arconix_Testimonials_Plugin::$version );
     }
 
    
