@@ -61,21 +61,23 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
     }
 
     /**
-     * Load the Amid-side CSS.
+     * Load the Admin-side CSS.
      *
      * Load the admin CSS. If you'd like to remove the CSS entirely, such as when building the styles
      * into a single file, simply reference the filter and return false
      *
-     * @example add_filter( 'pre_register_arconix_testimonials_admin_css', '__return_false' );
+     * @example add_theme_support( 'arconix-testimonials', 'admin-css' );
      *
      * @since   1.0.0
      */
     public function admin_scripts() {
-        if( apply_filters( 'pre_register_arconix_testimonials_admin_css', true ) )
-            wp_enqueue_style( 'arconix-testimonials-admin', $this->url . 'css/admin.css', false, Arconix_Testimonials_Plugin::$version );
-    }
 
-   
+        if ( ! current_theme_supports( 'arconix-testimonials', 'admin-css' ) && 
+                apply_filters( 'pre_register_arconix_testimonials_admin_css', true ) )
+            
+            wp_enqueue_style( 'arconix-testimonials-admin', $this->url . 'css/admin.css', false, Arconix_Testimonials_Plugin::$version );
+            
+    }
 
     /**
      * Choose the specific columns we want to display in the WP Admin Testimonials list.
@@ -83,14 +85,14 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
      * @since   1.0.0
      * @version 1.1.0
      * @param   array       $columns        Existing column structure
-     * @return  array       $columns        New column structure
+     * @return  array                       New column structure
      */
     public function columns_define( $columns ) {
-        $col_gr = array( 'testimonial-gravatar'     => __( 'Image', 'act' ) );
-        $col_ta = array( 'title'                    => __( 'Author', 'act' ) );
-        $col_tb = array( 'testimonial-byline'       => __( 'Byline', 'act' ) );
-        $col_tc = array( 'testimonial-content'      => __( 'Testimonial', 'act' ) );
-        $col_sc = array( 'testimonial-shortcode'    => __( 'Shortcode', 'act' ) );
+        $col_gr = array( 'testimonial-gravatar'     => __( 'Image', Arconix_Testimonials_Plugin::$textdomain ) );
+        $col_ta = array( 'title'                    => __( 'Author', Arconix_Testimonials_Plugin::$textdomain ) );
+        $col_tb = array( 'testimonial-byline'       => __( 'Byline', Arconix_Testimonials_Plugin::$textdomain ) );
+        $col_tc = array( 'testimonial-content'      => __( 'Testimonial', Arconix_Testimonials_Plugin::$textdomain ) );
+        $col_sc = array( 'testimonial-shortcode'    => __( 'Shortcode', Arconix_Testimonials_Plugin::$textdomain ) );
 
         unset( $columns['title'] );
 
@@ -177,16 +179,15 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
                 'show_author' => 0, // display author
                 'show_date' => 1 // display post date
             ) );
-
-            echo '<div class="act-widget-bottom"><ul>';
+            
             ?>
+            <div class="act-widget-bottom"><ul>            
                 <li><a href="http://arcnx.co/atwiki" class="atdocs"><img src="<?php echo $this->url . 'css/images/page-16x16.png' ?>">Documentation</a></li>
                 <li><a href="http://arcnx.co/athelp" class="athelp"><img src="<?php echo $this->url . 'css/images/help-16x16.png' ?>">Support Forum</a></li>
-                <li><a href="http://arcnx.co/attrello" class="atdev"><img src="<?php echo $this->url . 'css/images/trello-16x16.png' ?>">Dev Board</a></li>
                 <li><a href="http://arcnx.co/atsource" class="atsource"><img src="<?php echo $this->url . 'css/images/github-16x16.png'; ?>">Source Code</a></li>
-            <?php
-            echo '</ul></div>';
-        echo '</div>';
+            </ul></div>
+        </div>
+        <?php
     }
 
     /**
@@ -198,7 +199,7 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
      * @global  stdObj      $post           Standard WP Post object
      * @param   string      $content        Incoming content to be modified
      * @param   string      $display        From the Flexslider user, displaying either 'none', 'excerpt' or 'content'
-     * @return  string      $content        Modified return content with our testimonial-customized options
+     * @return  string                      Modified return content with our testimonial-customized options
      */
     public function flexslider_content( $content, $display ) {
         global $post;
@@ -237,7 +238,7 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
      * @param   bool        $link_image     Wrap the image in a hyperlink to the permalink (false for basic image slider)
      * @param   string      $image_size     The size of the image to display. Accepts any valid built-in or added WordPress image size
      * @param   string      $caption        Caption to be displayed
-     * @return  string      $s              Empty string if on the testimonial post_type
+     * @return  string                      Empty string if on the testimonial post_type
      */
     public function flexslider_image_return( $content, $link_image, $image_size, $caption ) {
         global $post;
