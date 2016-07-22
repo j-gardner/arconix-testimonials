@@ -140,7 +140,7 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
         $screen = get_current_screen();
 
         if( 'testimonials' == $screen->post_type )
-            $title = __( 'Enter author name here', Arconix_Testimonials_Plugin::$textdomain );
+            $title = __( 'Enter author name here', Arconix_Testimonials_Plugin::textdomain );
 
         return $title;
     }
