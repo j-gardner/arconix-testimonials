@@ -2,9 +2,9 @@
 /**
  * Testimonials Widget
  * 
- * @package     WordPress
- * @subpackage  Arconix Testimonials
- * @author      John Gardner <john@arconixpc.com>
+ * @author      John Gardner
+ * @link        http://arconixpc.com/plugins/arconix-testimonials
+ * @license     GPLv2 or later
  * @since       1.2.0
  */
 class Arconix_Testimonials_Widget extends WP_Widget {
@@ -46,9 +46,9 @@ class Arconix_Testimonials_Widget extends WP_Widget {
 
         $widget_ops = array(
             'classname'     => 'arconix_testimonials_widget',
-            'description'   => __( 'Display client testimonials', 'act' ),
+            'description'   => __( 'Display client testimonials', arconix_testimonials_plugin::textdomain ),
         );
-        parent::__construct( 'arconix-testimonials', __( 'Arconix Testimonials', 'act' ), $widget_ops );
+        parent::__construct( 'arconix-testimonials', __( 'Arconix Testimonials', arconix_testimonials_plugin::textdomain ), $widget_ops );
     }
 
     /**
@@ -120,22 +120,22 @@ class Arconix_Testimonials_Widget extends WP_Widget {
         /* Merge with defaults */
         $instance = wp_parse_args( $instance, $this->defaults ); ?>
 
-        <p><?php _e( 'Use the Testimonials custom post type to add content to this widget', 'act'); ?>.</p>
+        <p><?php _e( 'Use the Testimonials custom post type to add content to this widget', arconix_testimonials_plugin::textdomain); ?>.</p>
 
         <!-- Title: Text Input -->
         <p>
-            <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'act' ); ?>:</label>
+            <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', arconix_testimonials_plugin::textdomain ); ?>:</label>
             <input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" class="widefat" />
         </p>
         <!-- Specific Post ID: Input Box -->
         <p>
-            <label for="<?php echo $this->get_field_id( 'p' ); ?>"><?php _e( 'Specific ID', 'act' ); ?>:</label>
+            <label for="<?php echo $this->get_field_id( 'p' ); ?>"><?php _e( 'Specific ID', arconix_testimonials_plugin::textdomain ); ?>:</label>
             <input id="<?php echo $this->get_field_id( 'p' ); ?>" name="<?php echo $this->get_field_name( 'p' ); ?>" type="text" value="<?php echo esc_attr( $instance['p'] ); ?>" size="4" />
             </p>
         </p>
         <!-- Content: Select Box -->
         <p>
-            <label for="<?php echo $this->get_field_id( 'content' ); ?>"><?php _e( 'Content', 'act' ); ?>:</label>
+            <label for="<?php echo $this->get_field_id( 'content' ); ?>"><?php _e( 'Content', arconix_testimonials_plugin::textdomain ); ?>:</label>
             <select id="<?php echo $this->get_field_id( 'content' ); ?>" name="<?php echo $this->get_field_name( 'content' ); ?>">
             <?php
             $contents = array( 'full', 'excerpt' );
@@ -146,18 +146,18 @@ class Arconix_Testimonials_Widget extends WP_Widget {
         </p>
         <!-- Content Limit: Text Input -->
         <p class="testimonial-text-limit">
-            <label for="<?php echo $this->get_field_id( 'text_limit' ); ?>"><?php _e( 'Content Limit (in number of words)', 'act' ); ?>:</label>
+            <label for="<?php echo $this->get_field_id( 'text_limit' ); ?>"><?php _e( 'Content Limit (in number of words)', arconix_testimonials_plugin::textdomain ); ?>:</label>
             <input id="<?php echo $this->get_field_id( 'text_limit' ); ?>" name="<?php echo $this->get_field_name( 'text_limit' ); ?>" type="text" value="<?php echo esc_attr( $instance['text_limit'] ); ?>" />
         </p>
         <!-- Posts Number: Input Box -->
         <p>
-            <label for="<?php echo $this->get_field_id( 'posts_per_page' ); ?>"><?php _e( 'Number of items to show', 'act' ); ?>:</label>
+            <label for="<?php echo $this->get_field_id( 'posts_per_page' ); ?>"><?php _e( 'Number of items to show', arconix_testimonials_plugin::textdomain ); ?>:</label>
             <input id="<?php echo $this->get_field_id( 'posts_per_page' ); ?>" name="<?php echo $this->get_field_name( 'posts_per_page' ); ?>" type="text" value="<?php echo esc_attr( $instance['posts_per_page'] ); ?>" size="2" />
             </p>
         </p>
         <!-- Orderby: Select Box -->
         <p>
-            <label for="<?php echo $this->get_field_id( 'orderby' ); ?>"><?php _e( 'Select Orderby', 'act' ); ?>:</label>
+            <label for="<?php echo $this->get_field_id( 'orderby' ); ?>"><?php _e( 'Select Orderby', arconix_testimonials_plugin::textdomain ); ?>:</label>
             <select id="<?php echo $this->get_field_id( 'orderby' ); ?>" name="<?php echo $this->get_field_name( 'orderby' ); ?>">
             <?php
             $orderby_items = array( 'ID', 'author', 'title', 'name', 'date', 'modified', 'rand', 'comment_count', 'menu_order' );
@@ -168,7 +168,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
         </p>
         <!-- Order: Select Box -->
         <p>
-            <label for="<?php echo $this->get_field_id( 'order' ); ?>"><?php _e( 'Select Order', 'act' ); ?>:</label>
+            <label for="<?php echo $this->get_field_id( 'order' ); ?>"><?php _e( 'Select Order', arconix_testimonials_plugin::textdomain ); ?>:</label>
             <select id="<?php echo $this->get_field_id( 'order' ); ?>" name="<?php echo $this->get_field_name( 'order' ); ?>">
             <?php
             $order_items = array( 'ASC', 'DESC' );
@@ -179,10 +179,16 @@ class Arconix_Testimonials_Widget extends WP_Widget {
         </p>
         <!-- Gravatar Size: Select Box -->
         <p>
-            <label for="<?php echo $this->get_field_id( 'gravatar_size' ); ?>"><?php _e( 'Image Size', 'act' ); ?>:</label>
+            <label for="<?php echo $this->get_field_id( 'gravatar_size' ); ?>"><?php _e( 'Image Size', arconix_testimonials_plugin::textdomain ); ?>:</label>
             <select id="<?php echo $this->get_field_id( 'gravatar_size' ); ?>" name="<?php echo $this->get_field_name( 'gravatar_size' ); ?>">
                 <?php
-                $sizes = array( __( 'Small', 'act' ) => 32, __( 'Medium', 'act' ) => 48, __( 'Large', 'act' ) => 64, __( 'X-Large', 'act' ) => 80, __( 'XX-Large', 'act' ) => 96 );
+                $sizes = array( 
+                    __( 'Small', arconix_testimonials_plugin::textdomain ) => 32, 
+                    __( 'Medium', arconix_testimonials_plugin::textdomain ) => 48, 
+                    __( 'Large', arconix_testimonials_plugin::textdomain ) => 64, 
+                    __( 'X-Large', arconix_testimonials_plugin::textdomain ) => 80, 
+                    __( 'XX-Large', arconix_testimonials_plugin::textdomain ) => 96 
+                );
                 $sizes = apply_filters( 'arconix_testimonials_widget_gravatar_sizes', $sizes );
                 foreach ( $sizes as $label => $size ) { ?>
                     <option value="<?php echo absint( $size ); ?>" <?php selected( $size, $instance['gravatar_size'] ); ?>><?php printf( '%s (%spx)', $label, $size ); ?></option>

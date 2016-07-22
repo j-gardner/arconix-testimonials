@@ -1,9 +1,7 @@
 <?php
 /**
  * Class covers the testimonial admin functionality.
- * 
- * @package     WordPress
- * @subpackage  Arconix Testimonials
+ *
  * @author      John Gardner
  * @link        http://arconixpc.com/plugins/arconix-testimonials
  * @license     GPL-2.0+
@@ -40,7 +38,7 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
         $this->dir = trailingslashit( plugin_dir_path( dirname( __FILE__ ) ) );
         $this->url = trailingslashit( plugin_dir_url( dirname( __FILE__ ) ) );
 
-        parent::__construct( 'testimonials', Arconix_Testimonials_Plugin::$textdomain );
+        parent::__construct( 'testimonials', Arconix_Testimonials_Plugin::textdomain );
     }
     
     /**
@@ -50,7 +48,6 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
      * 
      * @since   1.2.0
      */
-    
     public function init() {
         add_action( 'admin_enqueue_scripts',            array( $this, 'admin_scripts' ) );
         add_action( 'wp_dashboard_setup',               array( $this, 'dash_widget' ) );
@@ -75,7 +72,7 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
         if ( ! current_theme_supports( 'arconix-testimonials', 'admin-css' ) && 
                 apply_filters( 'pre_register_arconix_testimonials_admin_css', true ) )
             
-            wp_enqueue_style( 'arconix-testimonials-admin', $this->url . 'css/admin.css', false, Arconix_Testimonials_Plugin::$version );
+            wp_enqueue_style( 'arconix-testimonials-admin', $this->url . 'css/admin.css', false, Arconix_Testimonials_Plugin::version );
             
     }
 
@@ -88,11 +85,11 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
      * @return  array                       New column structure
      */
     public function columns_define( $columns ) {
-        $col_gr = array( 'testimonial-gravatar'     => __( 'Image', Arconix_Testimonials_Plugin::$textdomain ) );
-        $col_ta = array( 'title'                    => __( 'Author', Arconix_Testimonials_Plugin::$textdomain ) );
-        $col_tb = array( 'testimonial-byline'       => __( 'Byline', Arconix_Testimonials_Plugin::$textdomain ) );
-        $col_tc = array( 'testimonial-content'      => __( 'Testimonial', Arconix_Testimonials_Plugin::$textdomain ) );
-        $col_sc = array( 'testimonial-shortcode'    => __( 'Shortcode', Arconix_Testimonials_Plugin::$textdomain ) );
+        $col_gr = array( 'testimonial-gravatar'     => __( 'Image', Arconix_Testimonials_Plugin::textdomain ) );
+        $col_ta = array( 'title'                    => __( 'Author', Arconix_Testimonials_Plugin::textdomain ) );
+        $col_tb = array( 'testimonial-byline'       => __( 'Byline', Arconix_Testimonials_Plugin::textdomain ) );
+        $col_tc = array( 'testimonial-content'      => __( 'Testimonial', Arconix_Testimonials_Plugin::textdomain ) );
+        $col_sc = array( 'testimonial-shortcode'    => __( 'Shortcode', Arconix_Testimonials_Plugin::textdomain ) );
 
         unset( $columns['title'] );
 
@@ -182,9 +179,12 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
             
             ?>
             <div class="act-widget-bottom"><ul>            
-                <li><a href="http://arcnx.co/atwiki" class="atdocs"><img src="<?php echo $this->url . 'css/images/page-16x16.png' ?>">Documentation</a></li>
-                <li><a href="http://arcnx.co/athelp" class="athelp"><img src="<?php echo $this->url . 'css/images/help-16x16.png' ?>">Support Forum</a></li>
-                <li><a href="http://arcnx.co/atsource" class="atsource"><img src="<?php echo $this->url . 'css/images/github-16x16.png'; ?>">Source Code</a></li>
+                <li><a href="http://arcnx.co/atwiki" class="atdocs"><img src="<?php echo $this->url . 'css/images/page-16x16.png' ?>">
+                        <?php _e( 'Documentation', Arconix_Testimonials_Plugin::textdomain ) ?></a></li>
+                <li><a href="http://arcnx.co/athelp" class="athelp"><img src="<?php echo $this->url . 'css/images/help-16x16.png' ?>">
+                        <?php _e( 'Support Forum', Arconix_Testimonials_Plugin::textdomain ) ?></a></li>
+                <li><a href="http://arcnx.co/atsource" class="atsource"><img src="<?php echo $this->url . 'css/images/github-16x16.png'; ?>">
+                        <?php _e( 'Source Code', Arconix_Testimonials_Plugin::textdomain ) ?></a></li>
             </ul></div>
         </div>
         <?php

@@ -72,7 +72,7 @@ final class Arconix_Testimonials_Plugin {
      * @since	1.2.0
      * @var		string	$version        Plugin version
      */
-    public static $version = '1.2.0';
+    const version = '1.2.0';
     
     /**
      * Translation Textdomain
@@ -80,7 +80,7 @@ final class Arconix_Testimonials_Plugin {
      * @since   1.2.0
      * @var     string  $textdomain     For i18n
      */
-    public static $textdomain = 'arconix-testimonials';
+    const textdomain = 'arconix-testimonials';
 	
 	/**
 	 *
@@ -123,7 +123,7 @@ final class Arconix_Testimonials_Plugin {
         
         $settings = $this->settings;
         
-        $t->add( 'testimonials', $settings['post_type']['args'], self::$textdomain );
+        $t->add( 'testimonials', $settings['post_type']['args'], self::textdomain );
     }
     
     

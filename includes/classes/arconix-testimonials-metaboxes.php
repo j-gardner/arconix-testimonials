@@ -2,7 +2,10 @@
 /**
  * Create the metaboxes for the Testimonial Creation Screen
  * 
- * @since 1.2.0
+ * @author      John Gardner
+ * @link        http://arconixpc.com/plugins/arconix-testimonials
+ * @license     GPLv2 or later
+ * @since       1.2.0
  */
 class Arconix_Testimonials_Metaboxes {
     
@@ -20,7 +23,7 @@ class Arconix_Testimonials_Metaboxes {
      * @since   1.2.0
      */
     public function __construct() {
-        $this->textdomain = Arconix_Testimonials_Plugin::$textdomain;
+        $this->textdomain = Arconix_Testimonials_Plugin::textdomain;
     }
     
     /**

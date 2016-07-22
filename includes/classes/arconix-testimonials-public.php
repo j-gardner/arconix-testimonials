@@ -1,13 +1,10 @@
 <?php
-
 /**
  * Public-facing functionality of the plugin
  * 
- * @package     WordPress
- * @subpackage  Arconix Testimonials
  * @author      John Gardner
  * @link        http://arconixpc.com/plugins/arconix-testimonials
- * @license     GPL-2.0+
+ * @license     GPLv2 or later
  * @since       1.2.0
  */
 class Arconix_Testimonials_Public {
@@ -130,11 +127,11 @@ class Arconix_Testimonials_Public {
             
             // Checks the child directory and then the parent directory.
             if ( file_exists( get_stylesheet_directory() . '/arconix-testimonials.css' ) )
-                wp_enqueue_style( 'arconix-testimonials', get_stylesheet_directory_uri() . '/arconix-testimonials.css', false, Arconix_Testimonials_Plugin::$version );
+                wp_enqueue_style( 'arconix-testimonials', get_stylesheet_directory_uri() . '/arconix-testimonials.css', false, Arconix_Testimonials_Plugin::version );
             elseif ( file_exists( get_template_directory() . '/arconix-testimonials.css' ) )
-                wp_enqueue_style( 'arconix-testimonials', get_template_directory_uri() . '/arconix-testimonials.css', false, Arconix_Testimonials_Plugin::$version );
+                wp_enqueue_style( 'arconix-testimonials', get_template_directory_uri() . '/arconix-testimonials.css', false, Arconix_Testimonials_Plugin::version );
             else
-                wp_enqueue_style( 'arconix-testimonials', $this->url . 'css/arconix-testimonials.css', false, Arconix_Testimonials_Plugin::$version );
+                wp_enqueue_style( 'arconix-testimonials', $this->url . 'css/arconix-testimonials.css', false, Arconix_Testimonials_Plugin::version );
         }
     }
     
