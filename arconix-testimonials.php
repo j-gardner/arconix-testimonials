@@ -15,6 +15,9 @@
  * License URI: http://www.opensource.org/licenses/gpl-license.php
  */
 
+// Load the metabox class
+require_once dirname( __FILE__ ) . '/includes/cmb2/init.php';
+
 
 // Set our plugin activation hook
 register_activation_hook( __FILE__, 'activate_arconix_testimonials' );
@@ -24,7 +27,7 @@ function activate_arconix_testimonials() {
 	Arconix_Testimonials_Activator::activate();
 }
 
-// Register the overloader
+// Register the autoloader
 spl_autoload_register( 'arconix_testimonials_autoloader' );
 
 /**
