@@ -38,14 +38,6 @@ class Arconix_CPT_Register {
     protected $plural;
 
     /**
-     * Textdomain used for translation.
-     *
-     * @since   1.0.0
-     * @var		string			$textdomain			Used for i18n.
-     */
-    protected $textdomain;
-
-    /**
      * Custom Post Type registration labels.
      *
      * @since   1.0.0
@@ -83,13 +75,12 @@ class Arconix_CPT_Register {
      * @param	string          $textdomain             For i18n
      * @return	void                                    Return early if no valid post types were provided
      */
-    public function add( $post_type_names, $settings = array(), $textdomain = 'default' ) {
+    public function add( $post_type_names, $settings = array() ) {
         // Bail if the post type name hasn't been set
         if ( !isset( $post_type_names ) )
             return;
 
         $this->set_post_type_names( $post_type_names );
-        $this->textdomain = $textdomain;
         $this->labels     = $this->set_labels();
         $this->settings   = $this->set_settings( $settings );
     }
@@ -140,19 +131,19 @@ class Arconix_CPT_Register {
         $plural   = $this->plural;
 
         $labels = array( 'labels' => array(
-                'name'               => sprintf( __( '%s', $this->textdomain ), $plural ),
-                'singular_name'      => sprintf( __( '%s', $this->textdomain ), $singular ),
-                'menu_name'          => sprintf( __( '%s', $this->textdomain ), $plural ),
-                'all_items'          => sprintf( __( '%s', $this->textdomain ), $plural ),
-                'add_new'            => __( 'Add New', $this->textdomain ),
-                'add_new_item'       => sprintf( __( 'Add New %s', $this->textdomain ), $singular ),
-                'edit_item'          => sprintf( __( 'Edit %s', $this->textdomain ), $singular ),
-                'new_item'           => sprintf( __( 'New %s', $this->textdomain ), $singular ),
-                'view_item'          => sprintf( __( 'View %s', $this->textdomain ), $singular ),
-                'search_items'       => sprintf( __( 'Search %s', $this->textdomain ), $plural ),
-                'not_found'          => sprintf( __( 'No %s found', $this->textdomain ), $plural ),
-                'not_found_in_trash' => sprintf( __( 'No %s found in Trash', $this->textdomain ), $plural ),
-                'parent_item_colon'  => sprintf( __( 'Parent %s:', $this->textdomain ), $singular )
+                'name'               => sprintf( __( '%s', 'arconix-testimonials' ), $plural ),
+                'singular_name'      => sprintf( __( '%s', 'arconix-testimonials' ), $singular ),
+                'menu_name'          => sprintf( __( '%s', 'arconix-testimonials' ), $plural ),
+                'all_items'          => sprintf( __( '%s', 'arconix-testimonials' ), $plural ),
+                'add_new'            => __( 'Add New', 'arconix-testimonials' ),
+                'add_new_item'       => sprintf( __( 'Add New %s', 'arconix-testimonials' ), $singular ),
+                'edit_item'          => sprintf( __( 'Edit %s', 'arconix-testimonials' ), $singular ),
+                'new_item'           => sprintf( __( 'New %s', 'arconix-testimonials' ), $singular ),
+                'view_item'          => sprintf( __( 'View %s', 'arconix-testimonials' ), $singular ),
+                'search_items'       => sprintf( __( 'Search %s', 'arconix-testimonials' ), $plural ),
+                'not_found'          => sprintf( __( 'No %s found', 'arconix-testimonials' ), $plural ),
+                'not_found_in_trash' => sprintf( __( 'No %s found in Trash', 'arconix-testimonials' ), $plural ),
+                'parent_item_colon'  => sprintf( __( 'Parent %s:', 'arconix-testimonials' ), $singular )
             ) );
 
         return $labels;

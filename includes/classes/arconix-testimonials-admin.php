@@ -10,15 +10,6 @@
 class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
 
     /**
-     * The directory path to this plugin.
-     *
-     * @since   1.2.0
-     * @access  private
-     * @var     string      $dir        The directory path to this plugin
-     */
-    private $dir;
-
-    /**
      * The url path to this plugin.
      *
      * @since   1.2.0
@@ -35,10 +26,9 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
      * @param   string      $version    The version of this plugin.
      */
     public function __construct() {
-        $this->dir = trailingslashit( plugin_dir_path( dirname( __FILE__ ) ) );
         $this->url = trailingslashit( plugin_dir_url( dirname( __FILE__ ) ) );
 
-        parent::__construct( 'testimonials', Arconix_Testimonials_Plugin::textdomain );
+        parent::__construct( 'testimonials' );
     }
     
     /**
@@ -85,11 +75,11 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
      * @return  array                       New column structure
      */
     public function columns_define( $columns ) {
-        $col_gr = array( 'testimonial-gravatar'     => __( 'Image', Arconix_Testimonials_Plugin::textdomain ) );
-        $col_ta = array( 'title'                    => __( 'Author', Arconix_Testimonials_Plugin::textdomain ) );
-        $col_tb = array( 'testimonial-byline'       => __( 'Byline', Arconix_Testimonials_Plugin::textdomain ) );
-        $col_tc = array( 'testimonial-content'      => __( 'Testimonial', Arconix_Testimonials_Plugin::textdomain ) );
-        $col_sc = array( 'testimonial-shortcode'    => __( 'Shortcode', Arconix_Testimonials_Plugin::textdomain ) );
+        $col_gr = array( 'testimonial-gravatar'     => __( 'Image', 'arconix-testimonials' ) );
+        $col_ta = array( 'title'                    => __( 'Author', 'arconix-testimonials' ) );
+        $col_tb = array( 'testimonial-byline'       => __( 'Byline', 'arconix-testimonials' ) );
+        $col_tc = array( 'testimonial-content'      => __( 'Testimonial', 'arconix-testimonials' ) );
+        $col_sc = array( 'testimonial-shortcode'    => __( 'Shortcode', 'arconix-testimonials' ) );
 
         unset( $columns['title'] );
 
@@ -140,7 +130,7 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
         $screen = get_current_screen();
 
         if( 'testimonials' == $screen->post_type )
-            $title = __( 'Enter author name here', Arconix_Testimonials_Plugin::textdomain );
+            $title = __( 'Enter author name here', 'arconix-testimonials' );
 
         return $title;
     }
@@ -180,74 +170,14 @@ class Arconix_Testimonials_Admin extends Arconix_CPT_Admin {
             ?>
             <div class="act-widget-bottom"><ul>            
                 <li><a href="http://arcnx.co/atwiki" class="atdocs"><img src="<?php echo $this->url . 'css/images/page-16x16.png' ?>">
-                        <?php _e( 'Documentation', Arconix_Testimonials_Plugin::textdomain ) ?></a></li>
+                        <?php _e( 'Documentation', 'arconix-testimonials' ) ?></a></li>
                 <li><a href="http://arcnx.co/athelp" class="athelp"><img src="<?php echo $this->url . 'css/images/help-16x16.png' ?>">
-                        <?php _e( 'Support Forum', Arconix_Testimonials_Plugin::textdomain ) ?></a></li>
+                        <?php _e( 'Support Forum', 'arconix-testimonials' ) ?></a></li>
                 <li><a href="http://arcnx.co/atsource" class="atsource"><img src="<?php echo $this->url . 'css/images/github-16x16.png'; ?>">
-                        <?php _e( 'Source Code', Arconix_Testimonials_Plugin::textdomain ) ?></a></li>
+                        <?php _e( 'Source Code', 'arconix-testimonials' ) ?></a></li>
             </ul></div>
         </div>
         <?php
     }
-
-    /**
-     * Modify the Arconix Flexslider content
-     *
-     * Customizes the flexslider content with our testimonial data
-     *
-     * @since   1.2.0
-     * @global  stdObj      $post           Standard WP Post object
-     * @param   string      $content        Incoming content to be modified
-     * @param   string      $display        From the Flexslider user, displaying either 'none', 'excerpt' or 'content'
-     * @return  string                      Modified return content with our testimonial-customized options
-     */
-    public function flexslider_content( $content, $display ) {
-        global $post;
-
-        // return early if we're not displaying anything or we're not working with a testimonial
-        if ( ! $display || $display == 'none' || $post->post_type != 'testimonials' ) return;
-
-        // Initialize our testimonial class
-        $t = new Arconix_Testimonial();
-
-        // Get our gravatar size
-        $defaults = $t->get_defaults();
-        $gs = apply_filters( 'arconix_testimonials_content_gravatar_size', $defaults['gravatar']['size'] );
-
-        $image = '<div class="arconix-testimonial-gravatar">' . $t->get_image( $gs ) . '</div>';
-
-        $cite = '<div class="arconix-testimonial-info-wrap">' . $t->get_citation() . '</div>';
-
-        $display == 'content' ? $display = false : $display = true;
-        $content = '<div class="arconix-testimonial-content">' . $t->get_content( $display ) . '</div>';
-
-        $content .= $image . $cite;
-
-        return $content;
-    }
-
-    /**
-     * Modify the Arconix Flexslider image information
-     *
-     * Returns an empty string if we're working with a testimonial as the content filter handles the
-     * image output
-     *
-     * @since   1.2.0
-     * @global  stdObj      $post           Standard WP Post object
-     * @param   string      $content        Existing image data
-     * @param   bool        $link_image     Wrap the image in a hyperlink to the permalink (false for basic image slider)
-     * @param   string      $image_size     The size of the image to display. Accepts any valid built-in or added WordPress image size
-     * @param   string      $caption        Caption to be displayed
-     * @return  string                      Empty string if on the testimonial post_type
-     */
-    public function flexslider_image_return( $content, $link_image, $image_size, $caption ) {
-        global $post;
-
-        if ( $post->post_type == 'testimonials' ) $content = '';
-
-        return $content;
-    }
-
-
 
 }

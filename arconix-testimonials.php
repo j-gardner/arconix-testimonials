@@ -79,14 +79,6 @@ final class Arconix_Testimonials_Plugin {
      * @var		string	$version        Plugin version
      */
     const version = '1.2.0';
-    
-    /**
-     * Translation Textdomain
-     * 
-     * @since   1.2.0
-     * @var     string  $textdomain     For i18n
-     */
-    const textdomain = 'arconix-testimonials';
 	
 	/**
 	 *
@@ -129,7 +121,7 @@ final class Arconix_Testimonials_Plugin {
         
         $settings = $this->settings;
         
-        $t->add( 'testimonials', $settings['post_type']['args'], self::textdomain );
+        $t->add( 'testimonials', $settings['post_type']['args'] );
     }
     
     

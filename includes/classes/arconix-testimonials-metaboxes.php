@@ -10,23 +10,6 @@
 class Arconix_Testimonials_Metaboxes {
     
     /**
-     * Translation Textdomain.
-     * 
-     * @since   1.2.0
-     * @var     string  $textdomain     For i18n
-     */
-    protected $textdomain;
-    
-    /**
-     * Initialize the class.
-     *
-     * @since   1.2.0
-     */
-    public function __construct() {
-        $this->textdomain = Arconix_Testimonials_Plugin::textdomain;
-    }
-    
-    /**
      * Get our hooks into WordPress
      * 
      * @since   1.2.0
@@ -45,7 +28,7 @@ class Arconix_Testimonials_Metaboxes {
         // Initiate the metabox
         $cmb = new_cmb2_box( array(
             'id'            => 'arconix-testimonials-details',
-            'title'         => __( 'Testimonial Details', $this->textdomain ),
+            'title'         => __( 'Testimonial Details', 'arconix-testimonials' ),
             'object_types'  => array( 'testimonials' ),
             'context'       => 'normal',
             'priority'      => 'high',
@@ -55,22 +38,22 @@ class Arconix_Testimonials_Metaboxes {
         // Add the Link Type field
         $cmb->add_field( array(
             'id'    => '_act_email',
-            'name'  => __( 'E-mail Addres', $this->textdomain ),
-            'desc'  => sprintf( __( 'To display the author\'s %sGravatar%s (optional).', $this->textdomain ), '<a href="' . esc_url( 'http://gravatar.com' ) . '" target="_blank">', '</a>' ),
+            'name'  => __( 'E-mail Addres', 'arconix-testimonials' ),
+            'desc'  => sprintf( __( 'To display the author\'s %sGravatar%s (optional).', 'arconix-testimonials' ), '<a href="' . esc_url( 'http://gravatar.com' ) . '" target="_blank">', '</a>' ),
             'type'  => 'text_email'
         ) );
         
         $cmb->add_field( array(
             'id'    => '_act_byline',
-            'name'  => __( 'Byline', $this->textdomain ),
-            'desc'  => __( 'Enter a byline for the author of this testimonial (optional).', $this->textdomain ),
+            'name'  => __( 'Byline', 'arconix-testimonials' ),
+            'desc'  => __( 'Enter a byline for the author of this testimonial (optional).', 'arconix-testimonials' ),
             'type'  => 'text'
         ) );
         
         $cmb->add_field( array(
             'id'    => '_act_url',
-            'name'  => __( 'Website', $this->textdomain ),
-            'desc'  => __( 'Enter a URL for the individual or organization (optional).', $this->textdomain ),
+            'name'  => __( 'Website', 'arconix-testimonials' ),
+            'desc'  => __( 'Enter a URL for the individual or organization (optional).', 'arconix-testimonials' ),
             'type'  => 'text',
         ) );
 
@@ -85,7 +68,7 @@ class Arconix_Testimonials_Metaboxes {
      * @since   1.2.0
      */
     public function shortcode_metabox() {
-        add_meta_box( 'ac-shortcode-box', __( 'Testimonial Shortcode', $this->textdomain ), array( $this, 'shortcode_box' ), 'testimonials', 'side' );
+        add_meta_box( 'ac-shortcode-box', __( 'Testimonial Shortcode', 'arconix-testimonials' ), array( $this, 'shortcode_box' ), 'testimonials', 'side' );
     }
 
     /**
@@ -101,7 +84,7 @@ class Arconix_Testimonials_Metaboxes {
         global $post_ID;
         ?>
         <p class="howto">
-            <?php _e( 'To display this testimonial, copy the code below and paste it into your post, page, text widget or other content area.', $this->textdomain ); ?>
+            <?php _e( 'To display this testimonial, copy the code below and paste it into your post, page, text widget or other content area.', 'arconix-testimonials' ); ?>
         </p>
         <p><input type="text" value="[ac-testimonials p=<?php echo $post_ID; ?>]" readonly="readonly" class="widefat wp-ui-text-highlight code"></p>
         <?php
