@@ -194,7 +194,7 @@ class Arconix_Testimonial {
             $r .= '</div>';
         }
         else {
-            $r .= '<div class="arconix-testimonials-wrap"><div class="arconix-testimonials-none">' . __( 'No testimonials to display', Arconix_Testimonials_Plugin::$textdomain ) . '</div></div>';
+            $r .= '<div class="arconix-testimonials-wrap"><div class="arconix-testimonials-none">' . __( 'No testimonials to display', 'arconix-testimonials' ) . '</div></div>';
         }
         wp_reset_postdata();
 

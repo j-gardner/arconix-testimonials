@@ -8,15 +8,6 @@
  * @since       1.2.0
  */
 class Arconix_Testimonials_Public {
-    
-    /**
-     * The directory path to this plugin.
-     *
-     * @since   1.2.0
-     * @access  private
-     * @var     string      $dir        The directory path to this plugin
-     */
-    private $dir;
 
     /**
      * The url path to this plugin.
@@ -31,7 +22,6 @@ class Arconix_Testimonials_Public {
      * Initialize the class
      */
     public function __construct() {
-        $this->dir = trailingslashit( plugin_dir_path( dirname( __FILE__ ) ) );
         $this->url = trailingslashit( plugin_dir_url( dirname( __FILE__ ) ) );
     }
 
