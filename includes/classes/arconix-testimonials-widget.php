@@ -12,8 +12,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      * Holds widget settings defaults, populated in constructor.
      *
      * @since   1.0.0
-     *
-     * @var     array   defaults
+     * @var     array   $defaults       Widget defaults
      */
     protected $defaults = array();
 
@@ -27,10 +26,11 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     }
 
     /**
-     * Constructor. Set the default widget options and create widget.
+     * Constructor. 
+     * 
+     * Set the default widget options and create widget.
      *
      * @since   1.0.0
-     * @version 1.2.0
      */
     function __construct() {
         $this->defaults = array(
@@ -48,7 +48,25 @@ class Arconix_Testimonials_Widget extends WP_Widget {
             'classname'     => 'arconix_testimonials_widget',
             'description'   => __( 'Display client testimonials', 'arconix-testimonials' ),
         );
+        
         parent::__construct( 'arconix-testimonials', __( 'Arconix Testimonials', 'arconix-testimonials' ), $widget_ops );
+        
+        add_action( 'wp_enqueue_scripts', array( $this, 'styles' ) );
+    }
+    
+    /**
+     * Load the Plugin CSS
+     * 
+     * Check for lack of theme support and an active widget before enqueuing.
+     * 
+     * @since   1.2.0
+     */
+    public function styles() {
+        if ( ! current_theme_supports( 'arconix-testimonials', 'css' ) && 
+                apply_filters( 'pre_register_arconix_testimonials_css', true ) &&
+                is_active_widget( false, false, $this->id_base, true ) ) {
+                    wp_enqueue_style( 'arconix-testimonials' );
+        }
     }
 
     /**
@@ -58,7 +76,6 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      * them to the screen
      *
      * @since   1.0.0
-     *
      * @param   array   $args
      * @param   array   $instance
      */
@@ -89,11 +106,8 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      * Update a particular instance.
      *
      * @since   1.0.0
-     * @version 1.2.0
-     *
      * @param   array   $new_instance   New settings for this instance as input by the user via form()
      * @param   array   $old_instance   Old settings for this instance
-     *
      * @return  array   Settings to save or bool false to cancel saving
      */
     function update( $new_instance, $old_instance ) {
@@ -111,8 +125,6 @@ class Arconix_Testimonials_Widget extends WP_Widget {
      * Widget form
      *
      * @since   1.0.0
-     * @version 1.2.0
-     *
      * @param   array   $instance   Current Settings
      */
     function form( $instance ) {

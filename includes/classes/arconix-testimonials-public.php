@@ -19,7 +19,9 @@ class Arconix_Testimonials_Public {
     private $url;
 
     /**
-     * Initialize the class
+     * Constructor.
+     * 
+     * Initialize the class and set its properties
      */
     public function __construct() {
         $this->url = trailingslashit( plugin_dir_url( dirname( __FILE__ ) ) );
@@ -31,11 +33,12 @@ class Arconix_Testimonials_Public {
      * @since   1.2.0
      */
     public function init() {
-        add_action( 'wp_enqueue_scripts',   array( $this, 'styles' ) );
+        add_action( 'wp_enqueue_scripts',   array( $this, 'register_styles' ), 9 );
         add_action( 'init',                 array( $this, 'shortcodes' ) );
         
         add_filter( 'widget_text',          'do_shortcode' );
         add_filter( 'the_content',          array( $this, 'content_filter' ) );
+        add_filter( 'the_posts',            array( $this, 'conditional_styles' ) );
         
         // For use if Arconix Flexslider is active
         add_filter( 'arconix_flexslider_slide_image_return',    array( $this, 'flexslider_image_return' ), 10, 4 );
@@ -55,7 +58,6 @@ class Arconix_Testimonials_Public {
      * Testimonials shortcode.
      *
      * @since   1.0.0
-     *
      * @param   array        $atts       Passed attributes
      * @param   string       $content    N/A - self-closing shortcode
      * @return  string                   Result of query
@@ -65,12 +67,24 @@ class Arconix_Testimonials_Public {
 
         return $t->loop( $atts );
     }
+    
+    /**
+     * Enqueue the CSS
+     * 
+     * Checks for theme support and enqueues if there is none.
+     * 
+     * @since   1.2.0
+     */
+    public function enqueue_styles() {
+        if ( ! current_theme_supports( 'arconix-testimonials', 'css' ) && 
+            apply_filters( 'pre_register_arconix_testimonials_css', true ) )
+                wp_enqueue_style( 'arconix-testimonials' );
+    }
 
     /**
      * Filter The_Content and add our data to it
      *
      * @since   1.0.0
-     * @version 1.2.0
      * @global  stdObj      $post       Std Post
      * @param   string      $content    Main content
      * @return  string                  Our testimonial content
@@ -99,11 +113,38 @@ class Arconix_Testimonials_Public {
 
         return $content;
     }
+    
+    /**
+     * Conditional load of base CSS
+     * 
+     * Loops through all the posts and checks for the shortcode, loading the CSS if found
+     * 
+     * @since   1.2.0
+     * @param   array       $posts      List of posts
+     * @return  array                   List of posts
+     */
+    public function conditional_styles( $posts ){
+        if ( empty( $posts ) || is_admin() ) return $posts;
+        
+        $found = false;
+        
+        foreach ( $posts as $post ) {
+            if ( has_shortcode( $post->post_content, 'ac-testimonials' ) ) {
+                $found = true;
+                break;
+            }
+        }
+        
+        if ( $found )
+            add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
+        
+        return $posts;
+    }
 
     /**
-     * Load required CSS.
+     * Register required CSS.
      *
-     * Load the plugin CSS. If the css file is present in the theme directory, it will be loaded instead,
+     * If the css file is present in the theme directory, it will be loaded instead,
      * allowing for an easy way to override the default template. If you'd like to remove the CSS entirely,
      * such as when building the styles into a theme, simply add support to your theme
      *
@@ -111,17 +152,17 @@ class Arconix_Testimonials_Public {
      *
      * @since   1.0.0
      */
-    public function styles() {
+    public function register_styles() {
         if ( ! current_theme_supports( 'arconix-testimonials', 'css' ) && 
                 apply_filters( 'pre_register_arconix_testimonials_css', true ) ) {
             
             // Checks the child directory and then the parent directory.
             if ( file_exists( get_stylesheet_directory() . '/arconix-testimonials.css' ) )
-                wp_enqueue_style( 'arconix-testimonials', get_stylesheet_directory_uri() . '/arconix-testimonials.css', false, Arconix_Testimonials_Plugin::version );
+                wp_register_style( 'arconix-testimonials', get_stylesheet_directory_uri() . '/arconix-testimonials.css', false, Arconix_Testimonials_Plugin::version );
             elseif ( file_exists( get_template_directory() . '/arconix-testimonials.css' ) )
-                wp_enqueue_style( 'arconix-testimonials', get_template_directory_uri() . '/arconix-testimonials.css', false, Arconix_Testimonials_Plugin::version );
+                wp_register_style( 'arconix-testimonials', get_template_directory_uri() . '/arconix-testimonials.css', false, Arconix_Testimonials_Plugin::version );
             else
-                wp_enqueue_style( 'arconix-testimonials', $this->url . 'css/arconix-testimonials.css', false, Arconix_Testimonials_Plugin::version );
+                wp_register_style( 'arconix-testimonials', $this->url . 'css/arconix-testimonials.css', false, Arconix_Testimonials_Plugin::version );
         }
     }
     
@@ -134,7 +175,7 @@ class Arconix_Testimonials_Public {
      * @global  stdObj      $post           Standard WP Post object
      * @param   string      $content        Incoming content to be modified
      * @param   string      $display        From the Flexslider user, displaying either 'none', 'excerpt' or 'content'
-     * @return  string      $content        Modified return content with our testimonial-customized options
+     * @return  string                      Modified return content with our testimonial-customized options
      */
     public function flexslider_content( $content, $display ) {
         global $post;
@@ -173,7 +214,7 @@ class Arconix_Testimonials_Public {
      * @param   bool        $link_image     Wrap the image in a hyperlink to the permalink (false for basic image slider)
      * @param   string      $image_size     The size of the image to display. Accepts any valid built-in or added WordPress image size
      * @param   string      $caption        Caption to be displayed
-     * @return  string      $s              Empty string if on the testimonial post_type
+     * @return  string                      Empty string if on the testimonial post_type
      */
     public function flexslider_image_return( $content, $link_image, $image_size, $caption ) {
         global $post;

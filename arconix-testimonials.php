@@ -109,10 +109,12 @@ final class Arconix_Testimonials_Plugin {
             $this->load_admin();
             $this->load_metaboxes();
         }
+        
+        add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 	}
     
     /**
-     * Set up our Custom Post Type
+     * Register the Custom Post Type
      * 
      * @since   1.2.0
      */
@@ -124,11 +126,24 @@ final class Arconix_Testimonials_Plugin {
         $t->add( 'testimonials', $settings['post_type']['args'] );
     }
     
-    
+    /**
+     * Load Public Interface
+     * 
+     * @since   1.2.0
+     */
     private function load_public() {
         $t = new Arconix_Testimonials_Public();
         
         $t->init();
+    }
+    
+    /**
+     * Register Plugin Widget(s)
+     * 
+     * @since   1.2.0
+     */
+    public function register_widgets() {
+        Arconix_Testimonials_Widget::register();
     }
 
     /**
