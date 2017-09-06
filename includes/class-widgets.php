@@ -31,6 +31,7 @@ class Arconix_Testimonials_Widget extends WP_Widget {
     function __construct() {
         $this->defaults = array(
             'title'                 => '',
+            'content'               => 'full',
             'posts_per_page'        => 1,
             'p'                     => '',
             'orderby'               => 'rand',
@@ -116,9 +117,25 @@ class Arconix_Testimonials_Widget extends WP_Widget {
         </p>
         <!-- Specific Post ID: Input Box -->
         <p>
-            <label for="<?php echo $this->get_field_id( 'p' ); ?>"><?php _e( 'Specific ID:', 'act' ); ?></label>
+            <label for="<?php echo $this->get_field_id( 'p' ); ?>"><?php _e( 'Specific ID', 'act' ); ?>:</label>
             <input id="<?php echo $this->get_field_id( 'p' ); ?>" name="<?php echo $this->get_field_name( 'p' ); ?>" type="text" value="<?php echo esc_attr( $instance['p'] ); ?>" size="4" />
             </p>
+        </p>
+        <!-- Content: Select Box -->
+        <p>
+            <label for="<?php echo $this->get_field_id( 'content' ); ?>"><?php _e( 'Content', 'act' ); ?>:</label>
+            <select id="<?php echo $this->get_field_id( 'content' ); ?>" name="<?php echo $this->get_field_name( 'content' ); ?>">
+            <?php
+            $contents = array( 'full', 'excerpt' );
+            foreach( $contents as $content )
+                echo '<option value="' . $content . '" ' . selected( $content, $instance['content'] ) . '>' . $content . '</option>';
+            ?>
+            </select>
+        </p>
+        <!-- Content Limit: Text Input -->
+        <p>
+            <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'act' ); ?>:</label>
+            <input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" class="widefat" />
         </p>
         <!-- Posts Number: Input Box -->
         <p>
