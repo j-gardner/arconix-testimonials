@@ -1,11 +1,10 @@
 === Arconix Testimonials ===
-Contributors: jgardner03
-Donate link: http://arcnx.co/actdonation
+Contributors: jgardner03, tychesoftwares
 Tags: arconix, testimonials, quotes, feedback
 Requires at least: 3.8
-Tested up to: 4.0
+Tested up to: 4.8.1
 License: GPLv2 or later
-Stable Tag: 1.1.1
+Stable Tag: 1.2
 
 Easily showcase what your customers or users are saying about you or your business.
 
@@ -24,6 +23,45 @@ Arconix Testimonials is an easy-to-use plugin that allows you to showcase the gr
 * Displays [Gravatars](http://gravatar.com) when available
 
 [Live Demo](http://demo.arconixpc.com/arconix-testimonials)
+
+> <strong>Great Plugin</strong> - I highly recommend this plugin. It is easy to use, presents content well and the documentation on WordPress Plugins as well as the developer’s site is excellent and lets the user know how/where to use CSS for customization.
+> [mium](https://wordpress.org/support/topic/great-plugin-3252/)
+
+**Some of our Pro plugins**
+
+1. **[Product Delivery Date Pro for WooCommerce](https://www.tychesoftwares.com/store/premium-plugins/product-delivery-date-pro-for-woocommerce/?utm_source=wprepo&utm_medium=otherprolink&utm_campaign=Testimonials "Product Delivery Date Pro for WooCommerce")**
+
+2. **[Order Delivery Date Pro for WooCommerce](https://www.tychesoftwares.com/store/premium-plugins/order-delivery-date-for-woocommerce-pro-21/?utm_source=wprepo&utm_medium=link&utm_campaign=Testimonials "Order Delivery Date Pro for WooCommerce")**
+
+3. **[Abandoned Cart Pro for WooCommerce](https://www.tychesoftwares.com/store/premium-plugins/woocommerce-abandoned-cart-pro/?utm_source=wprepo&utm_medium=link&utm_campaign=Testimonials "Abandoned Cart Pro for WooCommerce")**
+
+4. **[Booking & Appointment Plugin for WooCommerce](https://www.tychesoftwares.com/store/premium-plugins/woocommerce-booking-plugin/?utm_source=wprepo&utm_medium=link&utm_campaign=Testimonials "Booking & Appointment Plugin for WooCommerce")**
+
+**Some of our other free plugins**
+
+1. **[Order Delivery Date for WooCommerce - Lite](https://wordpress.org/plugins/order-delivery-date-for-woocommerce/ "Order Delivery Date for WooCommerce - Lite")**
+
+2. **[Abandoned Cart for WooCommerce](https://wordpress.org/plugins/woocommerce-abandoned-cart/ "Abandoned Cart for WooCommerce")**
+
+3. **[Product Delivery Date for WooCommerce – Lite](https://wordpress.org/plugins/product-delivery-date-for-woocommerce-lite/ "Product Delivery Date for WooCommerce – Lite")**
+
+4. **[WooCommerce Print Invoice & Delivery Note](https://wordpress.org/plugins/woocommerce-delivery-notes/ "WooCommerce Print Invoice & Delivery Note")**
+
+5. **[Order Delivery Date for WP e-Commerce](https://wordpress.org/plugins/order-delivery-date/ "Order Delivery Date for WP e-Commerce")**
+
+6. **[Prevent Customers To Cancel WooCommerce Orders](https://wordpress.org/plugins/woo-prevent-cancel-order/ "Prevent Customers To Cancel WooCommerce Orders")**
+
+7. **[WooCommerce Coupons by Categories and Tags](https://wordpress.org/plugins/woo-coupons-by-categories-and-tags/ "WooCommerce Coupons by Categories and Tags")**
+
+8. **[Arconix FAQ](https://wordpress.org/plugins/arconix-faq/ "Arconix FAQ")**
+
+9. **[Arconix Shortcodes](https://wordpress.org/plugins/arconix-shortcodes/ "Arconix Shortcodes")**
+
+10. **[Arconix Flexslider](https://wordpress.org/plugins/arconix-flexslider/ "Arconix Flexslider")**
+
+11. **[Arconix Portfolio](https://wordpress.org/plugins/arconix-portfolio/ "Arconix Portfolio")**
+
+12. **[Export WordPress Menus](https://wordpress.org/plugins/wp-export-menus/ "Export WordPress Menus")**
 
 == Installation ==
 
@@ -69,6 +107,9 @@ That's fantastic! Feel free to submit a pull request over at [Github](http://arc
 
 
 == Changelog ==
+= 1.2 =
+* Now you can minimize the testimonials display in the widget by using Excerpt content option.
+
 = 1.1.1 =
 Fixed a text formatting bug
 
