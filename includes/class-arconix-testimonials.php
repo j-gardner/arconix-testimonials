@@ -35,7 +35,8 @@ class Arconix_Testimonials {
             ),
             'gravatar' => array(
                 'size' => 96
-            )
+            ),
+            'content'   => 'full'
         );
 
         return apply_filters( 'arconix_testimonials_defaults', $defaults );
@@ -66,6 +67,18 @@ class Arconix_Testimonials {
             return $gravatar;
 
     }
+    function get_content( $content = 'full', $echo = false ) {
+  
+        if ( $content == 'excerpt' )
+             $s = get_the_excerpt();
+         else
+             $s = apply_filters( 'the_content', get_the_content() );
+ 
+         if ( $echo === true )
+             echo $s;
+         else
+            return $s;
+      }
 
     /**
      * Get the testimonial citation information.
@@ -139,6 +152,7 @@ class Arconix_Testimonials {
 
         $defaults = $plugin_defaults['query'];
         $defaults['gravatar_size'] = $plugin_defaults['gravatar']['size'];
+        $defaults['content'] = $plugin_defaults['content'];
 
         // Combine the passed args with the function defaults
         $args = wp_parse_args( $args, $defaults );
@@ -147,6 +161,9 @@ class Arconix_Testimonials {
         // Extract the avatar size and remove the key from the array
         $gravatar_size = $args['gravatar_size'];
         unset( $args['gravatar_size'] );
+
+        $content = $args['content'];
+        unset( $args['content'] );
 
         // Run our query
         $tquery = new WP_Query( $args );
@@ -160,7 +177,8 @@ class Arconix_Testimonials {
             while( $tquery->have_posts() ) : $tquery->the_post();
 
                 echo '<div id="arconix-testimonial-' . get_the_ID() . '" class="arconix-testimonial-wrap">';
-                echo '<div class="arconix-testimonial-content">' . apply_filters( 'the_content', get_the_content() ) . '</div>';
+                echo '<div class="arconix-testimonial-content">' . $this->get_content( $content ) . '</div>';
+                // echo '<div class="arconix-testimonial-content">' . apply_filters( 'the_content', get_the_content() ) . '</div>';
                 echo '<div class="arconix-testimonial-info-wrap">';
                 echo '<div class="arconix-testimonial-gravatar">' . $this->get_gravatar( $gravatar_size ) . '</div>';
                 echo '<div class="arconix-testimonial-cite">' . $this->get_citation() . '</div>';
