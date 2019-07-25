@@ -2,9 +2,9 @@
 Contributors: jgardner03, tychesoftwares
 Tags: arconix, testimonials, quotes, feedback
 Requires at least: 3.8
-Tested up to: 4.8.1
+Tested up to: 5.2 
 License: GPLv2 or later
-Stable Tag: 1.2
+Stable Tag: trunk
 
 Easily showcase what your customers or users are saying about you or your business.
 
@@ -23,19 +23,22 @@ Arconix Testimonials is an easy-to-use plugin that allows you to showcase the gr
 * Displays [Gravatars](http://gravatar.com) when available
 
 [Live Demo](http://demo.arconixpc.com/arconix-testimonials)
+[Documentation](https://www.tychesoftwares.com/docs/docs/testimonials/)
 
 > <strong>Great Plugin</strong> - I highly recommend this plugin. It is easy to use, presents content well and the documentation on WordPress Plugins as well as the developer’s site is excellent and lets the user know how/where to use CSS for customization.
 > [mium](https://wordpress.org/support/topic/great-plugin-3252/)
 
 **Some of our Pro plugins**
 
-1. **[Product Delivery Date Pro for WooCommerce](https://www.tychesoftwares.com/store/premium-plugins/product-delivery-date-pro-for-woocommerce/?utm_source=wprepo&utm_medium=otherprolink&utm_campaign=Testimonials "Product Delivery Date Pro for WooCommerce")**
+1. **[Deposits plugin for WooCommerce](https://www.tychesoftwares.com/store/premium-plugins/deposits-for-woocommerce/?utm_source=wprepo&utm_medium=link&utm_campaign=Testimonials "Deposits plugin for WooCommerce")**
 
-2. **[Order Delivery Date Pro for WooCommerce](https://www.tychesoftwares.com/store/premium-plugins/order-delivery-date-for-woocommerce-pro-21/?utm_source=wprepo&utm_medium=link&utm_campaign=Testimonials "Order Delivery Date Pro for WooCommerce")**
+2. **[Product Delivery Date Pro for WooCommerce](https://www.tychesoftwares.com/store/premium-plugins/product-delivery-date-pro-for-woocommerce/?utm_source=wprepo&utm_medium=otherprolink&utm_campaign=Testimonials "Product Delivery Date Pro for WooCommerce")**
 
-3. **[Abandoned Cart Pro for WooCommerce](https://www.tychesoftwares.com/store/premium-plugins/woocommerce-abandoned-cart-pro/?utm_source=wprepo&utm_medium=link&utm_campaign=Testimonials "Abandoned Cart Pro for WooCommerce")**
+3. **[Order Delivery Date Pro for WooCommerce](https://www.tychesoftwares.com/store/premium-plugins/order-delivery-date-for-woocommerce-pro-21/?utm_source=wprepo&utm_medium=link&utm_campaign=Testimonials "Order Delivery Date Pro for WooCommerce")**
 
-4. **[Booking & Appointment Plugin for WooCommerce](https://www.tychesoftwares.com/store/premium-plugins/woocommerce-booking-plugin/?utm_source=wprepo&utm_medium=link&utm_campaign=Testimonials "Booking & Appointment Plugin for WooCommerce")**
+4. **[Abandoned Cart Pro for WooCommerce](https://www.tychesoftwares.com/store/premium-plugins/woocommerce-abandoned-cart-pro/?utm_source=wprepo&utm_medium=link&utm_campaign=Testimonials "Abandoned Cart Pro for WooCommerce")**
+
+5. **[Booking & Appointment Plugin for WooCommerce](https://www.tychesoftwares.com/store/premium-plugins/woocommerce-booking-plugin/?utm_source=wprepo&utm_medium=link&utm_campaign=Testimonials "Booking & Appointment Plugin for WooCommerce")**
 
 **Some of our other free plugins**
 
@@ -107,6 +110,11 @@ That's fantastic! Feel free to submit a pull request over at [Github](http://arc
 
 
 == Changelog ==
+
+= 1.3 =
+* The plugin is now GDPR compliant. Added Testimonial data in WordPress Dashboard->Tools->Export Personal Data & WordPress Dashboard->Tools->Erase Personal Data in compliance with EU GDPR to ensure that the personal data captured by the plugin is available for export & erasure.
+* Bug Fixed – Some notices of debug log file are fixed.
+
 = 1.2 =
 * Now you can minimize the testimonials display in the widget by using Excerpt content option.
 
