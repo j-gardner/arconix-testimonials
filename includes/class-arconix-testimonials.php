@@ -181,6 +181,11 @@ class Arconix_Testimonials {
 		$content = $args['content'];
 		unset( $args['content'] );
 
+		if ( isset( $args['title'] ) ) {
+			$title = $args['title'];
+			unset( $args['title'] );
+		}
+
 		// Run our query.
 		$tquery = new WP_Query( $args );
 
