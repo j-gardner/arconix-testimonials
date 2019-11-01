@@ -14,10 +14,10 @@
  */
 
 
-require_once( plugin_dir_path( __FILE__ ) . 'includes/class-arconix-testimonials.php' );
-require_once( plugin_dir_path( __FILE__ ) . 'includes/class-arconix-testimonials-admin.php' );
-require_once( plugin_dir_path( __FILE__ ) . 'includes/class-widgets.php' );
-require_once( plugin_dir_path( __FILE__ ) . 'includes/arconix-testimonials-privacy-export.php' );
-require_once( plugin_dir_path( __FILE__ ) . 'includes/arconix-testimonials-privacy-erase.php' );
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-arconix-testimonials.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-arconix-testimonials-admin.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-widgets.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/arconix-testimonials-privacy-export.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/arconix-testimonials-privacy-erase.php';
 
-new Arconix_Testimonials_Admin;
+new Arconix_Testimonials_Admin();
