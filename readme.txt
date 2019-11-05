@@ -2,7 +2,7 @@
 Contributors: jgardner03, tychesoftwares
 Tags: arconix, testimonials, quotes, feedback
 Requires at least: 3.8
-Tested up to: 5.2 
+Tested up to: 5.2.4 
 License: GPLv2 or later
 Stable Tag: trunk
 
@@ -22,7 +22,6 @@ Arconix Testimonials is an easy-to-use plugin that allows you to showcase the gr
 
 * Displays [Gravatars](http://gravatar.com) when available
 
-[Live Demo](http://demo.arconixpc.com/arconix-testimonials)
 [Documentation](https://www.tychesoftwares.com/docs/docs/testimonials/)
 
 > <strong>Great Plugin</strong> - I highly recommend this plugin. It is easy to use, presents content well and the documentation on WordPress Plugins as well as the developer’s site is excellent and lets the user know how/where to use CSS for customization.
@@ -90,16 +89,15 @@ With no 2 themes exactly alike, it's impossible to style a plugin that seamlessl
 
 = Is there any other documentation? =
 
-* Visit the plugin's [Wiki Page](http://arcnx.co/atwiki) for all the plugin's documentation
-* Tutorials on advanced plugin usage can be found at [Arconix Computers](http://arconixpc.com/tag/arconix-testimonials)
+* Visit the plugin's [Wiki Page](https://www.tychesoftwares.com/docs/docs/testimonials/) for all the plugin's documentation
 
 = I have a problem or a bug =
 
-* Check out the WordPress [support forum](http://arcnx.co/athelp) or the [Issues section on Github](http://arcnx.co/atissues)
+* Check out the WordPress [support forum](https://wordpress.org/support/plugin/arconix-testimonials/) or the [Issues section on Github](https://github.com/TycheSoftwares/arconix-testimonials)
 
 = I have a great idea for your plugin! =
 
-That's fantastic! Feel free to submit a pull request over at [Github](http://arcnx.co/atsource), add an idea to the [Trello Board](http://arcnx.co/attrello), or you can contact me through [Twitter](http://arcnx.co/twitter), [Facebook](http://arcnx.co/facebook) or my [Website](http://arcnx.co/1)
+That's fantastic! Feel free to submit a pull request over at [Github](https://github.com/TycheSoftwares/arconix-testimonials),or you can contact me through [Twitter](https://twitter.com/tychesoftwares), [Facebook](https://www.facebook.com/tychesoftwares/) or my [Website](https://www.tychesoftwares.com)
 
 == Screenshots ==
 
@@ -110,6 +108,10 @@ That's fantastic! Feel free to submit a pull request over at [Github](http://arc
 
 
 == Changelog ==
+
+= 1.4 =
+* Updated the CMB library to its latest version.
+* Optimized the code with respect to WordPress Coding Standards.
 
 = 1.3 =
 * The plugin is now GDPR compliant. Added Testimonial data in WordPress Dashboard->Tools->Export Personal Data & WordPress Dashboard->Tools->Erase Personal Data in compliance with EU GDPR to ensure that the personal data captured by the plugin is available for export & erasure.
