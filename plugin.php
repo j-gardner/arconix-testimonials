@@ -1,13 +1,13 @@
 <?php
 /**
  * Plugin Name: Arconix Testimonials
- * Plugin URI: http://arconixpc.com/plugins/arconix-testimonials
+ * Plugin URI: https://tychesoftwares.com/
  * Description: Arconix Testimonials is a plugin which makes it easy for you to display customer feedback on your site
  *
- * Version: 1.3.1
+ * Version: 1.4
  *
- * Author: John Gardner
- * Author URI: http://arconixpc.com/
+ * Author: Tyche Softwares
+ * Author URI: https://tychesoftwares.com/
  *
  * License: GNU General Public License v2.0
  * License URI: http://www.opensource.org/licenses/gpl-license.php
