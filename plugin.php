@@ -4,7 +4,7 @@
  * Plugin URI: https://tychesoftwares.com/
  * Description: Arconix Testimonials is a plugin which makes it easy for you to display customer feedback on your site
  *
- * Version: 1.4
+ * Version: 1.4.2
  *
  * Author: Tyche Softwares
  * Author URI: https://tychesoftwares.com/
