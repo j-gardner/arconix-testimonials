@@ -2,7 +2,7 @@
 Contributors: jgardner03, tychesoftwares
 Tags: arconix, testimonials, quotes, feedback
 Requires at least: 3.8
-Tested up to: 5.2.4 
+Tested up to: 5.4.2
 License: GPLv2 or later
 Stable Tag: trunk
 
@@ -109,7 +109,7 @@ That's fantastic! Feel free to submit a pull request over at [Github](https://gi
 
 == Changelog ==
 
-= 1.4.1 =
+= 1.4.2 =
 * Updated the admin css files with some minor changes.
 
 = 1.4 =
