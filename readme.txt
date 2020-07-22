@@ -109,6 +109,9 @@ That's fantastic! Feel free to submit a pull request over at [Github](https://gi
 
 == Changelog ==
 
+= 1.4.1 =
+* Updated the admin css files with some minor changes.
+
 = 1.4 =
 * Updated the CMB library to its latest version.
 * Optimized the code with respect to WordPress Coding Standards.
