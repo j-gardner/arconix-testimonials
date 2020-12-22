@@ -2,7 +2,7 @@
 Contributors: jgardner03, tychesoftwares
 Tags: arconix, testimonials, quotes, feedback
 Requires at least: 3.8
-Tested up to: 5.4.2
+Tested up to: 5.6
 License: GPLv2 or later
 Stable Tag: trunk
 
